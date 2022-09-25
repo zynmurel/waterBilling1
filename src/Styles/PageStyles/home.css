@@ -1,0 +1,9 @@
+.home{
+    z-index: -1;
+    color: brown;
+    height: 100%;
+    width:  100%; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

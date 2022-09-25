@@ -1,0 +1,20 @@
+.notFound{
+    z-index: -1;
+    color: brown;
+    height: 100%;
+    width:  100%; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container{
+    height: 95%;
+    width: 97%;
+}
+.searchAddBar{
+    display: flex;
+    flex-direction: row; 
+    gap: 2vh 2vh;
+    justify-content: center;
+    margin: 0 0 2vh 0;
+}

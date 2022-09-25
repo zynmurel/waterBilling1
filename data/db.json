@@ -1,0 +1,100 @@
+{
+    "Consumers":[
+        {
+            "id":"00001",
+            "name":{
+                "first":"Justin",
+                "middle":"Coitus",
+                "last":"Corpuz"
+            },
+            "barangay":"Del Carmen Weste",
+            "purok":2,
+            "age":102,
+            "registration":"01/02/21"
+        },
+        {
+            "id":"00002",
+            "name":{
+                "first":"Mary Ann",
+                "middle":"Fairy",
+                "last":"Chatto"
+            },
+            "barangay":"Baw lang",
+            "purok":4,
+            "age":500,
+            "registration":"01/02/21"
+        },
+        {
+            "id":"00003",
+            "name":{
+                "first":"John Paul Nino",
+                "middle":"Orig",
+                "last":"Baquero"
+            },
+            "barangay":"Sal-ing",
+            "purok":1,
+            "age":10,
+            "registration":"01/02/21"
+        },
+        {
+            "id":"00004",
+            "name":{
+                "first":"Laila",
+                "middle":"De",
+                "last":"Lima"
+            },
+            "barangay":"Boctol",
+            "purok":2,
+            "age":104,
+            "registration":"01/02/21"
+        },{
+            "id":"00005",
+            "name":{
+                "first":"Justin",
+                "middle":"Coitus",
+                "last":"Corpuz"
+            },
+            "barangay":"Del Carmen Weste",
+            "purok":2,
+            "age":102,
+            "registration":"01/02/21"
+        },
+        {
+            "id":"00006",
+            "name":{
+                "first":"Mary Ann",
+                "middle":"Fairy",
+                "last":"Chatto"
+            },
+            "barangay":"Baw lang",
+            "purok":4,
+            "age":500,
+            "registration":"01/02/21"
+        },
+        {
+            "id":"00007",
+            "name":{
+                "first":"John Paul Nino",
+                "middle":"Orig",
+                "last":"Baquero"
+            },
+            "barangay":"Sal-ing",
+            "purok":1,
+            "age":10,
+            "registration":"01/02/21"
+        },
+        {
+            "id":"00008",
+            "name":{
+                "first":"Laila",
+                "middle":"De",
+                "last":"Lima"
+            },
+            "barangay":"Boctol",
+            "purok":2,
+            "age":104,
+            "registration":"01/02/21"
+        }
+    ],
+    "Purok":[1,2,3,4,5]
+}
