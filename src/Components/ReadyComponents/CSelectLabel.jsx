@@ -1,15 +1,14 @@
 import * as React from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export default function SelectLabels({minWidth , m, label, data, purok, setPurok}) { 
+export default function SelectLabels({minWidth , m, label, data, purok, setPurok, barangay,setPage}) { 
   const { data:res, isPending, error } = data;
-
   const handleChange = (event) => {
     setPurok(event.target.value);
+    setPage(0)
   };
   return (
     <div>
@@ -19,13 +18,14 @@ export default function SelectLabels({minWidth , m, label, data, purok, setPurok
           labelId="demo-simple-select-helper-label"
           id="demo-simple-select-helper"
           value={purok}
+          disabled={!barangay}
           label="Age"
           onChange={handleChange}
         >
-          <MenuItem value={0}>
+          <MenuItem value={7}>
             All
           </MenuItem>
-          {res && res.map((p)=>
+          {res && res[label].map((p)=>
             <MenuItem value={p} key={p}>{p}</MenuItem>
           )}
         </Select>

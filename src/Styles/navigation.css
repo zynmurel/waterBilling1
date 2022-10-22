@@ -1,22 +1,22 @@
 .navigation{
     color: white ;
     flex: 1;
-    background-color: rgb(35,137,218);
+    background-color: rgb(15,94,156);
     z-index: 0;
     display: flex;
     flex-direction: column;
 }
 
 a{
-    font-size: 2vh;
-    padding: 2vh 0 2vh 3vh;
-    margin: .5vh 0;
+    font-size: 1.2vw;
+    padding: 1.2vw 0 1.2vw 1.5vw;
+    margin: .2vw 0;
     text-decoration: none;
     color: white;
     font-weight: bolder;
     transition: .1s;
 }
 a:hover{
-    transform: scale(1.03);
-    background-color: #1ca3ec;
+    transform: scale(1.02);
+    background-color: rgb(46, 147, 230)
 }

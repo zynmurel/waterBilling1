@@ -8,13 +8,13 @@
     align-items: center;
 }
 .container{
-    height: 95%;
-    width: 97%;
+    height: 95vw;
+    width: 97vw;
 }
 .searchAddBar{
     display: flex;
     flex-direction: row;
-    gap: 2vh 2vh;
+    gap: 1vw 1vw;
     justify-content: center;
-    margin: 0 0 2vh 0;
+    margin: 0 0 1vw 0;
 }
