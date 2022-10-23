@@ -11,7 +11,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 
 const columns = [
-  { id: 'id', label: 'ID', minWidth: 100 },
+  { id: 'id', label: 'Consumer #', minWidth: 120 },
   { id: 'name', label: 'Name', minWidth: 500 },
   { id: 'barangay', label: 'Barangay', minWidth: 200 },
   {
@@ -61,7 +61,7 @@ export default function StickyHeadTable({result, purok, name, barangay, page, se
             </TableRow>
           </TableHead>
           <TableBody>
-            {newCon && newCon
+            {consumer && newCon
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
@@ -79,20 +79,31 @@ export default function StickyHeadTable({result, purok, name, barangay, page, se
               })}
           </TableBody>
         </Table>
-        {
+         {
            isPending &&
           <Box sx={{ display: 'flex', height: "37.5vw", justifyContent:"center", alignItems:"center" }}>
             <CircularProgress />
            </Box>
           }
+          {
+            error &&
+           <Box sx={{ display: 'flex', height: "37.5vw", justifyContent:"center", alignItems:"center" }}>
+             <h1 style={{color:"rgb(255, 82, 82)"}}>{error}</h1>
+            </Box>
+           }
           { 
-            !isPending && newCon.length===0 && 
+            !isPending && newCon && newCon.length === 0 && 
             <Box sx={{ display: 'flex', height: "37.5vw", justifyContent:"center", alignItems:"center" }}>
               <h1 style={{color:"gray"}}>No Consumer</h1>
             </Box>
           }
       </TableContainer>
       <TablePagination
+      sx={
+        {
+          color:'rgb(15,94,156)',
+          boxShadow:'0px 0px 1px 0px rgb(0,0,0,.5)'
+        }}
         component="div"
         rowsPerPageOptions={[]}
         count={newCon? newCon.length:0}

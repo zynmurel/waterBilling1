@@ -1,12 +1,12 @@
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 
-const Popup = ({title, children, openPopup, setOpenPopup}) => {
+const Popup = ({title, children, openPopup, setOpenPopup, maxWidth}) => {
   return ( 
-    <Dialog open={openPopup}>
+    <Dialog open={openPopup} maxWidth={maxWidth} fullWidth>
       <DialogTitle>
         <div>title goes here</div>
       </DialogTitle>
-      <DialogContent>
+      <DialogContent >
         <div>{children}</div>
       </DialogContent>
     </Dialog>

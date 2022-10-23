@@ -69,7 +69,9 @@ const ConsumerManagement = ({Place, result,purok, setPurok,barangay, setBarangay
 
           <Popup
             openPopup={openPopup}
-            setOpenPopup={setOpenPopup}>
+            setOpenPopup={setOpenPopup}
+            maxWidth={"lg"}
+            >
               <AddConsumer/>
           </Popup>
            

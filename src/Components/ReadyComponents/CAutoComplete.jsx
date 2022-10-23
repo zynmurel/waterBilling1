@@ -7,7 +7,7 @@ export default function ComboBox({width, label, data, barangay, setBarangay, set
   return (
     <Autocomplete
       disablePortal
-      disabled={error}
+      disabled={error? true:false}
       id="combo-box-demo"
       options={res? res[label] : []}
       sx={{ width: width }}
