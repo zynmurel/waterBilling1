@@ -999,7 +999,7 @@
 {"id":10998,"first_name":"Olenka","last_name":"Bidgod","middle_name":"Dhillon","phone":"873-408-7355","gender":"Female","age":21,"barangay":"Cantalid","purok":5,"email":"odhillonrp@weebly.com","household_no":"70","civil_status":"married","name_of_spouse":"Olenka Dhillon","usage_type":"residental","first_reading":1000,"serial_no":"8923","brand":"brass"},
 {"id":10999,"first_name":"Basilio","last_name":"Vallantine","middle_name":"O' Timony","phone":"619-989-0325","gender":"Male","age":65,"barangay":"Tagustusan","purok":3,"email":"borq@psu.edu","household_no":"5933","civil_status":"married","name_of_spouse":"Basilio O' Timony","usage_type":"residental","first_reading":3000,"serial_no":"7982","brand":"brass"},
 {"id":11000,"first_name":"Tanitansy","last_name":"Creber","middle_name":"Diviney","phone":"943-864-1320","gender":"Female","age":67,"barangay":"Sal-ing","purok":1,"email":null,"household_no":"39","civil_status":"single","name_of_spouse":"Tanitansy Diviney","usage_type":"commercial","first_reading":1244,"serial_no":"64","brand":"sunrise"}],
-"Places":{
+"Utilities":{
         "Barangay":[
             "Baucan Norte", 
             "Baucan Sur", 
@@ -1033,12 +1033,11 @@
             "Santo Niño",
             "Tagustusan"
         ],
-        "Purok":[1,2,3,4,5,6]
-    },
-    "Utilities":{
-        "civil_status":["single","married"],
-        "brand":["brass","sunrise"],
-        "usage_type":["residential", "commercial"]
+        "Purok":[1,2,3,4,5,6],
+        "brand":["Brand","Sunrise"],
+        "usage_type":["Residential", "Commercial"],
+        "civil_status":["Single","Married"],
+        "gender":["Male", "Female"]
     }
 
 }

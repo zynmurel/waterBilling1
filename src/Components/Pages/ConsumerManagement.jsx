@@ -12,7 +12,7 @@ import AddConsumer from '../AddConsumer';
 
 
 
-const ConsumerManagement = ({Place, result,purok, setPurok,barangay, setBarangay,name, setName}) => {
+const ConsumerManagement = ({Utilities, result,purok, setPurok,barangay, setBarangay,name, setName}) => {
   const [page, setPage] = useState(0);
   const [openPopup, setOpenPopup] = useState(false)
 
@@ -22,7 +22,7 @@ const ConsumerManagement = ({Place, result,purok, setPurok,barangay, setBarangay
            <div className="searchAddBar">
             <TextField 
               id="outlined-basic" 
-              label="Search ID/Name" 
+              label="Search Consumer Number/Name" 
               variant="outlined" 
               style={{width:'60vh'}}
               onChange={(e)=>{setName(e.target.value); setPage(0)}}
@@ -30,17 +30,18 @@ const ConsumerManagement = ({Place, result,purok, setPurok,barangay, setBarangay
             <AutoComplete  
             width={250} 
             label={'Barangay'} 
-            data={Place} 
+            Utilities={Utilities} 
             barangay={barangay} 
             setBarangay={setBarangay}
             setPurok={setPurok}
-            setPage={setPage}/>
+            setPage={setPage}
+            autoComHeight={500}/>
             
             <SelectLabels 
             minWidth={80} 
             m={0} 
             label={'Purok'} 
-            data={Place} 
+            Utilities={Utilities} 
             purok={purok} 
             setPurok={setPurok} 
             barangay={barangay}
@@ -49,15 +50,12 @@ const ConsumerManagement = ({Place, result,purok, setPurok,barangay, setBarangay
             <Button 
             variant="contained" 
             style={{width:'33vh', backgroundColor:'#0f5e9c'}}
-            onClick={()=> setOpenPopup(true)}>
+            onClick={()=> setOpenPopup(true)}
+            disabled={ Utilities.data && result.data ? false : true }
+            >
               <PersonAddAltRoundedIcon/>Add Consumer</Button>
            </div>
-           {/* <Table 
-           result = {result} 
-           purok={purok} 
-           name={name} 
-           barangay={barangay}
-           /> */}
+
            <StickyHeadTable
            result = {result} 
            purok={purok} 
@@ -72,7 +70,11 @@ const ConsumerManagement = ({Place, result,purok, setPurok,barangay, setBarangay
             setOpenPopup={setOpenPopup}
             maxWidth={"lg"}
             >
-              <AddConsumer/>
+              <AddConsumer 
+              setOpenPopup={setOpenPopup}
+              Utilities={Utilities}
+              result={result}
+              />
           </Popup>
            
            </div>

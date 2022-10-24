@@ -2,11 +2,12 @@ import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
-export default function ComboBox({width, label, data, barangay, setBarangay, setPage, setPurok}) {
-  const { data:res, isPending, error } = data;
+export default function ComboBox({width, label, Utilities, barangay, setBarangay, setPage, setPurok, autoComHeight}) {
+  const { data:res, isPending, error } = Utilities
   return (
     <Autocomplete
       disablePortal
+      ListboxProps={{ style: { maxHeight: autoComHeight }, position: "top-start" }}
       disabled={error? true:false}
       id="combo-box-demo"
       options={res? res[label] : []}
