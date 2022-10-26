@@ -1,7 +1,6 @@
-import { Paper, Box, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Paper, Box, FormControl, InputLabel, MenuItem, Select, TextField, Typography, Autocomplete } from "@mui/material";
 import { useState } from "react";
-import { NumericFormat } from 'react-number-format';
-import AutoComplete from './CAutoComplete'
+import { NumericFormat, PatternFormat } from 'react-number-format';
 const PersonalInfo = ({
     style, 
     Utilities, 
@@ -20,6 +19,8 @@ const PersonalInfo = ({
 
     consumerMiddleName,
     setConsumerMiddleName,
+    errConsumerMiddleName, 
+    setErrConsumerMiddleName,
 
     consumerLastName, 
     setConsumerLastName, 
@@ -35,6 +36,36 @@ const PersonalInfo = ({
     setConsumerGender, 
     errConsumerGender, 
     setErrConsumerGender,
+
+    consumerPhone, 
+    setConsumerPhone, 
+    errConsumerPhone, 
+    setErrConsumerPhone,
+
+    consumerCivilStatus, 
+    setConsumerCivilStatus, 
+    errConsumerCivilStatus, 
+    setErrConsumerCivilStatus, 
+
+    consumerSpouse, 
+    setConsumerSpouse, 
+    errConsumerSpouse, 
+    setErrConsumerSpouse,
+
+    consumerBarangay, 
+    setConsumerBarangay, 
+    errConsumerBarangay, 
+    setErrConsumerBarangay,
+
+    consumerPurok, 
+    setConsumerPurok, 
+    errConsumerPurok, 
+    setErrConsumerPurok,
+
+    consumerHousehold, 
+    setConsumerHousehold, 
+    errConsumerHousehold, 
+    setErrConsumerHousehold,
 }) => {
     const {data:uti, utiIsPending, utiError}= Utilities
 
@@ -49,9 +80,10 @@ const PersonalInfo = ({
                             <NumericFormat
                             //{...other}
                             //getInputRef={ref}
-                            label="Consumer Number" 
+                            label="Consumer ID" 
                             variant="outlined" 
                             placeholder="ex: 10000"
+                            allowNegative={false}
                             value={consumerNum}
                             required
                             isAllowed={(values) => {
@@ -61,7 +93,6 @@ const PersonalInfo = ({
                             onChange={(e) =>{
                                 const val = e.target.value
                                 setConsumerNum(val)
-                                setAlert(false)
                                 if(val){setErrConsumerNum(false)}
                             }}
                             customInput={TextField}
@@ -95,10 +126,12 @@ const PersonalInfo = ({
                             placeholder="ex: Ponse"
                             style={style.textfield} 
                             value={consumerMiddleName}
+                            error={errConsumerMiddleName}
                             onChange={(e) =>{
                                 const val = e.target.value.replace(/[^a-z, /s, \u00f1, \u00d1, \., \-]/gi, '');
 
                                 setConsumerMiddleName(val);
+                                if(val.length>1||val.length==0){setErrConsumerMiddleName(false)}
                             }}
                             />
 
@@ -125,6 +158,7 @@ const PersonalInfo = ({
                             variant="outlined" 
                             placeholder="ex: 34"
                             value={consumerAge}
+                            allowNegative={false}
                             required
                             isAllowed={(values) => {
                               const { value } = values;
@@ -133,14 +167,17 @@ const PersonalInfo = ({
                             onChange={(e) =>{
                                 const val = e.target.value
                                 setConsumerAge(val)
-                                if(val){setErrConsumerAge(false)}
+                                // if(val){setErrConsumerAge(false)}
+                                val===0 || val<18 ? setErrConsumerAge(true): setErrConsumerAge(false)
                             }}
                             customInput={TextField}
                             style={style.textfield}
                             error={errConsumerAge}
                             />
                             
-                            <FormControl style={style.textfield}>
+                            <FormControl 
+                            error={errConsumerGender}
+                            style={style.textfield}>
                                 <InputLabel 
                                 id="demo-simple-select-helper-label">
                                 Gender
@@ -157,7 +194,6 @@ const PersonalInfo = ({
                                 }}
                                 value={consumerGender}
                                 required
-                                error={errConsumerGender}
                                 >{
                                     uti && uti.gender.map((gen)=>(
                                         <MenuItem value={gen} key={gen}>{gen}</MenuItem>
@@ -169,21 +205,46 @@ const PersonalInfo = ({
                         </Box>
                         <Box style={{display:"flex", flexDirection:"column", flex:1}}>
 
-                            <TextField 
-                            id="outlined-basic" 
-                            label="Phone Number (Optional)" 
-                            variant="outlined"
-                            style={style.textfield} />
+                            <PatternFormat 
+                            customInput={TextField}
+                            style={style.textfield}
+                            label="Consumer Phone Number" 
+                            format="#### ### ####" 
+                            mask="#"
+                            onChange={(e) =>{
+                                const val = e.target.value
+                                setConsumerPhone(val)
+                                !val.includes("#") || val.length===0 ?setErrConsumerPhone(false): setErrConsumerPhone(true)
+                            }}
+                            value={consumerPhone}
+                            error={errConsumerPhone}
+                             />
 
-                            <FormControl style={style.textfield}>
-                                <InputLabel id="demo-simple-select-helper-label">Civil Status</InputLabel>
+                            <FormControl 
+                            style={style.textfield}
+                            error={errConsumerCivilStatus}>
+                                <InputLabel 
+                                id="demo-simple-select-helper-label">
+                                Civil Status
+                                </InputLabel>
                                 <Select
+                                label="Civil Status"
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                label="Gender"
+                                defaultValue={""}
+                                onChange={(e) =>{
+                                    const val = e.target.value
+                                    if(val==="Single"){
+                                        setConsumerSpouse("")
+                                    }
+                                    setConsumerCivilStatus(val);
+                                    if(val){setErrConsumerCivilStatus(false)}
+                                }}
+                                value={consumerCivilStatus}
+                                required
                                 >{
-                                    uti && uti.civil_status.map((stat)=>(
-                                        <MenuItem value={stat} key={stat}>{stat}</MenuItem>
+                                    uti && uti.civil_status.map((gen)=>(
+                                        <MenuItem value={gen} key={gen}>{gen}</MenuItem>
                                     ))
                                 }
                                 </Select>
@@ -192,32 +253,87 @@ const PersonalInfo = ({
                             <TextField 
                             id="outlined-basic" 
                             label="Name of Spouse" 
-                            variant="outlined"
-                            style={style.textfield} />
+                            variant="outlined" 
+                            type="text"
+                            placeholder="ex: Juan"
+                            onChange={(e) =>{
+                                const val = e.target.value.replace(/[^a-z, /s, \u00f1, \u00d1, \., \-]/gi, '');
 
-                            <AutoComplete  
-                            label={'Barangay'} 
-                            Utilities={Utilities}
-                            autoComHeight={150}
-                             />
+                                setConsumerSpouse(val);
+                                if(val.length>1||val.length==0){setErrConsumerSpouse(false)}
+                            }}
+                            style={style.textfield}
+                            value={consumerSpouse}
+                            required
+                            disabled={consumerCivilStatus==="Single"}
+                            error={errConsumerSpouse}
+                            />
+                            <Autocomplete 
+                            disablePortal={false}
+                            ListboxProps={{ style: { maxHeight: 150 }, position: "top-start" }}
+                            onChange={(event , val)=>{ 
+                                setConsumerBarangay(val)
+                                if(val){setErrConsumerBarangay(false)}
+                            }}
+                            value={consumerBarangay}
+                            options={uti?uti["Barangay"]:[]}
+                            renderInput={(params) => (
+                                <TextField
+                                error={errConsumerBarangay}
+                                {...params}
+                                label="Barangay"
+                                variant="outlined"
+                                />
+                            )}
+                            />
 
-                            <FormControl style={{marginTop:10,...style.textfield}}>
-                                <InputLabel id="demo-simple-select-helper-label">Purok</InputLabel>
+                            <FormControl style={{marginTop:10,...style.textfield}}
+                            error={errConsumerPurok}>
+                                <InputLabel 
+                                id="demo-simple-select-helper-label"
+                                >
+                                Purok
+                                </InputLabel>
                                 <Select
+                                label="Purok"
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                label="Gender"
-                                >
-                                <MenuItem value={10}>Single</MenuItem>
-                                <MenuItem value={20}>Married</MenuItem>
+                                defaultValue={""}
+                                onChange={(e) =>{
+                                    const val = e.target.value
+                                    setConsumerPurok(val);
+                                    if(val){setErrConsumerPurok(false)}
+                                }}
+                                value={consumerPurok}
+                                required
+                                >{
+                                    uti && uti.Purok.map((gen)=>(
+                                        <MenuItem value={gen} key={gen}>{gen}</MenuItem>
+                                    ))
+                                }
                                 </Select>
                             </FormControl>
 
-                            <TextField 
-                            id="outlined-basic" 
+                            <NumericFormat
                             label="Household Number" 
-                            variant="outlined"
-                            style={style.textfield} />
+                            variant="outlined" 
+                            placeholder="ex: 1234"
+                            value={consumerHousehold}
+                            allowNegative={false}
+                            required
+                            isAllowed={(values) => {
+                              const { value } = values;
+                              return value < 10000 && !value.includes(".");
+                            }}
+                            onChange={(e) =>{
+                                const val = e.target.value
+                                setConsumerHousehold(val)
+                                if(val){setErrConsumerHousehold(false)}
+                            }}
+                            customInput={TextField}
+                            style={style.textfield}
+                            error={errConsumerHousehold}
+                            />
                             
                         </Box>
                     </Box>
