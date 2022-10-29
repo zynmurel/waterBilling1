@@ -1,7 +1,7 @@
 import { Alert, Box, Button, FormControl, InputLabel, MenuItem, Paper, Select, Snackbar, TextField, Typography  } from "@mui/material";
 import { Container } from "@mui/system";
-import PersonalInfo from "./ReadyComponents/PersonalInfo";
-import WaterInfo from "./ReadyComponents/WaterInfo";
+import PersonalInfo from "./PersonalInfo";
+import WaterInfo from "./WaterInfo";
 import { useState } from "react";
 
 const AddConsumer = ({Utilities, result, setOpenPopup}) => {
@@ -10,6 +10,8 @@ const AddConsumer = ({Utilities, result, setOpenPopup}) => {
 
     const [alert, setAlert] = useState(false)
     const [alertText, setAlertText] = useState("")
+
+    const [buttonPending, setButtonPending] = useState(false)
 
     const [ consumerNum, setConsumerNum ] = useState()
     const [ errConsumerNum, setErrConsumerNum ] = useState(false)
@@ -46,6 +48,21 @@ const AddConsumer = ({Utilities, result, setOpenPopup}) => {
 
     const [ consumerHousehold, setConsumerHousehold ]= useState("")
     const [ errConsumerHousehold, setErrConsumerHousehold ] = useState(false)
+
+    const [ consumerWaterType, setConsumerWaterType ]= useState("")
+    const [ errConsumerWaterType, setErrConsumerWaterType ] = useState(false)
+
+    const [ consumerWaterBrand, setConsumerWaterBrand ]= useState("")
+    const [ errConsumerWaterBrand, setErrConsumerWaterBrand ] = useState(false)
+
+    const [ consumerWaterSerial, setConsumerWaterSerial ]= useState("")
+    const [ errConsumerWaterSerial, setErrConsumerWaterSerial ] = useState(false)
+
+    const [ consumerWaterFirstReading, setConsumerWaterFirstReading ]= useState("")
+    const [ errConsumerWaterFirstReading, setErrConsumerWaterFirstReading ] = useState(false)
+
+    const [ consumerWaterRegDate, setConsumerWaterRegDate ]= useState({day:null, month:null, year:null})
+    const [ errConsumerWaterRegDate, setErrConsumerWaterRegDate ] = useState(false)
     const handleAlertClose = (event, reason) => {
         if (reason === 'clickaway') {
         return;
@@ -55,8 +72,8 @@ const AddConsumer = ({Utilities, result, setOpenPopup}) => {
         }
  
     const handleSubmit = (e) =>{
-        setAlert(false);
         e.preventDefault()
+        setAlert(false);
             const cont = consumer && consumer.find((con)=>{
                 if(con.id == consumerNum){
                     setAlert(true)
@@ -126,6 +143,26 @@ const AddConsumer = ({Utilities, result, setOpenPopup}) => {
                 setErrConsumerHousehold(true)
                 setAlert(true)
                 setAlertText("Please fill up consumer's Household Number")
+            }else if(!consumerWaterType){
+                setErrConsumerWaterType(true)
+                setAlert(true)
+                setAlertText("Please choose Water Meter Usage Type")
+            }else if(!consumerWaterBrand){
+                setErrConsumerWaterBrand(true)
+                setAlert(true)
+                setAlertText("Please choose Water Meter Brand")
+            }else if(!consumerWaterSerial || consumerWaterSerial==0){
+                setErrConsumerWaterSerial(true)
+                setAlert(true)
+                setAlertText("Please input Water Meter Serial")
+            }else if(consumerWaterFirstReading===""){
+                setErrConsumerWaterFirstReading(true)
+                setAlert(true)
+                setAlertText("Please input Meter's First Reading")
+            }else if(consumerWaterRegDate.day===null){
+                setErrConsumerWaterRegDate(true)
+                setAlert(true)
+                setAlertText("Please fill up Registration Date")
             }
             if(
             consumerNum && !errConsumerNum && 
@@ -138,9 +175,50 @@ const AddConsumer = ({Utilities, result, setOpenPopup}) => {
             !errConsumerSpouse &&
             consumerBarangay && !errConsumerBarangay &&
             consumerPurok && !errConsumerPurok &&
-            consumerHousehold && !errConsumerHousehold
+            consumerHousehold && !errConsumerHousehold &&
+            consumerWaterBrand && !errConsumerWaterBrand &&
+            consumerWaterFirstReading && !errConsumerWaterFirstReading &&
+            consumerWaterSerial && !errConsumerWaterSerial &&
+            consumerWaterType && !errConsumerWaterType &&
+            !isNaN(consumerWaterRegDate.$D) && !errConsumerWaterRegDate
             ){
                 console.log(consumerNum + consumerFirstName + consumerMiddleName + consumerLastName + consumerAge + consumerGender + consumerPhone + consumerCivilStatus + consumerSpouse + consumerPurok + consumerHousehold)
+                console.log(consumerWaterBrand + consumerWaterFirstReading + consumerWaterSerial + consumerWaterType + consumerWaterRegDate.$M+consumerWaterRegDate.$D +  consumerWaterRegDate.$y)
+                const data = {
+                    id:consumerNum,
+                    first_name: consumerFirstName,
+                    last_name: consumerLastName,
+                    middle_name: consumerMiddleName,
+                    phone: consumerPhone,
+                    gender: consumerGender,
+                    age: consumerAge,
+                    barangay: consumerBarangay,
+                    purok: consumerPurok,
+                    household_no: consumerHousehold,
+                    civil_status: consumerCivilStatus,
+                    name_of_spouse: consumerSpouse,
+                    usage_type: consumerWaterType,
+                    first_reading: consumerWaterFirstReading,
+                    serial_no: consumerWaterSerial,
+                    brand: consumerWaterBrand,
+                    IsActive:true,
+                    archive:false,
+                    date: consumerWaterRegDate
+
+                }
+
+                setButtonPending(true)
+                fetch("http://localhost:8000/Consumers",{
+                    method: 'POST',
+                    headers: { "Content-Type":"application/json" },
+                    body: JSON.stringify(data)
+                }).then(()=>{
+                        console.log(data)
+                        setOpenPopup(false)
+                        setButtonPending(false)
+                        window.location.reload()
+                })
+
             }}
     }
     const style={
@@ -240,7 +318,34 @@ const AddConsumer = ({Utilities, result, setOpenPopup}) => {
                 <Box style={{display:"flex", flexDirection:"column", flex:1}}>
                     <WaterInfo 
                     style={style}
-                    Utilities={Utilities}/>
+                    Utilities={Utilities}
+
+                    consumerWaterType={consumerWaterType}
+                    setConsumerWaterType={setConsumerWaterType}
+                    errConsumerWaterType={errConsumerWaterType} 
+                    setErrConsumerWaterType={setErrConsumerWaterType}
+
+                    consumerWaterBrand={consumerWaterBrand}
+                    setConsumerWaterBrand={setConsumerWaterBrand}
+                    errConsumerWaterBrand={errConsumerWaterBrand} 
+                    setErrConsumerWaterBrand={setErrConsumerWaterBrand}
+
+                    consumerWaterSerial={consumerWaterSerial}
+                    setConsumerWaterSerial={setConsumerWaterSerial}
+                    errConsumerWaterSerial={errConsumerWaterSerial} 
+                    setErrConsumerWaterSerial={setErrConsumerWaterSerial}
+
+                    consumerWaterFirstReading={consumerWaterFirstReading}
+                    setConsumerWaterFirstReading={setConsumerWaterFirstReading}
+                    errConsumerWaterFirstReading={errConsumerWaterFirstReading} 
+                    setErrConsumerWaterFirstReading={setErrConsumerWaterFirstReading}
+
+                    consumerWaterRegDate={consumerWaterRegDate}
+                    setConsumerWaterRegDate={setConsumerWaterRegDate}
+                    errConsumerWaterRegDate={errConsumerWaterRegDate} 
+                    setErrConsumerWaterRegDate={setErrConsumerWaterRegDate}
+                    
+                    />
                 <Box style={{flex:1, display:"flex", flexDirection:"row" , justifyContent:"space-around" }}>
 
                 <Button 
@@ -253,6 +358,7 @@ const AddConsumer = ({Utilities, result, setOpenPopup}) => {
                 variant="contained" 
                 style={{backgroundColor:'#0f5e9c', flex:1, marginRight:10}}
                 type="submit"
+                disabled={buttonPending}
                 >Submit</Button>
                 <Snackbar open={alert} autoHideDuration={6000}>
                     <Alert onClose={handleAlertClose} 

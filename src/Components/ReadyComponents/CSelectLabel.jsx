@@ -19,7 +19,7 @@ export default function SelectLabels({minWidth , m, label, Utilities, purok, set
           id="demo-simple-select-helper"
           value={purok}
           disabled={!barangay}
-          label="Age"
+          label="Purok"
           onChange={handleChange}
         >
           <MenuItem value={7}>

@@ -38,7 +38,7 @@ export default function StickyHeadTable({result, purok, name, barangay, page, se
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: 570,minHeight: 570 }}>
+      <TableContainer sx={{ maxHeight: 550,minHeight: 550 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow sx={{
@@ -46,7 +46,7 @@ export default function StickyHeadTable({result, purok, name, barangay, page, se
           fontSize: "1rem",
           color: "white",
           fontWeight:"bold",
-          backgroundColor:"rgb(15,94,156)"
+          color:"rgb(15,94,156)"
         }
       }}>
               {columns.map((column) => (

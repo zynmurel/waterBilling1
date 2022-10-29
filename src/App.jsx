@@ -28,7 +28,15 @@ function App() {
         <div className='routes'>
         <Routes>  
           <Route path="/home" element={<Home/>}></Route> 
-          <Route path="/consumerManagement" element={<ConsumerManagement result={result} Utilities={Utilities} purok={purok} setPurok={setPurok} barangay={barangay} setBarangay={setBarangay} name={name} setName={setName}/>}></Route> 
+          <Route path="/consumerManagement" element={
+          <ConsumerManagement 
+          result={result} 
+          Utilities={Utilities} 
+          purok={purok} 
+          setPurok={setPurok} 
+          barangay={barangay} 
+          setBarangay={setBarangay} 
+          name={name} setName={setName}/>}></Route> 
           <Route path="/inquire" element={<Inquire/>}></Route> 
           <Route path="/meterReading" element={<MeterReading/>}></Route> 
           <Route path="/reports" element={<Reports/>}></Route> 

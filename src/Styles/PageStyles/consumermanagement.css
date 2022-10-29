@@ -7,10 +7,6 @@
     justify-content: center;
     align-items: center;
 }
-.container{
-    height: 95vw;
-    width: 97vw;
-}
 .searchAddBar{
     display: flex;
     flex-direction: row;

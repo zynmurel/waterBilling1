@@ -8,7 +8,7 @@ import Popup from '../ReadyComponents/CPopup';
 import { Button, TextField } from '@mui/material';
 import { useState } from 'react';
 import React from 'react';
-import AddConsumer from '../AddConsumer';
+import AddConsumer from '../ReadyComponents/ConsumerManagement/AddConsumer';
 
 
 
@@ -24,11 +24,11 @@ const ConsumerManagement = ({Utilities, result,purok, setPurok,barangay, setBara
               id="outlined-basic" 
               label="Search Consumer Number/Name" 
               variant="outlined" 
-              style={{width:'60vh'}}
+              style={{width:450}}
               onChange={(e)=>{setName(e.target.value); setPage(0)}}
               />
             <AutoComplete  
-            width={250} 
+            width={300} 
             label={'Barangay'} 
             Utilities={Utilities} 
             barangay={barangay} 
@@ -38,7 +38,7 @@ const ConsumerManagement = ({Utilities, result,purok, setPurok,barangay, setBara
             autoComHeight={500}/>
             
             <SelectLabels 
-            minWidth={80} 
+            minWidth={100} 
             m={0} 
             label={'Purok'} 
             Utilities={Utilities} 
@@ -48,12 +48,13 @@ const ConsumerManagement = ({Utilities, result,purok, setPurok,barangay, setBara
             setPage={setPage}/>
 
             <Button 
-            variant="contained" 
-            style={{width:'33vh', backgroundColor:'#0f5e9c'}}
-            onClick={()=> setOpenPopup(true)}
-            disabled={ Utilities.data && result.data ? false : true }
+            variant="outlined" 
+            style={{width:200}}
+            onClick={()=> {setOpenPopup(true)}}
             >
-              <PersonAddAltRoundedIcon/>Add Consumer</Button>
+              <PersonAddAltRoundedIcon
+              sx={{ marginRight:1}}
+              />Add Consumer</Button>
            </div>
 
            <StickyHeadTable

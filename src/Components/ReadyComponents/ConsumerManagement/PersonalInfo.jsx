@@ -1,11 +1,9 @@
 import { Paper, Box, FormControl, InputLabel, MenuItem, Select, TextField, Typography, Autocomplete } from "@mui/material";
-import { useState } from "react";
 import { NumericFormat, PatternFormat } from 'react-number-format';
 const PersonalInfo = ({
     style, 
     Utilities, 
     result, 
-    setAlert,
 
     consumerNum, 
     setConsumerNum,
