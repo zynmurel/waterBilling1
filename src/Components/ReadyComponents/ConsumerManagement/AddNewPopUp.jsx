@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogTitle, Typography } from "@mui/material";
 
-const Popup = ({title, children, openPopup, setOpenPopup, maxWidth}) => {
+const Popup = ({title, children, openPopup, maxWidth}) => {
   return ( 
     <Dialog open={openPopup} maxWidth={maxWidth} fullWidth>
 

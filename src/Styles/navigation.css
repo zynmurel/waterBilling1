@@ -1,7 +1,6 @@
 .navigation{
-    color: white ;
     flex: 1;
-    background-color: rgb(15,94,156);
+    background-color: rgb(42, 109, 190);
     z-index: 0;
     display: flex;
     flex-direction: column;
@@ -11,11 +10,12 @@ a{
     font-size: 18px;
     padding: 20px 0 20px 15px;
     text-decoration: none;
-    color: white;
+    color: rgb(238, 247, 255);
     font-weight: bolder;
     transition: .1s;
 }
 a:hover{
     transform: scale(1.02);
-    background-color: rgb(46, 147, 230)
+    background-color: rgb(219, 230, 241);
+    color: rgb(33, 38, 43);
 }

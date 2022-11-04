@@ -1,7 +1,7 @@
 import '../Styles/navigation.css'
 import {NavLink } from 'react-router-dom';
 const Navigation = () => {
-  const activeStyle = {background:'linear-gradient(to right,#ABF8E4 1%,rgb(0, 43, 79) 1% 40%)',}
+  const activeStyle = {background:'linear-gradient(to right,rgb(0, 43, 80) 20%, rgb(17, 99, 170))',color:"white"}
     return ( 
         <div className="navigation">
         <NavLink

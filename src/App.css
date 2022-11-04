@@ -21,6 +21,7 @@ body{
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
+  overflow: hidden;
 }
 
 @keyframes App-logo-spin {

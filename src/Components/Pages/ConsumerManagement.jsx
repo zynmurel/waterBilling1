@@ -4,17 +4,24 @@ import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
 import StickyHeadTable from '../ReadyComponents/CTable'
 import AutoComplete from '../ReadyComponents/CAutoComplete'
 import SelectLabels from '../ReadyComponents/CSelectLabel';
-import Popup from '../ReadyComponents/CPopup';
+import AddPopup from '../ReadyComponents/ConsumerManagement/AddNewPopUp';
+import ConsumerPopUp from '../ReadyComponents/ConsumerManagement/ConsumerPopUp'
 import { Button, TextField } from '@mui/material';
 import { useState } from 'react';
 import React from 'react';
 import AddConsumer from '../ReadyComponents/ConsumerManagement/AddConsumer';
+import ConsumerData from '../ReadyComponents/ConsumerManagement/ConsumerData';
 
 
 
-const ConsumerManagement = ({Utilities, result,purok, setPurok,barangay, setBarangay,name, setName}) => {
+const ConsumerManagement = ({Utilities, result}) => {
   const [page, setPage] = useState(0);
   const [openPopup, setOpenPopup] = useState(false)
+  const [consumerPopUp, setConsumerPopup] = useState(false)
+  const [consumerInfo, setConsumerInfo] = useState({})
+  const [purok, setPurok] = useState(7);
+  const [barangay, setBarangay] = useState("");
+  const [name, setName] = useState("");
 
     return ( 
         <div className="consumerManagement">
@@ -64,19 +71,36 @@ const ConsumerManagement = ({Utilities, result,purok, setPurok,barangay, setBara
            barangay={barangay}
            page={page}
            setPage={setPage}
-           setOpenPopup={setOpenPopup}/>
+           setOpenPopup={setOpenPopup}
+           setConsumerPopup={setConsumerPopup}
+           setConsumerInfo={setConsumerInfo}
+           />
 
-          <Popup
-            openPopup={openPopup}
-            setOpenPopup={setOpenPopup}
-            maxWidth={"lg"}
+           <AddPopup
+             openPopup={openPopup}
+             setOpenPopup={setOpenPopup}
+             maxWidth={"lg"}
+             >
+               <AddConsumer 
+               setOpenPopup={setOpenPopup}
+               Utilities={Utilities}
+               result={result}
+               />
+           </AddPopup>
+
+          <ConsumerPopUp
+            consumerPopUp={consumerPopUp}
+            setConsumerPopup={setConsumerPopup}
+            consumerInfo={consumerInfo}
+            maxWidth={"md"}
             >
-              <AddConsumer 
-              setOpenPopup={setOpenPopup}
+              <ConsumerData 
+              setConsumerPopup={setConsumerPopup}
               Utilities={Utilities}
               result={result}
+              consumerInfo={consumerInfo}
               />
-          </Popup>
+          </ConsumerPopUp>
            
            </div>
         </div>

@@ -22,7 +22,7 @@ const columns = [
   }
 ];
 
-export default function StickyHeadTable({result, purok, name, barangay, page, setPage, setOpenPopup}) {
+export default function StickyHeadTable({result, purok, name, barangay, page, setPage, setConsumerInfo, setConsumerPopup}) {
     const { data:consumer, isPending, error } = result;
     const bCon = consumer&& barangay && purok? consumer.filter((c)=> c.barangay === barangay && (c.purok === purok || purok ===7)):consumer
     const newCon = bCon? bCon.filter((c)=> `${c.first_name.toLowerCase()} ${c.middle_name.toLowerCase()} ${c.last_name.toLowerCase()}`.includes(name.toLowerCase())||`${c.id}`.includes(name)) : bCon
@@ -38,7 +38,7 @@ export default function StickyHeadTable({result, purok, name, barangay, page, se
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: 550,minHeight: 550 }}>
+      <TableContainer sx={{ maxHeight: 570,minHeight: 550 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow sx={{
@@ -65,11 +65,11 @@ export default function StickyHeadTable({result, purok, name, barangay, page, se
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover tabIndex={-1} key={row.id} onClick={()=>setOpenPopup(true)}>
+                  <TableRow hover tabIndex={-1} key={row.id} >
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
-                        <TableCell key={column.id} align={column.align}>
+                        <TableCell key={column.id} align={column.align} onClick={()=>{setConsumerPopup(true); setConsumerInfo(row)}}>
                           {column.id === "name"? `${row.first_name} ${row.middle_name} ${row.last_name}` :value}
                         </TableCell>
                       );

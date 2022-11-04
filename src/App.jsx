@@ -16,9 +16,6 @@ import { useState } from 'react';
 function App() {
   const result= useFetch("http://localhost:8000/Consumers");
   const Utilities = useFetch("http://localhost:8000/Utilities");
-  const [purok, setPurok] = useState(7);
-  const [barangay, setBarangay] = useState("");
-  const [name, setName] = useState("");
   return (
     <div className="adminpage">
       <Router>
@@ -27,21 +24,26 @@ function App() {
         <Navigation/>  
         <div className='routes'>
         <Routes>  
-          <Route path="/home" element={<Home/>}></Route> 
+          <Route path="/home" element={
+          <Home
+          result={result} 
+          />}></Route> 
+
           <Route path="/consumerManagement" element={
           <ConsumerManagement 
           result={result} 
-          Utilities={Utilities} 
-          purok={purok} 
-          setPurok={setPurok} 
-          barangay={barangay} 
-          setBarangay={setBarangay} 
-          name={name} setName={setName}/>}></Route> 
+          Utilities={Utilities} />}></Route> 
+
           <Route path="/inquire" element={<Inquire/>}></Route> 
+
           <Route path="/meterReading" element={<MeterReading/>}></Route> 
+
           <Route path="/reports" element={<Reports/>}></Route> 
+
           <Route path="/systemMaintenance" element={<SystemMaintenance/>}></Route> 
+
           <Route path="/help" element={<Help/>}></Route> 
+
           <Route path="*" element={<NotFound/>}/>
         </Routes>
         </div>
