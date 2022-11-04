@@ -23,6 +23,8 @@ const ConsumerManagement = ({Utilities, result}) => {
   const [barangay, setBarangay] = useState("");
   const [name, setName] = useState("");
 
+  console.log(new Date("2022-10-17T16:00:00.000Z"))
+
     return ( 
         <div className="consumerManagement">
            <div className="container">
@@ -85,14 +87,18 @@ const ConsumerManagement = ({Utilities, result}) => {
                setOpenPopup={setOpenPopup}
                Utilities={Utilities}
                result={result}
+               consumerInfo={consumerInfo}
                />
            </AddPopup>
 
           <ConsumerPopUp
             consumerPopUp={consumerPopUp}
+            setOpenPopup = {setOpenPopup}
             setConsumerPopup={setConsumerPopup}
             consumerInfo={consumerInfo}
+            result={result}
             maxWidth={"md"}
+            setConsumerInfo={setConsumerInfo}
             >
               <ConsumerData 
               setConsumerPopup={setConsumerPopup}

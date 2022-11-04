@@ -19041,6 +19041,27 @@
       "IsActive": true,
       "archive": false,
       "date": "2022-10-17T16:00:00.000Z"
+    },
+    {
+      "id": "131232",
+      "first_name": "Juan",
+      "last_name": "sdvsd",
+      "middle_name": "acdsds",
+      "phone": "2343 424 2322",
+      "gender": "Male",
+      "age": "32",
+      "barangay": "Baucan Norte",
+      "purok": 1,
+      "household_no": "6768",
+      "civil_status": "Married",
+      "name_of_spouse": "ij",
+      "usage_type": "Residential",
+      "first_reading": "8798",
+      "serial_no": "9879",
+      "brand": "Sunrise",
+      "IsActive": true,
+      "archive": false,
+      "date": "2022-11-28T16:00:00.000Z"
     }
   ],
   "Utilities": {

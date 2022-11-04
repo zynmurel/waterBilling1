@@ -69,7 +69,7 @@ export default function StickyHeadTable({result, purok, name, barangay, page, se
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
-                        <TableCell key={column.id} align={column.align} onClick={()=>{setConsumerPopup(true); setConsumerInfo(row)}}>
+                        <TableCell key={column.id} align={column.align} onClick={()=>{ setConsumerPopup(true); setConsumerInfo(row) }}>
                           {column.id === "name"? `${row.first_name} ${row.middle_name} ${row.last_name}` :value}
                         </TableCell>
                       );

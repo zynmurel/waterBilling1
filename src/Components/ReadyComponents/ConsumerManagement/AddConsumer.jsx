@@ -4,8 +4,8 @@ import PersonalInfo from "./PersonalInfo";
 import WaterInfo from "./WaterInfo";
 import { useState } from "react";
 
-const AddConsumer = ({Utilities, result, setOpenPopup}) => {
-
+const AddConsumer = ({Utilities, result, setOpenPopup, consumerInfo}) => {
+    const dataIsOn = Object.keys(consumerInfo).length!==0
     const {data:consumer, conIsPending, conError}= result
 
     const [alert, setAlert] = useState(false)
@@ -13,55 +13,55 @@ const AddConsumer = ({Utilities, result, setOpenPopup}) => {
 
     const [buttonPending, setButtonPending] = useState(false)
 
-    const [ consumerNum, setConsumerNum ] = useState()
+    const [ consumerNum, setConsumerNum ] = useState(dataIsOn? consumerInfo.id:"")
     const [ errConsumerNum, setErrConsumerNum ] = useState(false)
     
-    const [ consumerFirstName, setConsumerFirstName ] = useState("")
+    const [ consumerFirstName, setConsumerFirstName ] = useState(dataIsOn? consumerInfo.first_name:"")
     const [ errConsumerFirstName, setErrConsumerFirstName ] = useState(false)
     
-    const [ consumerMiddleName, setConsumerMiddleName ] = useState("")
+    const [ consumerMiddleName, setConsumerMiddleName ] = useState(dataIsOn? consumerInfo.middle_name:"")
     const [ errConsumerMiddleName, setErrConsumerMiddleName ] = useState(false)
 
-    const [ consumerLastName, setConsumerLastName ] = useState("")
+    const [ consumerLastName, setConsumerLastName ] = useState(dataIsOn? consumerInfo.last_name:"")
     const [ errConsumerLastName, setErrConsumerLastName ] = useState(false)
 
-    const [ consumerAge, setConsumerAge ] = useState("")
+    const [ consumerAge, setConsumerAge ] = useState(dataIsOn? consumerInfo.age:"")
     const [ errConsumerAge, setErrConsumerAge ] = useState(false)
 
-    const [ consumerGender, setConsumerGender ] = useState("")
+    const [ consumerGender, setConsumerGender ] = useState(dataIsOn? consumerInfo.gender:"")
     const [ errConsumerGender, setErrConsumerGender ] = useState(false)
 
-    const [ consumerPhone, setConsumerPhone ] = useState("")
+    const [ consumerPhone, setConsumerPhone ] = useState(dataIsOn? consumerInfo.phone:"")
     const [ errConsumerPhone, setErrConsumerPhone ] = useState(false)
 
-    const [ consumerCivilStatus, setConsumerCivilStatus ] = useState("")
+    const [ consumerCivilStatus, setConsumerCivilStatus ] = useState(dataIsOn? consumerInfo.civil_status:"")
     const [ errConsumerCivilStatus, setErrConsumerCivilStatus ] = useState(false)
 
-    const [ consumerSpouse, setConsumerSpouse ]= useState("")
+    const [ consumerSpouse, setConsumerSpouse ]= useState(dataIsOn? consumerInfo.name_of_spouse:"")
     const [ errConsumerSpouse, setErrConsumerSpouse ] = useState(false)
 
-    const [ consumerBarangay, setConsumerBarangay ]= useState("")
+    const [ consumerBarangay, setConsumerBarangay ]= useState(dataIsOn? consumerInfo.barangay:"")
     const [ errConsumerBarangay, setErrConsumerBarangay ] = useState(false)
 
-    const [ consumerPurok, setConsumerPurok ]= useState("")
+    const [ consumerPurok, setConsumerPurok ]= useState(dataIsOn? consumerInfo.purok:"")
     const [ errConsumerPurok, setErrConsumerPurok ] = useState(false)
 
-    const [ consumerHousehold, setConsumerHousehold ]= useState("")
+    const [ consumerHousehold, setConsumerHousehold ]= useState(dataIsOn? consumerInfo.household_no:"")
     const [ errConsumerHousehold, setErrConsumerHousehold ] = useState(false)
 
-    const [ consumerWaterType, setConsumerWaterType ]= useState("")
+    const [ consumerWaterType, setConsumerWaterType ]= useState(dataIsOn? consumerInfo.usage_type:"")
     const [ errConsumerWaterType, setErrConsumerWaterType ] = useState(false)
 
-    const [ consumerWaterBrand, setConsumerWaterBrand ]= useState("")
+    const [ consumerWaterBrand, setConsumerWaterBrand ]= useState(dataIsOn? consumerInfo.brand:"")
     const [ errConsumerWaterBrand, setErrConsumerWaterBrand ] = useState(false)
 
-    const [ consumerWaterSerial, setConsumerWaterSerial ]= useState("")
+    const [ consumerWaterSerial, setConsumerWaterSerial ]= useState(dataIsOn? consumerInfo.serial_no:"")
     const [ errConsumerWaterSerial, setErrConsumerWaterSerial ] = useState(false)
 
-    const [ consumerWaterFirstReading, setConsumerWaterFirstReading ]= useState("")
+    const [ consumerWaterFirstReading, setConsumerWaterFirstReading ]= useState(dataIsOn? consumerInfo.first_reading:"")
     const [ errConsumerWaterFirstReading, setErrConsumerWaterFirstReading ] = useState(false)
 
-    const [ consumerWaterRegDate, setConsumerWaterRegDate ]= useState({day:null, month:null, year:null})
+    const [ consumerWaterRegDate, setConsumerWaterRegDate ]= useState(dataIsOn? {day:consumerInfo.$D, month:consumerInfo.$M, year:consumerInfo.$y}:{day:null, month:null, year:null})
     const [ errConsumerWaterRegDate, setErrConsumerWaterRegDate ] = useState(false)
     const handleAlertClose = (event, reason) => {
         if (reason === 'clickaway') {

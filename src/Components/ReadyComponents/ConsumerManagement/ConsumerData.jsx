@@ -38,7 +38,7 @@ const ConsumerData = ({consumerInfo}) => {
                 <p style={styles.textStyle}><strong>BARANGAY:</strong> {`${consumerInfo.barangay}`}</p>
                 <p style={styles.textStyle}><strong>PUROK:</strong> {`${consumerInfo.purok}`}</p>
                 <p style={styles.textStyle}><strong>HOUSEHOLD NO:</strong> {`${consumerInfo.household_no}`}</p>
-                <p style={styles.textStyle}><strong>CIVIL STATUS:</strong> {`${consumerInfo.civil_status.toUpperCase()}`}</p>
+                <p style={styles.textStyle}><strong>CIVIL STATUS:</strong> {`${consumerInfo.civil_status}`}</p>
                 {consumerInfo.name_of_spouse && <p style={styles.textStyle}><strong>NAME OF SPOUSE:</strong> {`${consumerInfo.name_of_spouse}`}</p>}
                 <h2 style={styles.h2style}>WATER METER INFORMATION</h2>
                 <p style={styles.textStyle}><strong>USAGE TYPE:</strong> {`${consumerInfo.usage_type}`}</p>

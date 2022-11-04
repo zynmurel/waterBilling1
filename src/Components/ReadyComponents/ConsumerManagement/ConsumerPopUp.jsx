@@ -2,7 +2,7 @@ import { Dialog, DialogContent, DialogTitle, Typography, Box, Button, IconButton
 import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
 import EditIcon from '@mui/icons-material/Edit';
 
-const ConsumerPopup = ({title, children, consumerPopUp, maxWidth, setConsumerPopup, consumerInfo}) => {
+const ConsumerPopup = ({title, children, consumerPopUp, maxWidth, setConsumerPopup, consumerInfo, setOpenPopup, setConsumerInfo}) => {
   const styles ={
     dialogTitle:{
       margin:"0 0 0px 0",  
@@ -33,8 +33,8 @@ const ConsumerPopup = ({title, children, consumerPopUp, maxWidth, setConsumerPop
             {consumerInfo.id? consumerInfo.id : "none"} 
         </Typography>
         <Box style={styles.box}>
-          <IconButton color="warning" aria-label="edit" onClick={()=> setConsumerPopup(false)}><EditIcon sx={{fontSize:30, color:"warning", margin:"0 5px"}}/></IconButton>
-          <IconButton color="error" aria-label="exit" onClick={()=> setConsumerPopup(false)}><DisabledByDefaultIcon sx={{fontSize:30, color:"error", margin:"0 5px" }} /></IconButton>
+          <IconButton color="warning" aria-label="edit" onClick={()=> setOpenPopup(true)}><EditIcon sx={{fontSize:30, color:"warning", margin:"0 5px"}}/></IconButton>
+          <IconButton color="error" aria-label="exit" onClick={()=>{ setConsumerPopup(false); setConsumerInfo({})}}><DisabledByDefaultIcon sx={{fontSize:30, color:"error", margin:"0 5px" }} /></IconButton>
           
         </Box>
       </DialogTitle>
