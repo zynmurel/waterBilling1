@@ -1,15 +1,12 @@
-import { Alert, Box, Button, FormControl, InputLabel, MenuItem, Paper, Select, Snackbar, TextField, Typography  } from "@mui/material";
+import { Alert, Box, Button, Snackbar  } from "@mui/material";
 import { Container } from "@mui/system";
 import PersonalInfo from "./PersonalInfo";
 import WaterInfo from "./WaterInfo";
 import { useState } from "react";
 
-const AddConsumer = ({Utilities, result, setOpenPopup, consumerInfo}) => {
+const AddConsumer = ({Utilities, result, setOpenPopup, consumerInfo, setConsumerInfo, setAlertUpdate, setAlert, setAlertText, setAlertType}) => {
     const dataIsOn = Object.keys(consumerInfo).length!==0
-    const {data:consumer, conIsPending, conError}= result
-
-    const [alert, setAlert] = useState(false)
-    const [alertText, setAlertText] = useState("")
+    const {data:consumer, conIsPending, conError, reload, setReload}= result
 
     const [buttonPending, setButtonPending] = useState(false)
 
@@ -61,21 +58,23 @@ const AddConsumer = ({Utilities, result, setOpenPopup, consumerInfo}) => {
     const [ consumerWaterFirstReading, setConsumerWaterFirstReading ]= useState(dataIsOn? consumerInfo.first_reading:"")
     const [ errConsumerWaterFirstReading, setErrConsumerWaterFirstReading ] = useState(false)
 
-    const [ consumerWaterRegDate, setConsumerWaterRegDate ]= useState(dataIsOn? {day:consumerInfo.$D, month:consumerInfo.$M, year:consumerInfo.$y}:{day:null, month:null, year:null})
+    const [ consumerWaterRegDate, setConsumerWaterRegDate ]= useState(dataIsOn? consumerInfo.date :"")
     const [ errConsumerWaterRegDate, setErrConsumerWaterRegDate ] = useState(false)
     const handleAlertClose = (event, reason) => {
         if (reason === 'clickaway') {
         return;
+        setAlert(false)
         }
 
             setAlert(false);
         }
  
     const handleSubmit = (e) =>{
+        setAlertType("warning")
         e.preventDefault()
         setAlert(false);
             const cont = consumer && consumer.find((con)=>{
-                if(con.id == consumerNum){
+                if(con.id == consumerNum && !dataIsOn){
                     setAlert(true)
                     setErrConsumerNum(true)
                     setAlertText("This Consumer Number Is Already Used.")
@@ -159,7 +158,7 @@ const AddConsumer = ({Utilities, result, setOpenPopup, consumerInfo}) => {
                 setErrConsumerWaterFirstReading(true)
                 setAlert(true)
                 setAlertText("Please input Meter's First Reading")
-            }else if(consumerWaterRegDate.day===null){
+            }else if(!consumerWaterRegDate){
                 setErrConsumerWaterRegDate(true)
                 setAlert(true)
                 setAlertText("Please fill up Registration Date")
@@ -180,10 +179,10 @@ const AddConsumer = ({Utilities, result, setOpenPopup, consumerInfo}) => {
             consumerWaterFirstReading && !errConsumerWaterFirstReading &&
             consumerWaterSerial && !errConsumerWaterSerial &&
             consumerWaterType && !errConsumerWaterType &&
-            !isNaN(consumerWaterRegDate.$D) && !errConsumerWaterRegDate
+            consumerWaterRegDate && !errConsumerWaterRegDate
             ){
-                console.log(consumerNum + consumerFirstName + consumerMiddleName + consumerLastName + consumerAge + consumerGender + consumerPhone + consumerCivilStatus + consumerSpouse + consumerPurok + consumerHousehold)
-                console.log(consumerWaterBrand + consumerWaterFirstReading + consumerWaterSerial + consumerWaterType + consumerWaterRegDate.$M+consumerWaterRegDate.$D +  consumerWaterRegDate.$y)
+                // console.log(consumerNum + consumerFirstName + consumerMiddleName + consumerLastName + consumerAge + consumerGender + consumerPhone + consumerCivilStatus + consumerSpouse + consumerPurok + consumerHousehold)
+                // console.log(consumerWaterBrand + consumerWaterFirstReading + consumerWaterSerial + consumerWaterType + consumerWaterRegDate.$M+consumerWaterRegDate.$D +  consumerWaterRegDate.$y)
                 const data = {
                     id:consumerNum,
                     first_name: consumerFirstName,
@@ -208,7 +207,8 @@ const AddConsumer = ({Utilities, result, setOpenPopup, consumerInfo}) => {
                 }
 
                 setButtonPending(true)
-                fetch("http://localhost:8000/Consumers",{
+                if(!dataIsOn){
+                    fetch("http://localhost:8000/Consumers",{
                     method: 'POST',
                     headers: { "Content-Type":"application/json" },
                     body: JSON.stringify(data)
@@ -216,9 +216,30 @@ const AddConsumer = ({Utilities, result, setOpenPopup, consumerInfo}) => {
                         console.log(data)
                         setOpenPopup(false)
                         setButtonPending(false)
-                        window.location.reload()
+                        setReload(reload? false: true)
+                        setAlert(true)
+                        setAlertText("Consumer Added!")
+                        setAlertType("success")
                 })
-
+                }else{
+                    console.log("maui")
+                    const requestOptions = {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    };
+                    fetch('http://localhost:8000/Consumers/'+consumerInfo.id, requestOptions)
+                        .then(response => response.json())
+                        .then((data) => {
+                            setOpenPopup(false)
+                            setButtonPending(false)
+                            setReload(reload? false: true)
+                            setConsumerInfo(data)
+                            setAlert(true)
+                            setAlertText("Consumer Updated!")
+                            setAlertType("success")
+                        });
+                }
             }}
     }
     const style={
@@ -250,6 +271,7 @@ const AddConsumer = ({Utilities, result, setOpenPopup, consumerInfo}) => {
                     style={style}
                     result={result}
                     Utilities={Utilities}
+                    consumerInfo={consumerInfo}
 
                     setAlert={setAlert}
                     
@@ -360,12 +382,6 @@ const AddConsumer = ({Utilities, result, setOpenPopup, consumerInfo}) => {
                 type="submit"
                 disabled={buttonPending}
                 >Submit</Button>
-                <Snackbar open={alert} autoHideDuration={6000}>
-                    <Alert onClose={handleAlertClose} 
-                    severity="warning" sx={{ width: '100%' }}>
-                    {alert? alertText:""}
-                    </Alert>
-                </Snackbar>
 
                 </Box>
                 </Box>

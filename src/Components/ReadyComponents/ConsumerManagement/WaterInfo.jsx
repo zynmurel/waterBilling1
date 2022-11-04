@@ -1,9 +1,8 @@
 import { FormControl, InputLabel, MenuItem, Paper, Select, TextField, Typography } from "@mui/material";
-import { NumericFormat, PatternFormat } from 'react-number-format';
+import { NumericFormat } from 'react-number-format';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { useState } from "react";
 const WaterInfo = ({
     style, 
     Utilities,
@@ -34,7 +33,6 @@ const WaterInfo = ({
     setErrConsumerWaterRegDate,
 
 }) => {
-    const [value, setValue] = useState(null);
     const {data:uti, isPending, error}= Utilities
     const onKeyDown = (e) => {
         e.preventDefault();
@@ -143,7 +141,7 @@ const WaterInfo = ({
                                     label="Registration Date"
                                     value={consumerWaterRegDate}
                                     onChange={(newValue) => {
-                                    newValue? setConsumerWaterRegDate(newValue): setConsumerWaterRegDate({})
+                                    newValue? setConsumerWaterRegDate(newValue): setConsumerWaterRegDate("")
                                     newValue && (isNaN(newValue.$D) || newValue.$D==null )? setErrConsumerWaterRegDate(true): setErrConsumerWaterRegDate(false)
                                     }}
                                     renderInput={(params, validator) => 

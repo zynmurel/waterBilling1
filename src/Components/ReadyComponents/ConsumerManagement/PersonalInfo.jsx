@@ -4,6 +4,7 @@ const PersonalInfo = ({
     style, 
     Utilities, 
     result, 
+    consumerInfo,
 
     consumerNum, 
     setConsumerNum,
@@ -66,6 +67,7 @@ const PersonalInfo = ({
     setErrConsumerHousehold,
 }) => {
     const {data:uti, utiIsPending, utiError}= Utilities
+    const dataIsOn = Object.keys(consumerInfo).length!==0
 
 
     return ( 
@@ -83,6 +85,7 @@ const PersonalInfo = ({
                             placeholder="ex: 10000"
                             allowNegative={false}
                             value={consumerNum}
+                            disabled={dataIsOn}
                             required
                             isAllowed={(values) => {
                               const { value } = values;
@@ -105,7 +108,7 @@ const PersonalInfo = ({
                             type="text"
                             placeholder="ex: Juan"
                             onChange={(e) =>{
-                                const val = e.target.value.replace(/[^a-z, /s, \u00f1, \u00d1, \., \-]/gi, '');
+                                const val = e.target.value.replace(/[^a-z, /s, /u00f1, /u00d1, /., /-]/gi, '');
 
                                 setConsumerFirstName(val);
                                 if(val.length>1){setErrConsumerFirstName(false)}
@@ -126,10 +129,10 @@ const PersonalInfo = ({
                             value={consumerMiddleName}
                             error={errConsumerMiddleName}
                             onChange={(e) =>{
-                                const val = e.target.value.replace(/[^a-z, /s, \u00f1, \u00d1, \., \-]/gi, '');
+                                const val = e.target.value.replace(/[^a-z, /s, /u00f1, /u00d1, /., /-]/gi, '');
 
                                 setConsumerMiddleName(val);
-                                if(val.length>1||val.length==0){setErrConsumerMiddleName(false)}
+                                if(val.length>1||val.length===0){setErrConsumerMiddleName(false)}
                             }}
                             />
 
@@ -140,7 +143,7 @@ const PersonalInfo = ({
                             type="text"
                             placeholder="ex: Enrile"
                             onChange={(e) =>{
-                                const val = e.target.value.replace(/[^a-z, /s, \u00f1, \u00d1, \., \-]/gi, '');
+                                const val = e.target.value.replace(/[^a-z, /s, /u00f1, /u00d1, /., /-]/gi, '');
 
                                 setConsumerLastName(val);
                                 if(val.length>1){setErrConsumerLastName(false)}
@@ -255,10 +258,10 @@ const PersonalInfo = ({
                             type="text"
                             placeholder="ex: Juan"
                             onChange={(e) =>{
-                                const val = e.target.value.replace(/[^a-z, /s, \u00f1, \u00d1, \., \-]/gi, '');
+                                const val = e.target.value.replace(/[^a-z, /s, /u00f1, /u00d1, /., /-]/gi, '');
 
                                 setConsumerSpouse(val);
-                                if(val.length>1||val.length==0){setErrConsumerSpouse(false)}
+                                if(val.length>1||val.length===0){setErrConsumerSpouse(false)}
                             }}
                             style={style.textfield}
                             value={consumerSpouse}

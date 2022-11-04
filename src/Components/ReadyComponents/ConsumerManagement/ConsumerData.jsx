@@ -1,5 +1,5 @@
-import { Box, Paper } from "@mui/material";
-import { height } from "@mui/system";
+import { Box, Paper,  Snackbar, Alert  } from "@mui/material";
+import moment from "moment/moment";
 
 const ConsumerData = ({consumerInfo}) => {
     const styles = {
@@ -25,7 +25,6 @@ const ConsumerData = ({consumerInfo}) => {
             color:"rgb(15,94,156)",
             fontSize:22
         }
-
     }
     return (  
         <Box style={styles.container}>
@@ -45,6 +44,7 @@ const ConsumerData = ({consumerInfo}) => {
                 <p style={styles.textStyle}><strong>BRAND:</strong> {`${consumerInfo.brand}`}</p>
                 <p style={styles.textStyle}><strong>SERIAL NO:</strong> {`${consumerInfo.serial_no}`}</p>
                 <p style={styles.textStyle}><strong>FIRST READING:</strong> {`${consumerInfo.first_reading}`}</p>
+                <p style={styles.textStyle}><strong>REGISTRATION DATE:</strong> {`${moment.utc(consumerInfo.date).format('MM/DD/YYYY')}`}</p>
             </Box>
             <Paper style={styles.subcontainer2}>
 

@@ -5,6 +5,7 @@ const useFetch = (url, actualId)=> {
     const [data, setData] = useState(null);
     const [isPending, setIsPending] = useState(true)
     const [error, setError] = useState(null)
+    const [reload, setReload] = useState(false)
 
     useEffect(()=>{
         setTimeout(()=>{
@@ -27,8 +28,10 @@ const useFetch = (url, actualId)=> {
           })
         },1000)
 
-      },[])
-    return {data, isPending, error};
+      },[reload])
+
+      
+    return {data, isPending, error, reload, setReload};
 }
  
 export default useFetch;

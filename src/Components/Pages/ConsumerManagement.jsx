@@ -6,7 +6,7 @@ import AutoComplete from '../ReadyComponents/CAutoComplete'
 import SelectLabels from '../ReadyComponents/CSelectLabel';
 import AddPopup from '../ReadyComponents/ConsumerManagement/AddNewPopUp';
 import ConsumerPopUp from '../ReadyComponents/ConsumerManagement/ConsumerPopUp'
-import { Button, TextField } from '@mui/material';
+import { Button, TextField, Snackbar, Alert } from '@mui/material';
 import { useState } from 'react';
 import React from 'react';
 import AddConsumer from '../ReadyComponents/ConsumerManagement/AddConsumer';
@@ -23,7 +23,18 @@ const ConsumerManagement = ({Utilities, result}) => {
   const [barangay, setBarangay] = useState("");
   const [name, setName] = useState("");
 
-  console.log(new Date("2022-10-17T16:00:00.000Z"))
+  const [alert, setAlert] = useState(false)
+  const [alertType, setAlertType] = useState("warning")
+  const [alertText, setAlertText] = useState("")
+
+  const handleAlertClose = (event, reason) => {
+    if (reason === 'clickaway') {
+    return;
+    setAlert(false)
+    }
+
+        setAlert(false);
+    }
 
     return ( 
         <div className="consumerManagement">
@@ -59,7 +70,7 @@ const ConsumerManagement = ({Utilities, result}) => {
             <Button 
             variant="outlined" 
             style={{width:200}}
-            onClick={()=> {setOpenPopup(true)}}
+            onClick={()=> {setOpenPopup(true); setConsumerInfo({})}}
             >
               <PersonAddAltRoundedIcon
               sx={{ marginRight:1}}
@@ -82,12 +93,17 @@ const ConsumerManagement = ({Utilities, result}) => {
              openPopup={openPopup}
              setOpenPopup={setOpenPopup}
              maxWidth={"lg"}
+             consumerInfo={consumerInfo}
              >
                <AddConsumer 
                setOpenPopup={setOpenPopup}
                Utilities={Utilities}
                result={result}
                consumerInfo={consumerInfo}
+               setConsumerInfo={setConsumerInfo}
+               setAlert={setAlert}
+               setAlertText={setAlertText}
+               setAlertType={setAlertType}
                />
            </AddPopup>
 
@@ -107,6 +123,15 @@ const ConsumerManagement = ({Utilities, result}) => {
               consumerInfo={consumerInfo}
               />
           </ConsumerPopUp>
+
+
+          <Snackbar open={alert} autoHideDuration={6000} onClose={handleAlertClose} >
+                    <Alert
+                    onClose={handleAlertClose}  
+                    severity={alertType} sx={{ width: '100%' }}>
+                    {alertText}
+                    </Alert>
+                </Snackbar>
            
            </div>
         </div>
