@@ -2,6 +2,18 @@ import { Box, Card, Typography } from '@mui/material';
 import '../../Styles/PageStyles/home.css'
 const Home = ({result}) => {
     const { data:consumer, isPending, error } = result
+    
+    let disconnectedCon = consumer ? consumer.filter((con)=>
+        con.connected === false
+    ):[]
+    console.log(disconnectedCon)
+    
+    let delinquentCon = consumer ? consumer.filter((con)=>
+        con.delinquent === true
+    ):[]
+    console.log(delinquentCon)
+    
+
     const styles = {
         home:{
             color:"grey"
@@ -84,7 +96,7 @@ const Home = ({result}) => {
                                 Delinquent Consumer/s:
                             </Typography>
                             <Typography gutterBottom fontWeight={"bold"} fontSize={styles.boxFont.fontSize} sx={{color:styles.boxFont.color}}>
-                                {consumer && "1"}
+                                {consumer && delinquentCon.length}
                                 {isPending && <span style={styles.isPending}>...</span>}
                                 {error && <span style={styles.error}>err</span>}
                             </Typography>
@@ -94,7 +106,7 @@ const Home = ({result}) => {
                                 Disconnected Consumer/s:
                             </Typography>
                             <Typography gutterBottom fontWeight={"bold"} fontSize={styles.boxFont.fontSize} sx={{color:styles.boxFont.color}}>
-                                {consumer && "2"}
+                                {consumer && disconnectedCon.length}
                                 {isPending && <span style={styles.isPending}>...</span>}
                                 {error && <span style={styles.error}>err</span>}
                             </Typography>

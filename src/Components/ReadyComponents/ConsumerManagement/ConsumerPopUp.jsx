@@ -10,10 +10,11 @@ const ConsumerPopup = ({title, children, consumerPopUp, maxWidth, setConsumerPop
       padding:"0px 10px 0px 20px",
       display:"flex",
       justifyContent:"space-between",
-      backgroundColor:"rgb(230, 235, 239)"
+      backgroundColor:"rgb(15,94,156)"
     },
     typography:{
-      margin:"0"
+      margin:"0",
+      color:"white"
     },
     box:{
       display:"flex",
@@ -33,8 +34,8 @@ const ConsumerPopup = ({title, children, consumerPopUp, maxWidth, setConsumerPop
             {consumerInfo.id? consumerInfo.id : "none"} 
         </Typography>
         <Box style={styles.box}>
-          <Button color="warning" aria-label="edit" onClick={()=> setOpenPopup(true)}><EditIcon sx={{fontSize:30, color:"warning", margin:"0 5px"}}/></Button>
-          <Button color="error" aria-label="exit" onClick={()=>{ setConsumerPopup(false)}}><DisabledByDefaultIcon sx={{fontSize:30, color:"error", margin:"0 5px" }} /></Button>
+          <Button color="warning" aria-label="edit" onClick={()=> setOpenPopup(true)}><EditIcon sx={{fontSize:35, color:"orange", margin:"0 5px"}}/></Button>
+          <Button color="error" aria-label="exit" onClick={()=>{ setConsumerPopup(false)}}><DisabledByDefaultIcon sx={{fontSize:35, color:"rgb(255, 59, 59)", margin:"0 5px" }} /></Button>
           
         </Box>
       </DialogTitle>

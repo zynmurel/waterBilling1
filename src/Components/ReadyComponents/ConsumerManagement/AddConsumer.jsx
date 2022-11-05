@@ -60,15 +60,7 @@ const AddConsumer = ({Utilities, result, setOpenPopup, consumerInfo, setConsumer
 
     const [ consumerWaterRegDate, setConsumerWaterRegDate ]= useState(dataIsOn? consumerInfo.date :"")
     const [ errConsumerWaterRegDate, setErrConsumerWaterRegDate ] = useState(false)
-    const handleAlertClose = (event, reason) => {
-        if (reason === 'clickaway') {
-        return;
-        setAlert(false)
-        }
-
-            setAlert(false);
-        }
- 
+   
     const handleSubmit = (e) =>{
         setAlertType("warning")
         e.preventDefault()
@@ -200,9 +192,8 @@ const AddConsumer = ({Utilities, result, setOpenPopup, consumerInfo, setConsumer
                     first_reading: consumerWaterFirstReading,
                     serial_no: consumerWaterSerial,
                     brand: consumerWaterBrand,
-                    IsActive:true,
-                    archive:false,
                     date: consumerWaterRegDate,
+                    delinquent:false,
                     connected:true,
                     archive:false
                 }
@@ -223,7 +214,6 @@ const AddConsumer = ({Utilities, result, setOpenPopup, consumerInfo, setConsumer
                         setAlertType("success")
                 })
                 }else{
-                    console.log("maui")
                     const requestOptions = {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },

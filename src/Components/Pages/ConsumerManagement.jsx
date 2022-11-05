@@ -15,7 +15,7 @@ import SearchIcon from '@mui/icons-material/Search';
 
 
 
-const ConsumerManagement = ({Utilities, result}) => {
+const ConsumerManagement = ({Utilities, result, month}) => {
   const [page, setPage] = useState(0);
   const [openPopup, setOpenPopup] = useState(false)
   const [consumerPopUp, setConsumerPopup] = useState(false)
@@ -31,7 +31,6 @@ const ConsumerManagement = ({Utilities, result}) => {
   const handleAlertClose = (event, reason) => {
     if (reason === 'clickaway') {
     return;
-    setAlert(false)
     }
 
         setAlert(false);
@@ -130,7 +129,9 @@ const ConsumerManagement = ({Utilities, result}) => {
               Utilities={Utilities}
               result={result}
               consumerInfo={consumerInfo}
+              month={month}
               />
+
           </ConsumerPopUp>
 
 

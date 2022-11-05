@@ -16,6 +16,7 @@ import { useState } from 'react';
 function App() {
   const result= useFetch("http://localhost:8000/Consumers");
   const Utilities = useFetch("http://localhost:8000/Utilities");
+  const month= ["January","February","March","April","May","June","July","August","September","October","November","December"];
   return (
     <div className="adminpage">
       <Router>
@@ -32,7 +33,9 @@ function App() {
           <Route path="/consumerManagement" element={
           <ConsumerManagement 
           result={result} 
-          Utilities={Utilities} />}></Route> 
+          Utilities={Utilities}
+          month={month}
+           />}></Route> 
 
           <Route path="/inquire" element={<Inquire
           result={result} 
