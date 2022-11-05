@@ -1,5 +1,4 @@
 import { Box, Card, Typography } from '@mui/material';
-import { style } from '@mui/system';
 import '../../Styles/PageStyles/home.css'
 const Home = ({result}) => {
     const { data:consumer, isPending, error } = result
@@ -39,13 +38,13 @@ const Home = ({result}) => {
             width:600,
         },
         text1:{
-            fontSize:110, 
+            fontSize:100, 
             margin:0, 
             color:"rgb(15,94,156)",
             margin:" -25px 0 0 0"
         },
         text2:{
-            fontSize:70, 
+            fontSize:60, 
             margin:" -25px 0 5px 0"
         },
         boxFont:{

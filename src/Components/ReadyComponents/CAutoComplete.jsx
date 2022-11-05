@@ -8,7 +8,7 @@ export default function ComboBox({width, label, Utilities, barangay, setBarangay
     <Autocomplete
       disablePortal
       ListboxProps={{ style: { maxHeight: autoComHeight }, position: "top-start" }}
-      disabled={error? true:false}
+      disabled={error || isPending}
       id="combo-box-demo"
       options={res? res[label] : []}
       sx={{ width: width }}

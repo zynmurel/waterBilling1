@@ -33,8 +33,8 @@ const ConsumerPopup = ({title, children, consumerPopUp, maxWidth, setConsumerPop
             {consumerInfo.id? consumerInfo.id : "none"} 
         </Typography>
         <Box style={styles.box}>
-          <IconButton color="warning" aria-label="edit" onClick={()=> setOpenPopup(true)}><EditIcon sx={{fontSize:30, color:"warning", margin:"0 5px"}}/></IconButton>
-          <IconButton color="error" aria-label="exit" onClick={()=>{ setConsumerPopup(false)}}><DisabledByDefaultIcon sx={{fontSize:30, color:"error", margin:"0 5px" }} /></IconButton>
+          <Button color="warning" aria-label="edit" onClick={()=> setOpenPopup(true)}><EditIcon sx={{fontSize:30, color:"warning", margin:"0 5px"}}/></Button>
+          <Button color="error" aria-label="exit" onClick={()=>{ setConsumerPopup(false)}}><DisabledByDefaultIcon sx={{fontSize:30, color:"error", margin:"0 5px" }} /></Button>
           
         </Box>
       </DialogTitle>

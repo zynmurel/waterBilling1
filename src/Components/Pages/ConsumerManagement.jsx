@@ -6,11 +6,12 @@ import AutoComplete from '../ReadyComponents/CAutoComplete'
 import SelectLabels from '../ReadyComponents/CSelectLabel';
 import AddPopup from '../ReadyComponents/ConsumerManagement/AddNewPopUp';
 import ConsumerPopUp from '../ReadyComponents/ConsumerManagement/ConsumerPopUp'
-import { Button, TextField, Snackbar, Alert } from '@mui/material';
 import { useState } from 'react';
 import React from 'react';
 import AddConsumer from '../ReadyComponents/ConsumerManagement/AddConsumer';
 import ConsumerData from '../ReadyComponents/ConsumerManagement/ConsumerData';
+import { Button, TextField, Snackbar, Alert, InputAdornment } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
 
 
@@ -42,11 +43,19 @@ const ConsumerManagement = ({Utilities, result}) => {
            <div className="searchAddBar">
             <TextField 
               id="outlined-basic" 
-              label="Search Consumer Number/Name" 
+              label={"Search ID Number/Name" }
+              InputProps= {{
+              endAdornment: (
+                  <InputAdornment position="end">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
               variant="outlined" 
               style={{width:450}}
               onChange={(e)=>{setName(e.target.value); setPage(0)}}
               />
+
             <AutoComplete  
             width={300} 
             label={'Barangay'} 

@@ -34,7 +34,10 @@ function App() {
           result={result} 
           Utilities={Utilities} />}></Route> 
 
-          <Route path="/inquire" element={<Inquire/>}></Route> 
+          <Route path="/inquire" element={<Inquire
+          result={result} 
+          Utilities={Utilities}
+          />}></Route> 
 
           <Route path="/meterReading" element={<MeterReading/>}></Route> 
 

@@ -202,8 +202,9 @@ const AddConsumer = ({Utilities, result, setOpenPopup, consumerInfo, setConsumer
                     brand: consumerWaterBrand,
                     IsActive:true,
                     archive:false,
-                    date: consumerWaterRegDate
-
+                    date: consumerWaterRegDate,
+                    connected:true,
+                    archive:false
                 }
 
                 setButtonPending(true)
