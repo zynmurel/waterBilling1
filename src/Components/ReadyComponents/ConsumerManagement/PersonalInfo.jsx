@@ -2,9 +2,11 @@ import { Paper, Box, FormControl, InputLabel, MenuItem, Select, TextField, Typog
 import { NumericFormat, PatternFormat } from 'react-number-format';
 const PersonalInfo = ({
     style, 
-    Utilities, 
-    result, 
     consumerInfo,
+    barangayData, 
+    purokData, 
+    genderData, 
+    civil_statusData,
 
     consumerNum, 
     setConsumerNum,
@@ -66,7 +68,16 @@ const PersonalInfo = ({
     errConsumerHousehold, 
     setErrConsumerHousehold,
 }) => {
-    const {data:uti, utiIsPending, utiError}= Utilities
+    const {data:barData, barIsPending, barError}= barangayData
+    const {data:purData, purIsPending, purError}= purokData
+    const {data:genData, genIsPending, genError}= genderData
+    const {data:csData, csIsPending, csError}= civil_statusData
+
+    const allbarangay = []
+    barData && barData.map((b)=>{
+        allbarangay.push(b.barangay)
+    })
+
     const dataIsOn = Object.keys(consumerInfo).length!==0
 
 
@@ -196,8 +207,8 @@ const PersonalInfo = ({
                                 value={consumerGender}
                                 required
                                 >{
-                                    uti && uti.gender.map((gen)=>(
-                                        <MenuItem value={gen} key={gen}>{gen}</MenuItem>
+                                    genData && genData.map((gen)=>(
+                                        <MenuItem value={gen.gender} key={gen.id}>{gen.gender}</MenuItem>
                                     ))
                                 }
                                 </Select>
@@ -244,8 +255,8 @@ const PersonalInfo = ({
                                 value={consumerCivilStatus}
                                 required
                                 >{
-                                    uti && uti.civil_status.map((gen)=>(
-                                        <MenuItem value={gen} key={gen}>{gen}</MenuItem>
+                                    csData && csData.map((cs)=>(
+                                        <MenuItem value={cs.civil_status} key={cs.id}>{cs.civil_status}</MenuItem>
                                     ))
                                 }
                                 </Select>
@@ -277,7 +288,7 @@ const PersonalInfo = ({
                                 if(val){setErrConsumerBarangay(false)}
                             }}
                             value={consumerBarangay}
-                            options={uti?uti["Barangay"]:[]}
+                            options={barData? allbarangay:[]}
                             renderInput={(params) => (
                                 <TextField
                                 error={errConsumerBarangay}
@@ -308,8 +319,8 @@ const PersonalInfo = ({
                                 value={consumerPurok}
                                 required
                                 >{
-                                    uti && uti.Purok.map((gen)=>(
-                                        <MenuItem value={gen} key={gen}>{gen}</MenuItem>
+                                    purData && purData.map((gen)=>(
+                                        <MenuItem value={gen.purok} key={gen.id}>{gen.purok}</MenuItem>
                                     ))
                                 }
                                 </Select>

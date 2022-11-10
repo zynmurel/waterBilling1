@@ -5,7 +5,7 @@ import { createFilterOptions } from '@mui/material';
 import { useState } from 'react';
 
 const Inquire = ({result}) => {
-    const { data:consumer, isPending, error } = result
+    const { data:consumer, isPending, error, readingsBillings } = result
 
     const [ searchedConsumer, setSearchedConsumer ] = useState("")
 

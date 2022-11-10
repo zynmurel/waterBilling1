@@ -4,7 +4,7 @@ import PersonalInfo from "./PersonalInfo";
 import WaterInfo from "./WaterInfo";
 import { useState } from "react";
 
-const AddConsumer = ({Utilities, result, setOpenPopup, consumerInfo, setConsumerInfo, setAlertUpdate, setAlert, setAlertText, setAlertType}) => {
+const AddConsumer = ({barangayData, purokData, brandData, genderData, civil_statusData, usage_typeData, result, setOpenPopup, consumerInfo, setConsumerInfo, setAlertUpdate, setAlert, setAlertText, setAlertType}) => {
     const dataIsOn = Object.keys(consumerInfo).length!==0
     const {data:consumer, conIsPending, conError, reload, setReload}= result
 
@@ -213,6 +213,13 @@ const AddConsumer = ({Utilities, result, setOpenPopup, consumerInfo, setConsumer
                         setAlertText("Consumer Added!")
                         setAlertType("success")
                 })
+                .catch(err=> {
+                    setOpenPopup(true)
+                    setButtonPending(true)
+                    setAlert(true)
+                    setAlertText(err)
+                    setAlertType("error")
+                })
                 }else{
                     const requestOptions = {
                         method: 'PUT',
@@ -229,10 +236,19 @@ const AddConsumer = ({Utilities, result, setOpenPopup, consumerInfo, setConsumer
                             setAlert(true)
                             setAlertText("Consumer Updated!")
                             setAlertType("success")
-                        });
+                        })
+                        .catch(err=> {
+                            console.log(err.message)
+                            setOpenPopup(false)
+                            setButtonPending(false)
+                            setAlert(true)
+                            setAlertText(err.message)
+                            setAlertType("error")
+                        })
                 }
             }}
     }
+
     const style={
         form:{
             display:"flex", 
@@ -261,7 +277,10 @@ const AddConsumer = ({Utilities, result, setOpenPopup, consumerInfo, setConsumer
                     <PersonalInfo
                     style={style}
                     result={result}
-                    Utilities={Utilities}
+                    barangayData={barangayData}
+                    purokData={purokData}
+                    genderData={genderData}
+                    civil_statusData={civil_statusData}
                     consumerInfo={consumerInfo}
 
                     setAlert={setAlert}
@@ -331,7 +350,8 @@ const AddConsumer = ({Utilities, result, setOpenPopup, consumerInfo, setConsumer
                 <Box style={{display:"flex", flexDirection:"column", flex:1}}>
                     <WaterInfo 
                     style={style}
-                    Utilities={Utilities}
+                    brandData={brandData}
+                    usage_typeData={usage_typeData}
 
                     consumerWaterType={consumerWaterType}
                     setConsumerWaterType={setConsumerWaterType}

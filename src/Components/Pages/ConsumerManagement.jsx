@@ -15,7 +15,7 @@ import SearchIcon from '@mui/icons-material/Search';
 
 
 
-const ConsumerManagement = ({Utilities, result, month}) => {
+const ConsumerManagement = ({barangayData, purokData, genderData, civil_statusData, usage_typeData, brandData, result, month}) => {
   const [page, setPage] = useState(0);
   const [openPopup, setOpenPopup] = useState(false)
   const [consumerPopUp, setConsumerPopup] = useState(false)
@@ -58,8 +58,7 @@ const ConsumerManagement = ({Utilities, result, month}) => {
             <AutoComplete  
             width={300} 
             label={'Barangay'} 
-            Utilities={Utilities} 
-            barangay={barangay} 
+            barangayData={barangayData} 
             setBarangay={setBarangay}
             setPurok={setPurok}
             setPage={setPage}
@@ -69,10 +68,10 @@ const ConsumerManagement = ({Utilities, result, month}) => {
             minWidth={100} 
             m={0} 
             label={'Purok'} 
-            Utilities={Utilities} 
+            purokData={purokData}
+            barangay={barangay}
             purok={purok} 
             setPurok={setPurok} 
-            barangay={barangay}
             setPage={setPage}/>
 
             <Button 
@@ -105,7 +104,12 @@ const ConsumerManagement = ({Utilities, result, month}) => {
              >
                <AddConsumer 
                setOpenPopup={setOpenPopup}
-               Utilities={Utilities}
+               barangayData={barangayData}
+               purokData={purokData}
+               brandData={brandData}
+               genderData={genderData}
+               civil_statusData={civil_statusData}
+               usage_typeData={usage_typeData}
                result={result}
                consumerInfo={consumerInfo}
                setConsumerInfo={setConsumerInfo}
@@ -126,7 +130,7 @@ const ConsumerManagement = ({Utilities, result, month}) => {
             >
               <ConsumerData 
               setConsumerPopup={setConsumerPopup}
-              Utilities={Utilities}
+              barangayData={barangayData} 
               result={result}
               consumerInfo={consumerInfo}
               month={month}

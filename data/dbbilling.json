@@ -1,0 +1,55 @@
+{
+  "consumer":[
+    {
+      "id": 10001,
+      "first_name": "Peggy",
+      "last_name": "Thunder",
+      "middle_name": "Andreassen",
+      "phone": "",
+      "gender": "Male",
+      "age": 23,
+      "barangay": "Hanopol Norte",
+      "barangayId": "10002",
+      "purok": 6,
+      "household_no": "2221",
+      "civil_status": "Married",
+      "name_of_spouse": "Peggy Thunder",
+      "usage_type": "Commercial",
+      "first_reading": 1,
+      "serial_no": "7",
+      "brand": "Brand",
+      "date": "2022-10-12T16:00:00.000Z",
+      "delinquent": false,
+      "connected": true,
+      "archive": false
+    },
+    {
+      "id": 10002,
+      "first_name": "Mimimo",
+      "last_name": "Hartrick",
+      "middle_name": "Heinish",
+      "phone": "95578570809",
+      "gender": "Male",
+      "age": 23,
+      "barangay": "Cabad",
+      "barangayId": "10001",
+      "purok": 2,
+      "household_no": "80",
+      "civil_status": "Married",
+      "name_of_spouse": "Mimi Hartrick",
+      "usage_type": "Commercial",
+      "first_reading": 2,
+      "serial_no": "33858",
+      "brand": "Brand",
+      "date": "2022-11-22T16:00:00.000Z",
+      "delinquent": false,
+      "connected": true,
+      "archive": false
+    }
+  ],
+  "barangay":[
+    {
+      "id":"10002",
+      "barangay":"Baucan Norte"
+    }]
+}

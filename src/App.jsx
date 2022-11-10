@@ -11,11 +11,16 @@ import Help from './Components/Pages/Help';
 import Reports from './Components/Pages/Reports';
 import NotFound from './Components/Pages/NotFound';
 import useFetch from './Hook/useFetch';
-import { useState } from 'react';
 
 function App() {
   const result= useFetch("http://localhost:8000/Consumers");
-  const Utilities = useFetch("http://localhost:8000/Utilities");
+  const barangayData = useFetch("http://localhost:8000/barangay");
+  const purokData = useFetch("http://localhost:8000/purok");
+  const brandData = useFetch("http://localhost:8000/brand");
+  const usage_typeData = useFetch("http://localhost:8000/usage_type");
+  const civil_statusData = useFetch("http://localhost:8000/civil_status");
+  const genderData = useFetch("http://localhost:8000/gender");
+
   const month= ["January","February","March","April","May","June","July","August","September","October","November","December"];
   return (
     <div className="adminpage">
@@ -33,13 +38,17 @@ function App() {
           <Route path="/consumerManagement" element={
           <ConsumerManagement 
           result={result} 
-          Utilities={Utilities}
+          barangayData={barangayData}
+          purokData={purokData}
+          brandData={brandData}
+          genderData={genderData}
+          civil_statusData={civil_statusData}
+          usage_typeData={usage_typeData}
           month={month}
            />}></Route> 
 
           <Route path="/inquire" element={<Inquire
           result={result} 
-          Utilities={Utilities}
           />}></Route> 
 
           <Route path="/meterReading" element={<MeterReading/>}></Route> 

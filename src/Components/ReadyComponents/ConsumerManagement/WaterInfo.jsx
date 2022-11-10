@@ -4,8 +4,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 const WaterInfo = ({
-    style, 
-    Utilities,
+    style,  
+    usage_typeData, 
+    brandData,
 
     consumerWaterType, 
     setConsumerWaterType,
@@ -33,10 +34,25 @@ const WaterInfo = ({
     setErrConsumerWaterRegDate,
 
 }) => {
-    const {data:uti, isPending, error}= Utilities
     const onKeyDown = (e) => {
         e.preventDefault();
      };
+
+     const {data:braData, barIsPending, barError}= brandData
+     const {data:usageData, purIsPending, purError}= usage_typeData
+ 
+     const allbrand = []
+     const allusage_type = []
+ 
+     braData && braData.map((r) => {
+       allbrand.push(r.barangay)
+     } )
+ 
+     usageData && usageData.map((r) => {
+         allusage_type.push(r.purok)
+       } )
+
+       
     return ( 
         <Paper style={{marginBottom:10 ,flex:6,...style.paper }}>
                     <Typography variant="h7" gutterBottom fontWeight={"bold"} style={style.typography}>
@@ -63,8 +79,8 @@ const WaterInfo = ({
                                 value={consumerWaterType}
                                 required
                                 >{
-                                    uti && uti.usage_type.map((ut)=>(
-                                        <MenuItem value={ut} key={ut}>{ut}</MenuItem>
+                                    usageData && usageData.map((ut)=>(
+                                        <MenuItem value={ut.usage_type} key={ut.id}>{ut.usage_type}</MenuItem>
                                     ))
                                 }
                                 </Select>
@@ -90,8 +106,8 @@ const WaterInfo = ({
                                     value={consumerWaterBrand}
                                     required
                                     >{
-                                        uti && uti.brand.map((br)=>(
-                                            <MenuItem value={br} key={br}>{br}</MenuItem>
+                                        braData && braData.map((br)=>(
+                                            <MenuItem value={br.brand} key={br.id}>{br.brand}</MenuItem>
                                         ))
                                     }
                                     </Select>
