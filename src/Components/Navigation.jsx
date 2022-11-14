@@ -1,70 +1,78 @@
 import '../Styles/navigation.css'
 import {NavLink } from 'react-router-dom';
+import HomeIcon from '@mui/icons-material/Home';
+import GroupIcon from '@mui/icons-material/Group';
+import PaymentsIcon from '@mui/icons-material/Payments';
+import ChromeReaderModeIcon from '@mui/icons-material/ChromeReaderMode';
+import AssessmentIcon from '@mui/icons-material/Assessment';
+import EngineeringIcon from '@mui/icons-material/Engineering';
+import HelpCenterIcon from '@mui/icons-material/HelpCenter';
 const Navigation = () => {
-  const activeStyle = {background:'linear-gradient(to right,rgb(0, 43, 80) 20%, rgb(17, 99, 170))',color:"white"}
+  const activeStyle = {backgroundColor:'rgb(0, 43, 80)',color:"white",}
+  const styles = { display:"flex", alignItems:"center", flexDirection:"row"}
     return ( 
         <div className="navigation">
         <NavLink
         to="/home"
         style={({ isActive }) =>
-          isActive ? activeStyle: undefined
+        isActive ? {...activeStyle, ...styles}: styles
         }
       >
-        HOME
+        <HomeIcon />&nbsp;HOME
       </NavLink>
 
             <NavLink
             to="/consumerManagement"
             style={({ isActive }) =>
-              isActive ? activeStyle: undefined
+              isActive ? {...activeStyle, ...styles}: styles
             }
           > 
-            CONSUMER MANAGEMENT
+           <GroupIcon />&nbsp; CONSUMER MANAGEMENT
           </NavLink>
 
             <NavLink
             to="/inquire"
             style={({ isActive }) =>
-              isActive ? activeStyle : undefined
+            isActive ? {...activeStyle, ...styles}: styles
             }
           >
-            INQUIRE
+           <PaymentsIcon/>&nbsp; INQUIRE
           </NavLink>
 
           <NavLink
             to="/meterReading"
             style={({ isActive }) =>
-              isActive ? activeStyle : undefined
+            isActive ? {...activeStyle, ...styles}: styles
             }
           >
-            METER READING
+            <ChromeReaderModeIcon/>&nbsp; METER READING
           </NavLink>
 
           <NavLink
             to="/reports"
             style={({ isActive }) =>
-              isActive ? activeStyle : undefined
+            isActive ? {...activeStyle, ...styles}: styles
             }
           >
-            REPORTS
+            <AssessmentIcon/>&nbsp;REPORTS
           </NavLink>
 
           <NavLink
             to="/systemMaintenance"
             style={({ isActive }) =>
-              isActive ? activeStyle : undefined
+            isActive ? {...activeStyle, ...styles}: styles
             }
           >
-            SYSTEM MAINTENANCE
+            <EngineeringIcon/>&nbsp;SYSTEM MAINTENANCE
           </NavLink>
 
           <NavLink
             to="/help"
             style={({ isActive }) =>
-              isActive ? activeStyle : undefined
+            isActive ? {...activeStyle, ...styles}: styles
             }
           >
-            HELP
+            <HelpCenterIcon/>&nbsp;HELP
           </NavLink>
           
         </div>

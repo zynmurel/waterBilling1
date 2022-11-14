@@ -20,15 +20,18 @@ function App() {
   const usage_typeData = useFetch("http://localhost:8000/usage_type");
   const civil_statusData = useFetch("http://localhost:8000/civil_status");
   const genderData = useFetch("http://localhost:8000/gender");
+  const reading = useFetch("http://localhost:8000/reading");
+  const billing = useFetch("http://localhost:8000/billing");
 
   const month= ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  const year= ["2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022"];
   return (
     <div className="adminpage">
       <Router>
       <Header/>
       <div className="body1">
         <Navigation/>  
-        <div className='routes'>
+        <div className='routes' >
         <Routes>  
           <Route path="/home" element={
           <Home
@@ -45,13 +48,26 @@ function App() {
           civil_statusData={civil_statusData}
           usage_typeData={usage_typeData}
           month={month}
+          reading={reading}
+          billing={billing}
            />}></Route> 
 
           <Route path="/inquire" element={<Inquire
           result={result} 
+          month={month}
+          reading={reading}
+          billing={billing}
           />}></Route> 
 
-          <Route path="/meterReading" element={<MeterReading/>}></Route> 
+          <Route path="/meterReading" element={
+          <MeterReading
+          barangayData={barangayData}
+          purokData={purokData}
+          month={month}
+          year={year}
+          result={result} 
+          reading={reading}
+          />}></Route> 
 
           <Route path="/reports" element={<Reports/>}></Route> 
 

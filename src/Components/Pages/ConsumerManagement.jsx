@@ -15,7 +15,19 @@ import SearchIcon from '@mui/icons-material/Search';
 
 
 
-const ConsumerManagement = ({barangayData, purokData, genderData, civil_statusData, usage_typeData, brandData, result, month}) => {
+const ConsumerManagement = ({
+  barangayData, 
+  purokData, 
+  genderData, 
+  civil_statusData, 
+  usage_typeData, 
+  brandData, 
+  result, 
+  month, 
+  reading, 
+  billing
+}) => {
+  
   const [page, setPage] = useState(0);
   const [openPopup, setOpenPopup] = useState(false)
   const [consumerPopUp, setConsumerPopup] = useState(false)
@@ -28,6 +40,11 @@ const ConsumerManagement = ({barangayData, purokData, genderData, civil_statusDa
   const [alertType, setAlertType] = useState("warning")
   const [alertText, setAlertText] = useState("")
 
+  const {data:readings, isPending:rbIsPending, error:rbError}= reading
+  const {data:billings, isPending:billIsPending, error:billError}= billing
+  const {data:consumer, isPending:conIsPending, error:conError, reload, setReload}= result
+
+  //StickyBar()
   const handleAlertClose = (event, reason) => {
     if (reason === 'clickaway') {
     return;
@@ -35,6 +52,35 @@ const ConsumerManagement = ({barangayData, purokData, genderData, civil_statusDa
 
         setAlert(false);
     }
+
+    //Autocomple - Barangay
+    const { data:barData, barIsPending, barError } = barangayData
+    const allbarangay = []
+    barData && barData.map((r) => {
+      allbarangay.push(r.barangay)
+    } )
+
+    //Autocomple - Purok
+    const { data:purData, isPending:purIsPending, error:purError } = purokData;
+    const allpurok = []
+    purData && purData.map((r) => {
+      allpurok.push(r.purok)
+    })
+  
+    //StickyTable
+    const bCon = consumer&& barangay && purok? consumer.filter((c)=> c.barangay === barangay && (c.purok === purok || purok ===7)):consumer
+    const newCon = bCon? bCon.filter((c)=> `${c.first_name.toLowerCase()} ${c.middle_name.toLowerCase()} ${c.last_name.toLowerCase()}`.includes(name.toLowerCase())||`${c.id}`.includes(name)) : bCon
+    const columns = [
+      { id: 'id', label: 'Consumer #', minWidth: 120 },
+      { id: 'name', label: 'Name', minWidth: 500 },
+      { id: 'barangay', label: 'Barangay', minWidth: 200 },
+      {
+        id: 'purok',
+        label: 'Purok',
+        minWidth: 100,
+        align: 'center',
+      }
+    ];
 
     return ( 
         <div className="consumerManagement">
@@ -58,23 +104,29 @@ const ConsumerManagement = ({barangayData, purokData, genderData, civil_statusDa
             <AutoComplete  
             width={300} 
             label={'Barangay'} 
-            barangayData={barangayData} 
-            setBarangay={setBarangay}
-            setPurok={setPurok}
-            setPage={setPage}
-            autoComHeight={500}/>
+            dataSetter={setBarangay}
+            buttonDisabler={setPurok}
+            pageSetter={setPage}
+            autoComHeight={500}
+            options={allbarangay}
+            isPending={barIsPending} 
+            error={barError} 
+            />
             
             <SelectLabels 
             minWidth={100} 
             m={0} 
             label={'Purok'} 
-            purokData={purokData}
+            purokData={allpurok}
+            purError={purError}
             barangay={barangay}
+            purIsPending={purIsPending}
             purok={purok} 
             setPurok={setPurok} 
             setPage={setPage}/>
 
             <Button 
+            disabled={conError?true:false || conIsPending}
             variant="outlined" 
             style={{width:200}}
             onClick={()=> {setOpenPopup(true); setConsumerInfo({})}}
@@ -85,15 +137,14 @@ const ConsumerManagement = ({barangayData, purokData, genderData, civil_statusDa
            </div>
 
            <StickyHeadTable
-           result = {result} 
-           purok={purok} 
-           name={name} 
-           barangay={barangay}
            page={page}
            setPage={setPage}
-           setOpenPopup={setOpenPopup}
            setConsumerPopup={setConsumerPopup}
            setConsumerInfo={setConsumerInfo}
+           conIsPending={conIsPending} 
+           conError={conError}
+           newCon={newCon}
+           columns={columns}
            />
 
            <AddPopup
@@ -103,6 +154,12 @@ const ConsumerManagement = ({barangayData, purokData, genderData, civil_statusDa
              consumerInfo={consumerInfo}
              >
                <AddConsumer 
+               consumer={consumer}
+               conIsPending={conIsPending}
+               conError={conError}
+               reload={reload}
+               setReload={setReload}
+
                setOpenPopup={setOpenPopup}
                barangayData={barangayData}
                purokData={purokData}
@@ -134,15 +191,20 @@ const ConsumerManagement = ({barangayData, purokData, genderData, civil_statusDa
               result={result}
               consumerInfo={consumerInfo}
               month={month}
+              readings={readings}
+              billings={billings}
+              rbIsPending={rbIsPending}
+              rbError={rbError}
               />
 
           </ConsumerPopUp>
 
 
-          <Snackbar open={alert} autoHideDuration={6000} onClose={handleAlertClose} >
+          <Snackbar open={alert} autoHideDuration={6000} onClose={handleAlertClose}>
                     <Alert
                     onClose={handleAlertClose}  
-                    severity={alertType} sx={{ width: '100%' }}>
+                    severity={alertType} sx={{ width: '100%' }}
+                    style={{zIndex:6}}>
                     {alertText}
                     </Alert>
                 </Snackbar>

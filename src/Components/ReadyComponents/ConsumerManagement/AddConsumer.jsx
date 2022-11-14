@@ -4,9 +4,29 @@ import PersonalInfo from "./PersonalInfo";
 import WaterInfo from "./WaterInfo";
 import { useState } from "react";
 
-const AddConsumer = ({barangayData, purokData, brandData, genderData, civil_statusData, usage_typeData, result, setOpenPopup, consumerInfo, setConsumerInfo, setAlertUpdate, setAlert, setAlertText, setAlertType}) => {
+const AddConsumer = ({
+    barangayData, 
+    purokData, 
+    brandData, 
+    genderData, 
+    civil_statusData, 
+    usage_typeData, 
+    result, 
+    setOpenPopup, 
+    consumerInfo, 
+    setConsumerInfo, 
+    setAlertUpdate, 
+    setAlert, 
+    setAlertText, 
+    setAlertType, 
+
+    consumer, 
+    conIsPending, 
+    conError, 
+    reload, 
+    setReload
+}) => {
     const dataIsOn = Object.keys(consumerInfo).length!==0
-    const {data:consumer, conIsPending, conError, reload, setReload}= result
 
     const [buttonPending, setButtonPending] = useState(false)
 
@@ -201,25 +221,25 @@ const AddConsumer = ({barangayData, purokData, brandData, genderData, civil_stat
                 setButtonPending(true)
                 if(!dataIsOn){
                     fetch("http://localhost:8000/Consumers",{
-                    method: 'POST',
-                    headers: { "Content-Type":"application/json" },
-                    body: JSON.stringify(data)
-                }).then(()=>{
-                        console.log(data)
-                        setOpenPopup(false)
-                        setButtonPending(false)
-                        setReload(reload? false: true)
+                        method: 'POST',
+                        headers: { "Content-Type":"application/json" },
+                        body: JSON.stringify(data)
+                    }).then(()=>{
+                            console.log(data)
+                            setOpenPopup(false)
+                            setButtonPending(false)
+                            setReload(reload? false: true)
+                            setAlert(true)
+                            setAlertText("Consumer Added!")
+                            setAlertType("success")
+                    })
+                    .catch(err=> {
+                        setOpenPopup(true)
+                        setButtonPending(true)
                         setAlert(true)
-                        setAlertText("Consumer Added!")
-                        setAlertType("success")
-                })
-                .catch(err=> {
-                    setOpenPopup(true)
-                    setButtonPending(true)
-                    setAlert(true)
-                    setAlertText(err)
-                    setAlertType("error")
-                })
+                        setAlertText(err)
+                        setAlertType("error")
+                    })
                 }else{
                     const requestOptions = {
                         method: 'PUT',

@@ -1,7 +1,15 @@
 import { Box, Paper } from "@mui/material";
 import moment from "moment/moment";
+import ReadingTable from "../CReadingTable";
 
-const ConsumerData = ({consumerInfo, month}) => {
+const ConsumerData = ({
+    consumerInfo, 
+    month, 
+    readings, 
+    billings, 
+    rbIsPending,
+    rbError
+}) => {
     const date = new Date(consumerInfo.date)
     const styles = {
         container:{
@@ -15,7 +23,17 @@ const ConsumerData = ({consumerInfo, month}) => {
         },
         subcontainer2:{
             flex:1,
-            margin:5
+            margin:5,
+            padding:"20px 5px",
+            display:"flex",
+            flexDirection:"column",
+            alignItems:"center"
+        },
+        subcontainer2_2:{
+            display:"flex",
+            flexDirection:"row",
+            justifyContent:"space-between",
+            width:400
         },
         textStyle:{
             margin:"5px 0",
@@ -28,12 +46,41 @@ const ConsumerData = ({consumerInfo, month}) => {
         },
         strong:{
             color:"rgb(15,94,156)"
+        },
+        box2_2_1:{
+            padding:"0 15px",
+            backgroundColor: consumerInfo && consumerInfo.connected?"rgb(156, 218, 32)":"rgb(242, 54, 54)",
+            color:"white",
+            borderRadius:"2px",
+            height:40,
+            display:"flex",
+            alignItems:"center",
+            justifyContent:"center"
+        },
+        box2_2_2:{
+            display:"flex",
+            alignItems:"center",
+            justifyContent:"center"
         }
     }
+    const newrb = readings? readings.filter((rb)=>{
+        return rb.consumerId==consumerInfo.id
+        }):""
+        console.log(readings)
+    const sorter = (a, b) => {
+        const ayear = new Date(a.date)
+        const byear = new Date(b.date)
+        if(byear.getFullYear() !== ayear.getFullYear()){
+        return byear.getFullYear() - ayear.getFullYear();
+        }else{
+        return byear.getMonth() - ayear.getMonth();
+        };
+    };
+    readings && newrb.sort(sorter)
     return (  
         <Box style={styles.container}>
             <Box style={styles.subcontainer1}>
-                <h2 style={{margin:0, color:"rgb(15,94,156)"}}><strong>{`${consumerInfo.first_name} ${consumerInfo.middle_name} ${consumerInfo.last_name}`.toLocaleUpperCase()}</strong> </h2>
+                <h2 style={{margin:"10px 0", color:"rgb(15,94,156)"}}><strong>{`${consumerInfo.first_name} ${consumerInfo.middle_name} ${consumerInfo.last_name}`.toLocaleUpperCase()}</strong> </h2>
                 <p style={styles.textStyle}><strong>GENDER: <span style={styles.strong}>{`${consumerInfo.gender}`}</span></strong></p>
                 <p style={styles.textStyle}><strong>AGE: <span style={styles.strong}>{`${consumerInfo.age}`}</span></strong></p>
                 <p style={styles.textStyle}><strong>PHONE: <span style={styles.strong}>{consumerInfo.phone? `${consumerInfo.phone}`:"(No Phone Number)"}</span></strong> </p>
@@ -49,7 +96,19 @@ const ConsumerData = ({consumerInfo, month}) => {
                 <p style={styles.textStyle}><strong>REGISTRATION: <span style={styles.strong}>{`${month[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`}</span></strong></p>
             </Box>
             <Paper style={styles.subcontainer2}>
-
+                <Box style={styles.subcontainer2_2}>
+                    <Box style={styles.box2_2_2}><h2 style={{margin:0}}>Billing Records</h2></Box>
+                    <Box style={styles.box2_2_1}><p style={styles.p}>{consumerInfo.connected? "Connected":"Disconnected"}</p></Box>
+                </Box>
+                <ReadingTable 
+                month={month}
+                newrb={newrb}
+                billings={billings}
+                scale={.9}
+                height={400}
+                rbIsPending={rbIsPending}
+                rbError={rbError}
+                />
             </Paper>
         </Box>
     );

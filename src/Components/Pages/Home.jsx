@@ -1,6 +1,6 @@
 import { Box, Card, Typography } from '@mui/material';
 import '../../Styles/PageStyles/home.css'
-const Home = ({result}) => {
+const Home = ({result,}) => {
     const { data:consumer, isPending, error } = result
     
     let disconnectedCon = consumer ? consumer.filter((con)=>
@@ -21,7 +21,9 @@ const Home = ({result}) => {
         container:{
             display:"flex",
             flexDirection:"column",
-            alignItems:"center"
+            alignItems:"center",
+            justifyContent:"center",
+            padding:10
         },
         box1:{
             display:"flex",
@@ -34,12 +36,10 @@ const Home = ({result}) => {
             flexDirection:"column",
             alignItems:"center",
             justifyContent:"center",
-            flex:5,
+            flex:6,
             width:800,
-            height:800,
             backgroundColor:"rgb(230, 235, 239)",
-            color:"rgb(75, 75, 75)",
-            border: "2px solid grey"
+            color:"rgb(75, 75, 75)"
         },
         box2_1:{
             display:"flex",

@@ -3,18 +3,23 @@ import '../../Styles/PageStyles/inquire.css'
 import { TextField} from '@mui/material';
 import { createFilterOptions } from '@mui/material';
 import { useState } from 'react';
+import ReadingTable from '../ReadyComponents/CReadingTable';
+import useEffect from '../../Hook/useFetch';
 
-const Inquire = ({result}) => {
-    const { data:consumer, isPending, error, readingsBillings } = result
+const Inquire = ({result, month ,reading, billing}) => {
 
+    const {data:billings, isPending:billIsPending, error:billError}= billing
+
+    const { data:consumer, isPending, error  } = result
+
+    const {data:readings, conIsPending, conError}= reading
     const [ searchedConsumer, setSearchedConsumer ] = useState("")
+    const [ searchedConsumerId, setSearchedConsumerId ] = useState("")
 
     const OPTIONS_LIMIT = 8;
     const filterOptions = createFilterOptions({
         limit: OPTIONS_LIMIT
       });
-
-    console.log(searchedConsumer? true: false)
       
 
     const styles = {
@@ -61,6 +66,13 @@ const Inquire = ({result}) => {
         box3_2:{
             width:550,
         },
+        box3_3:{
+            padding:5,
+            overflow: "hidden",
+            overflowY: "scroll",
+            height:230,
+            marginTop:20
+        },
         box3_1_1:{
             padding:"0 15px",
             backgroundColor: searchedConsumer && searchedConsumer.connected?"rgb(156, 218, 32)":"rgb(242, 54, 54)",
@@ -86,6 +98,38 @@ const Inquire = ({result}) => {
             margin:"5px 0",
         }
     }
+
+    //filter readings - only searched && paid
+    const newrb = readings? readings.filter((rb)=>{
+        let billing = billings.find((bill)=>{
+            return bill.consumerId===rb.consumerId && bill.readingId===rb.id ?  bill : undefined
+          })
+        return rb.consumerId==searchedConsumerId && billing.paid === false
+        }):""
+
+    //date sorter
+    const sorter = (a, b) => {
+        const ayear = new Date(a.date)
+        const byear = new Date(b.date)
+        if(byear.getFullYear() !== ayear.getFullYear()){
+        return byear.getFullYear() - ayear.getFullYear();
+        }else{
+        return byear.getMonth() - ayear.getMonth();
+        };
+    };
+    readings && newrb.sort(sorter)
+
+    //array of bills
+    const arrayOfBill = []
+    billings && billings.forEach((bill)=>{
+        return bill.consumerId === searchedConsumerId && bill.paid === false && arrayOfBill.push(bill.bill)
+    })
+
+    //add all bill from "arrayOfBill"
+    const sum = arrayOfBill.reduce((accumulator, value) => {
+        return accumulator + value;
+    }, 0);
+
     return ( 
             <Box className="inquire" sx={{...styles.inquire}}>
                 <Box className="container" sx={{...styles.container}}>
@@ -101,7 +145,7 @@ const Inquire = ({result}) => {
                             options={consumer? consumer: []}
                             filterOptions={filterOptions}                      
                             sx={{ width: 400 }}
-                            onChange={(event , val)=>{ setSearchedConsumer(val); console.log(val)}}
+                            onChange={(event , val)=>{ setSearchedConsumer(val); setSearchedConsumerId(val? val.id:"")}}
                             renderInput={(params) => 
                             <TextField
                             {...params} 
@@ -120,7 +164,20 @@ const Inquire = ({result}) => {
                             <Box style={styles.box3_2}>
                                 <h2 style={styles.box3text}>{`${searchedConsumer.first_name} ${searchedConsumer.middle_name} ${searchedConsumer.last_name}`}</h2>
                                 <p style={{marginLeft:"1px",...styles.box3text}}>{`${searchedConsumer.barangay}, Purok ${searchedConsumer.purok}`}</p>
+                                <strong style={{marginLeft:"1px",...styles.box3text}}>{searchedConsumer.usage_type}</strong>
                             </Box>
+                            <Box style={styles.box3_3}>
+                                <ReadingTable 
+                                month={month}
+                                newrb={newrb}
+                                billings={billings}
+                                scale={1}
+                                height={230}
+                                conIsPending={conIsPending} 
+                                conError={conError}
+                                />
+                            </Box>
+                            <h3>Total Billing: {sum}</h3>
                         </Box>:
                         <Box>
                             <h1 style={styles.h1}>SEARCH CONSUMER</h1>
