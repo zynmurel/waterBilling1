@@ -41,6 +41,6 @@ body{
   z-index: 1;
 }
 .routes{
-  flex: 3.8;
+  flex: 4;
   position: relative;
 }

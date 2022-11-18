@@ -150,7 +150,7 @@ const ConsumerManagement = ({
            <AddPopup
              openPopup={openPopup}
              setOpenPopup={setOpenPopup}
-             maxWidth={"lg"}
+             maxWidth={"md"}
              consumerInfo={consumerInfo}
              >
                <AddConsumer 

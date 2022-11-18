@@ -18,7 +18,7 @@ const Navigation = () => {
         isActive ? {...activeStyle, ...styles}: styles
         }
       >
-        <HomeIcon />&nbsp;HOME
+        <HomeIcon />&nbsp;&nbsp;&nbsp;Home
       </NavLink>
 
             <NavLink
@@ -27,7 +27,7 @@ const Navigation = () => {
               isActive ? {...activeStyle, ...styles}: styles
             }
           > 
-           <GroupIcon />&nbsp; CONSUMER MANAGEMENT
+           <GroupIcon />&nbsp;&nbsp;&nbsp; Consumer Management
           </NavLink>
 
             <NavLink
@@ -36,7 +36,7 @@ const Navigation = () => {
             isActive ? {...activeStyle, ...styles}: styles
             }
           >
-           <PaymentsIcon/>&nbsp; INQUIRE
+           <PaymentsIcon/>&nbsp;&nbsp;&nbsp; Inquire
           </NavLink>
 
           <NavLink
@@ -45,7 +45,7 @@ const Navigation = () => {
             isActive ? {...activeStyle, ...styles}: styles
             }
           >
-            <ChromeReaderModeIcon/>&nbsp; METER READING
+            <ChromeReaderModeIcon/>&nbsp;&nbsp;&nbsp; Meter Reading
           </NavLink>
 
           <NavLink
@@ -54,7 +54,7 @@ const Navigation = () => {
             isActive ? {...activeStyle, ...styles}: styles
             }
           >
-            <AssessmentIcon/>&nbsp;REPORTS
+            <AssessmentIcon/>&nbsp;&nbsp;&nbsp;Reports
           </NavLink>
 
           <NavLink
@@ -63,7 +63,7 @@ const Navigation = () => {
             isActive ? {...activeStyle, ...styles}: styles
             }
           >
-            <EngineeringIcon/>&nbsp;SYSTEM MAINTENANCE
+            <EngineeringIcon/>&nbsp;&nbsp;&nbsp;System Maintenance
           </NavLink>
 
           <NavLink
@@ -72,7 +72,7 @@ const Navigation = () => {
             isActive ? {...activeStyle, ...styles}: styles
             }
           >
-            <HelpCenterIcon/>&nbsp;HELP
+            <HelpCenterIcon/>&nbsp;&nbsp;&nbsp;Help
           </NavLink>
           
         </div>

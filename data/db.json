@@ -6410,7 +6410,7 @@
       "gender": "Female"
     }
   ],
-  "reading":[
+  "reading": [
     {
       "id": 1,
       "consumerId": 10001,
@@ -6426,7 +6426,6 @@
       "currentReading": 16,
       "totalReading": 11,
       "date": "2022-12-12T16:00:00.000Z"
-      
     },
     {
       "id": 3,
@@ -6453,7 +6452,7 @@
       "date": "2023-02-12T16:00:00.000Z"
     }
   ],
-  "billing":[
+  "billing": [
     {
       "readingId": 1,
       "consumerId": 10001,
@@ -6467,7 +6466,6 @@
       "bill": 200,
       "paid": false,
       "date": "2022-12-12T16:00:00.000Z"
-      
     },
     {
       "readingId": 3,
@@ -6489,6 +6487,14 @@
       "bill": 5320,
       "paid": false,
       "date": "2023-02-12T16:00:00.000Z"
+    }
+  ],
+  "Users":[
+    {
+      "userKey":"admin",
+      "userName":"admin",
+      "password":"admin",
+      "userType":"admin"
     }
   ]
 }
