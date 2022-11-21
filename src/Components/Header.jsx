@@ -2,8 +2,18 @@ import { Box, Button } from '@mui/material';
 import '../Styles/header.css'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import AuthUser from '../Hook/AuthUser';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
+    const navigate = useNavigate()
+    const { logout, token } = AuthUser();
+    const logoutUser = () => {
+        if(token != undefined){
+            logout();
+            navigate('/')
+        }
+    }
     const styles = {
         logodiv:{
             margin:"0 5px"
@@ -47,6 +57,11 @@ const Header = () => {
             >
             <AccountCircleIcon sx={{ fontSize: 40, ...styles.icon}}/>
             <ArrowDropDownIcon  sx={{ fontSize: 30, ...styles.icon }}/>
+            </Button>
+            <Button
+            onClick={logoutUser}
+            >
+                Logout
             </Button>
             </Box>
         </Box>
