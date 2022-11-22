@@ -1,12 +1,14 @@
-import { Box, Card, Autocomplete } from '@mui/material';
+import { Box, Card, Autocomplete, Button } from '@mui/material';
 import '../../Styles/PageStyles/inquire.css'
 import { TextField} from '@mui/material';
 import { createFilterOptions } from '@mui/material';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import ReadingTable from '../ReadyComponents/CReadingTable';
 import useEffect from '../../Hook/useFetch';
+import ReactToPrint from 'react-to-print'
 
 const Inquire = ({result, month ,reading, billing}) => {
+    const componentRef = useRef()
 
     const {data:billings, isPending:billIsPending, error:billError}= billing
 
@@ -35,6 +37,13 @@ const Inquire = ({result, month ,reading, billing}) => {
             display:"flex",
             flexDirection:"column",
             alignItems:"center",
+        },
+        box1_1:{
+            display:"flex",
+            flexDirection:"row",
+            alignItems:"center",
+            justifyContent:"space-between",
+            width:580
         },
         box2:{
             display:"flex",
@@ -137,24 +146,35 @@ const Inquire = ({result, month ,reading, billing}) => {
                             <h1 style={styles.text1}>INQUIRE FOR PAYMENT</h1>
 
                         <Box className="box1">
-                        <Autocomplete
-                            disablePortal
-                            disabled={isPending || error}
-                            getOptionLabel={(option) => `${option.id} ${option.first_name} ${option.middle_name} ${option.last_name}`}
-                            id="combo-box-demo"
-                            options={consumer? consumer: []}
-                            filterOptions={filterOptions}                      
-                            sx={{ width: 400 }}
-                            onChange={(event , val)=>{ setSearchedConsumer(val); setSearchedConsumerId(val? val.id:"")}}
-                            renderInput={(params) => 
-                            <TextField
-                            {...params} 
-                            label={ isPending?"Loading...":"Search ID Number/Name" }
-                            />}
-                            />
+                            <Box style={styles.box1_1}>
+                                <Autocomplete
+                                    disablePortal
+                                    disabled={isPending || error}
+                                    getOptionLabel={(option) => `${option.id} ${option.first_name} ${option.middle_name} ${option.last_name}`}
+                                    id="combo-box-demo"
+                                    options={consumer? consumer: []}
+                                    filterOptions={filterOptions}                      
+                                    sx={{ width: 400 }}
+                                    onChange={(event , val)=>{ setSearchedConsumer(val); setSearchedConsumerId(val? val.id:"")}}
+                                    renderInput={(params) => 
+                                    <TextField
+                                    {...params} 
+                                    label={ isPending?"Loading...":"Search ID Number/Name" }
+                                    />}
+                                    />
+                                <ReactToPrint
+                                trigger={() => 
+                                <Button  
+                                variant="contained"
+                                disabled={searchedConsumer? false:true} 
+                                style={{height:55}}
+                                >Print/Download</Button>}
+                                content={() => componentRef.current}
+                                />
+                            </Box>
                         </Box>
                     </Box>
-                    <Card style={styles.box2}>
+                    <Card style={styles.box2} ref={componentRef}>
                         {searchedConsumer ? 
                         <Box style={styles.box3}>
                             <Box style={styles.box3_1}>

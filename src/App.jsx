@@ -8,14 +8,15 @@ import {  Routes, Route} from 'react-router-dom';
 function App() {
   const {getToken} = AuthUser();
   
-  if(!getToken()){
-    return (
-      <Routes>
-          <Route path="/" element={<Login/>}/>
-      </Routes>)
-  }else{
-    return <AdminPage/>
-  }
+  // if(!getToken()){
+  //   return (
+  //     <Routes>
+  //         <Route path="/" element={<Login/>}/>
+  //     </Routes>)
+  // }else{
+  //   return <AdminPage/>
+  // }
+  return <AdminPage/>
     
 
 }
