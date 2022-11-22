@@ -5,8 +5,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 const WaterInfo = ({
     style,  
-    usage_typeData, 
-    brandData,
+    usage_type, 
+    brand,
 
     consumerWaterType, 
     setConsumerWaterType,
@@ -38,20 +38,6 @@ const WaterInfo = ({
         e.preventDefault();
      };
 
-     const {data:braData, barIsPending, barError}= brandData
-     const {data:usageData, purIsPending, purError}= usage_typeData
- 
-     const allbrand = []
-     const allusage_type = []
- 
-     braData && braData.map((r) => {
-       allbrand.push(r.barangay)
-     } )
- 
-     usageData && usageData.map((r) => {
-         allusage_type.push(r.purok)
-       } )
-
        
     return ( 
         <Paper style={{marginBottom:10 ,flex:6,...style.paper }}>
@@ -79,8 +65,8 @@ const WaterInfo = ({
                                 value={consumerWaterType}
                                 required
                                 >{
-                                    usageData && usageData.map((ut)=>(
-                                        <MenuItem value={ut.usage_type} key={ut.id}>{ut.usage_type}</MenuItem>
+                                    usage_type.map((ut)=>(
+                                        <MenuItem value={ut} key={ut}>{ut}</MenuItem>
                                     ))
                                 }
                                 </Select>
@@ -106,8 +92,8 @@ const WaterInfo = ({
                                     value={consumerWaterBrand}
                                     required
                                     >{
-                                        braData && braData.map((br)=>(
-                                            <MenuItem value={br.brand} key={br.id}>{br.brand}</MenuItem>
+                                        brand.map((br)=>(
+                                            <MenuItem value={br} key={br}>{br}</MenuItem>
                                         ))
                                     }
                                     </Select>

@@ -18,10 +18,10 @@ import SearchIcon from '@mui/icons-material/Search';
 const ConsumerManagement = ({
   barangayData, 
   purokData, 
-  genderData, 
-  civil_statusData, 
-  usage_typeData, 
-  brandData, 
+  gender, 
+  civil_status, 
+  usage_type, 
+  brand, 
   result, 
   month, 
   reading, 
@@ -163,10 +163,10 @@ const ConsumerManagement = ({
                setOpenPopup={setOpenPopup}
                barangayData={barangayData}
                purokData={purokData}
-               brandData={brandData}
-               genderData={genderData}
-               civil_statusData={civil_statusData}
-               usage_typeData={usage_typeData}
+               brand={brand}
+               gender={gender}
+               civil_status={civil_status}
+               usage_type={usage_type}
                result={result}
                consumerInfo={consumerInfo}
                setConsumerInfo={setConsumerInfo}

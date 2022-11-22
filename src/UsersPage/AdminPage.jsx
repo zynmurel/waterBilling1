@@ -15,15 +15,15 @@ const AdminPage = () => {
   const result= useFetch("http://localhost:8000/Consumers");
   const barangayData = useFetch("http://localhost:8000/barangay");
   const purokData = useFetch("http://localhost:8000/purok");
-  const brandData = useFetch("http://localhost:8000/brand");
-  const usage_typeData = useFetch("http://localhost:8000/usage_type");
-  const civil_statusData = useFetch("http://localhost:8000/civil_status");
-  const genderData = useFetch("http://localhost:8000/gender");
   const reading = useFetch("http://localhost:8000/reading");
   const billing = useFetch("http://localhost:8000/billing");
 
   const month= ["January","February","March","April","May","June","July","August","September","October","November","December"];
   const year= ["2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022"];
+  const brand = ["Brand", "Sunrise"];
+  const usage_type = ["Residential","Commercial"];
+  const civil_status = ["Single", "Married"];
+  const gender = ["Male", "Female"];
     return ( 
         <div className="adminpage">
       <Header/>
@@ -41,10 +41,10 @@ const AdminPage = () => {
           result={result} 
           barangayData={barangayData}
           purokData={purokData}
-          brandData={brandData}
-          genderData={genderData}
-          civil_statusData={civil_statusData}
-          usage_typeData={usage_typeData}
+          brand={brand}
+          gender={gender}
+          civil_status={civil_status}
+          usage_type={usage_type}
           month={month}
           reading={reading}
           billing={billing}

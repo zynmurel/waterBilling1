@@ -12,6 +12,7 @@ import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
 import SearchIcon from '@mui/icons-material/Search';
 import MeterReadingTable from '../ReadyComponents/MeterReading/MeterReadingTable';
 const MeterReading = ({barangayData, purokData, month:allmonth, year:allyear, result}) => {
+    console.log(result)
     const [page, setPage] = useState(0);
     const [consumerPopUp, setConsumerPopup] = useState(false)
     const [readings, setReadings] = useState({})

@@ -5,8 +5,8 @@ const PersonalInfo = ({
     consumerInfo,
     barangayData, 
     purokData, 
-    genderData, 
-    civil_statusData,
+    gender, 
+    civil_status,
 
     consumerNum, 
     setConsumerNum,
@@ -70,8 +70,6 @@ const PersonalInfo = ({
 }) => {
     const {data:barData, barIsPending, barError}= barangayData
     const {data:purData, purIsPending, purError}= purokData
-    const {data:genData, genIsPending, genError}= genderData
-    const {data:csData, csIsPending, csError}= civil_statusData
 
     const allbarangay = []
     barData && barData.map((b)=>{
@@ -207,8 +205,8 @@ const PersonalInfo = ({
                                 value={consumerGender}
                                 required
                                 >{
-                                    genData && genData.map((gen)=>(
-                                        <MenuItem value={gen.gender} key={gen.id}>{gen.gender}</MenuItem>
+                                    gender && gender.map((gen)=>(
+                                        <MenuItem value={gen} key={gen}>{gen}</MenuItem>
                                     ))
                                 }
                                 </Select>
@@ -255,8 +253,8 @@ const PersonalInfo = ({
                                 value={consumerCivilStatus}
                                 required
                                 >{
-                                    csData && csData.map((cs)=>(
-                                        <MenuItem value={cs.civil_status} key={cs.id}>{cs.civil_status}</MenuItem>
+                                    civil_status && civil_status.map((cs)=>(
+                                        <MenuItem value={cs} key={cs}>{cs}</MenuItem>
                                     ))
                                 }
                                 </Select>

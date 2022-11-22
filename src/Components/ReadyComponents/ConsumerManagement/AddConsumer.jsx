@@ -7,10 +7,10 @@ import { useState } from "react";
 const AddConsumer = ({
     barangayData, 
     purokData, 
-    brandData, 
-    genderData, 
-    civil_statusData, 
-    usage_typeData, 
+    brand, 
+    gender, 
+    civil_status, 
+    usage_type, 
     result, 
     setOpenPopup, 
     consumerInfo, 
@@ -299,8 +299,8 @@ const AddConsumer = ({
                     result={result}
                     barangayData={barangayData}
                     purokData={purokData}
-                    genderData={genderData}
-                    civil_statusData={civil_statusData}
+                    gender={gender}
+                    civil_status={civil_status}
                     consumerInfo={consumerInfo}
 
                     setAlert={setAlert}
@@ -370,8 +370,8 @@ const AddConsumer = ({
                 <Box style={{display:"flex", flexDirection:"column", flex:1}}>
                     <WaterInfo 
                     style={style}
-                    brandData={brandData}
-                    usage_typeData={usage_typeData}
+                    brand={brand}
+                    usage_type={usage_type}
 
                     consumerWaterType={consumerWaterType}
                     setConsumerWaterType={setConsumerWaterType}

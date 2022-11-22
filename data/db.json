@@ -6212,6 +6212,28 @@
       "delinquent": false,
       "connected": true,
       "archive": false
+    },
+    {
+      "id": "987979",
+      "first_name": "Sean Maruel",
+      "last_name": "Comingues",
+      "middle_name": "",
+      "phone": "",
+      "gender": "Male",
+      "age": "23",
+      "barangay": "Baucan Norte",
+      "purok": 3,
+      "household_no": "8",
+      "civil_status": "Single",
+      "name_of_spouse": "",
+      "usage_type": "Residential",
+      "first_reading": "7997",
+      "serial_no": "8979",
+      "brand": "Sunrise",
+      "date": "2022-11-22T16:00:00.000Z",
+      "delinquent": false,
+      "connected": true,
+      "archive": false
     }
   ],
   "barangay": [
