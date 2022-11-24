@@ -10,23 +10,32 @@ import Help from '../Components/Pages/Help';
 import Reports from '../Components/Pages/Reports';
 import NotFound from '../Components/Pages/NotFound';
 import useFetch from '../Hook/useFetch';
+import AuthUser from '../Hook/AuthUser';
 
 const AdminPage = () => {
-  const result= useFetch("http://localhost:8000/Consumers");
-  const barangayData = useFetch("http://localhost:8000/barangay");
-  const purokData = useFetch("http://localhost:8000/purok");
-  const reading = useFetch("http://localhost:8000/reading");
-  const billing = useFetch("http://localhost:8000/billing");
-
+  const result= useFetch("http://localhost:8001/Consumers");
+  const barangayData = useFetch("http://localhost:8001/barangay");
+  const purokData = useFetch("http://localhost:8001/purok");
+  const reading = useFetch("http://localhost:8001/reading");
+  const billing = useFetch("http://localhost:8001/billing");
   const month= ["January","February","March","April","May","June","July","August","September","October","November","December"];
   const year= ["2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022"];
   const brand = ["Brand", "Sunrise"];
   const usage_type = ["Residential","Commercial"];
   const civil_status = ["Single", "Married"];
   const gender = ["Male", "Female"];
+  const {token, logout} = AuthUser();
+
+  const logoutUser = () => {
+    if(token != undefined){
+      logout();
+    }
+  }
     return ( 
         <div className="adminpage">
-      <Header/>
+      <Header 
+      logoutUser={logoutUser}
+      />
       <div className="body1">
         <Navigation/>  
         <div className='routes' >
@@ -34,7 +43,7 @@ const AdminPage = () => {
           <Route path="/home" element={
           <Home
           result={result} 
-          />}></Route> 
+          />}></Route>
 
           <Route path="/consumerManagement" element={
           <ConsumerManagement 

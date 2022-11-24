@@ -29,16 +29,11 @@ const Login = () => {
     const { http, setToken, token, user, getToken } = AuthUser();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
-    const sample = useFetch('http://127.0.0.1:8000/api/prkbrgy')
-    console.log(sample)
 
     const onSubmit = () => {
-        http.post('/login', {email:email, password:password})
-        .then(res=>{
-            setToken(res.data.data.user, res.data.data.token);
-            //getting status (below)
-            //console.log(res.data.status)
-        })
+      http.post('/login', {email:email, password:password}).then((res)=>{
+        setToken(res.data.data.user, res.data.data.token);
+      })
     }
 
     return ( 

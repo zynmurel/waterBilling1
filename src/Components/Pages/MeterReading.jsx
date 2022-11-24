@@ -11,11 +11,10 @@ import { Button, TextField, Snackbar, Alert, InputAdornment } from '@mui/materia
 import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
 import SearchIcon from '@mui/icons-material/Search';
 import MeterReadingTable from '../ReadyComponents/MeterReading/MeterReadingTable';
-const MeterReading = ({barangayData, purokData, month:allmonth, year:allyear, result}) => {
-    console.log(result)
+const MeterReading = ({barangayData, purokData, month:allmonth, year:allyear, result, reading}) => {
+    console.log(reading)
     const [page, setPage] = useState(0);
     const [consumerPopUp, setConsumerPopup] = useState(false)
-    const [readings, setReadings] = useState({})
     const [purok, setPurok] = useState(7);
     const [barangay, setBarangay] = useState("");
     const [name, setName] = useState("");
@@ -41,9 +40,9 @@ const MeterReading = ({barangayData, purokData, month:allmonth, year:allyear, re
     const bCon = consumer&& barangay && purok? consumer.filter((c)=> c.barangay === barangay && (c.purok === purok || purok ===7)):consumer
     const newCon = bCon? bCon.filter((c)=> `${c.first_name.toLowerCase()} ${c.middle_name.toLowerCase()} ${c.last_name.toLowerCase()}`.includes(name.toLowerCase())||`${c.id}`.includes(name)) : bCon
     const columns = [
-        { id: 'id', label: 'Consumer #', minWidth: 120 },
+        { id: 'consumerId', label: 'Consumer ID', minWidth: 120 },
         { id: 'name', label: 'Name', minWidth: 150 },
-        { id: 'totalReading', label: 'Total Reading', minWidth: 150},
+        { id: 'totalReading', label: 'Past Reading', minWidth: 150},
         { id: 'barangay', label: 'Barangay', minWidth: 150 },
         { id: 'purok', label: 'Purok', minWidth: 100, align: 'center'}
     ];

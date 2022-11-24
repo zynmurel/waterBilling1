@@ -31,12 +31,15 @@ export default function AuthUser() {
 
     const logout = () => {
         sessionStorage.clear();
+
+        navigate('/login');
     }
 
     const http = axios.create({
         baseURL:'http://127.0.0.1:8000/api',
         headers:{
-            'Content-type' : 'application/json'
+            'Content-type' : 'application/json',
+            'Authorization' : `Bearer ${token}`
         }
     });
 
@@ -45,6 +48,7 @@ export default function AuthUser() {
         token,
         user,
         getToken,
+        getUser,
         http,
         logout
     }

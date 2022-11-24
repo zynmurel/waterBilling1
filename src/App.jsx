@@ -6,17 +6,18 @@ import AuthUser from './Hook/AuthUser';
 import {  Routes, Route} from 'react-router-dom';
 
 function App() {
-  const {getToken} = AuthUser();
+  const {getToken, getUser} = AuthUser();
+  const userDetails = getUser()
+  console.log(userDetails? userDetails.user_type : false);
+  if(!getToken()){
   
-  // if(!getToken()){
-  //   return (
-  //     <Routes>
-  //         <Route path="/" element={<Login/>}/>
-  //     </Routes>)
-  // }else{
-  //   return <AdminPage/>
-  // }
-  return <AdminPage/>
+  return (<Routes>
+      <Route path="/login" element={<Login/>}></Route> 
+    </Routes>)
+
+  }else if(userDetails && userDetails.user_type == 'admin'){
+    return <AdminPage/>
+  }
     
 
 }

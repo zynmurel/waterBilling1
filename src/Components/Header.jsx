@@ -5,15 +5,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import AuthUser from '../Hook/AuthUser';
 import { useNavigate } from 'react-router-dom';
 
-const Header = () => {
-    const navigate = useNavigate()
-    const { logout, token } = AuthUser();
-    const logoutUser = () => {
-        if(token != undefined){
-            logout();
-            navigate('/')
-        }
-    }
+const Header = ({logoutUser}) => {
     const styles = {
         logodiv:{
             margin:"0 5px"

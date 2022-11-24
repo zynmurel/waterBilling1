@@ -6,12 +6,13 @@ import AutoComplete from '../ReadyComponents/CAutoComplete'
 import SelectLabels from '../ReadyComponents/CSelectLabel';
 import AddPopup from '../ReadyComponents/ConsumerManagement/AddNewPopUp';
 import ConsumerPopUp from '../ReadyComponents/ConsumerManagement/ConsumerPopUp'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import React from 'react';
 import AddConsumer from '../ReadyComponents/ConsumerManagement/AddConsumer';
 import ConsumerData from '../ReadyComponents/ConsumerManagement/ConsumerData';
 import { Button, TextField, Snackbar, Alert, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import AuthUser from '../../Hook/AuthUser';
 
 
 
@@ -44,6 +45,20 @@ const ConsumerManagement = ({
   const {data:billings, isPending:billIsPending, error:billError}= billing
   const {data:consumer, isPending:conIsPending, error:conError, reload, setReload}= result
 
+
+  //getBarangay & Purok
+  const {http} = AuthUser();
+  const [brgyPrk, setBrgyPrk] = useState();
+  useEffect(()=>{
+    fetchBrgyPrk()
+  },[])
+  const fetchBrgyPrk = () => {
+    http.get('/brgyprk').then((res)=>{
+      setBrgyPrk(res.data)
+    })
+  }
+
+
   //StickyBar()
   const handleAlertClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -54,17 +69,14 @@ const ConsumerManagement = ({
     }
 
     //Autocomple - Barangay
-    const { data:barData, barIsPending, barError } = barangayData
     const allbarangay = []
-    barData && barData.map((r) => {
-      allbarangay.push(r.barangay)
-    } )
+    for (const key in brgyPrk) {
+      allbarangay.push(key)
+    }
+    let allpurok = barangay && brgyPrk ? brgyPrk[barangay].sort() : [];
 
-    //Autocomple - Purok
-    const { data:purData, isPending:purIsPending, error:purError } = purokData;
-    const allpurok = []
-    purData && purData.map((r) => {
-      allpurok.push(r.purok)
+    allpurok = allpurok.map((p)=>{
+        return +p
     })
   
     //StickyTable
@@ -109,8 +121,6 @@ const ConsumerManagement = ({
             pageSetter={setPage}
             autoComHeight={500}
             options={allbarangay}
-            isPending={barIsPending} 
-            error={barError} 
             />
             
             <SelectLabels 
@@ -118,9 +128,7 @@ const ConsumerManagement = ({
             m={0} 
             label={'Purok'} 
             purokData={allpurok}
-            purError={purError}
             barangay={barangay}
-            purIsPending={purIsPending}
             purok={purok} 
             setPurok={setPurok} 
             setPage={setPage}/>
