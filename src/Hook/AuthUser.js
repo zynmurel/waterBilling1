@@ -16,7 +16,7 @@ export default function AuthUser() {
         return user_detail;
     }
 
-    const [token, setToken] = useState(getToken());
+    const [token, setToken] = useState(getToken()); 
     const [user, setUser] = useState(getUser());
 
     const saveToken = (user, token) => {
@@ -26,7 +26,8 @@ export default function AuthUser() {
         setToken(token);
         setUser(user);
 
-        navigate('/home');
+        if(user.user_type==='admin'){navigate('/home')}
+        if(user.user_type==='cashier'){navigate('/payment')}
     }
 
     const logout = () => {
@@ -42,6 +43,7 @@ export default function AuthUser() {
             'Authorization' : `Bearer ${token}`
         }
     });
+
 
     return {
         setToken:saveToken,

@@ -6,10 +6,18 @@ const ConsumerData = ({
     consumerInfo, 
     month, 
     readings, 
-    billings, 
     rbIsPending,
     rbError
 }) => {
+    const dateNow = new Date()
+    const birthday = new Date(consumerInfo.birthday)
+    const age = () =>{
+        let age = dateNow.getFullYear() - birthday.getFullYear() - 1
+        if(dateNow.getMonth()<=birthday.getMonth() && dateNow.getDate()<=birthday.getDate()){
+            age+=1
+        }
+        return age
+    }
     const date = new Date(consumerInfo.date)
     const styles = {
         container:{
@@ -41,15 +49,15 @@ const ConsumerData = ({
         },
         h2style:{
             margin:"10px 0 0px 0",
-            color:"rgb(15,94,156)",
+            color:"rgba(35,43,75,255)",
             fontSize:22
         },
         strong:{
-            color:"rgb(15,94,156)"
+            color:"rgba(35,43,75,255)"
         },
         box2_2_1:{
             padding:"0 15px",
-            backgroundColor: consumerInfo && consumerInfo.connected?"rgb(156, 218, 32)":"rgb(242, 54, 54)",
+            backgroundColor: consumerInfo && consumerInfo.consumer_status==="connected"?"rgb(156, 218, 32)":"rgb(242, 54, 54)",
             color:"white",
             borderRadius:"2px",
             height:40,
@@ -66,7 +74,7 @@ const ConsumerData = ({
     const newrb = readings? readings.filter((rb)=>{
         return rb.consumerId==consumerInfo.id
         }):""
-        console.log(readings)
+        console.log(consumerInfo.id)
     const sorter = (a, b) => {
         const ayear = new Date(a.date)
         const byear = new Date(b.date)
@@ -80,9 +88,10 @@ const ConsumerData = ({
     return (  
         <Box style={styles.container}>
             <Box style={styles.subcontainer1}>
-                <h2 style={{margin:"10px 0", color:"rgb(15,94,156)"}}><strong>{`${consumerInfo.first_name} ${consumerInfo.middle_name} ${consumerInfo.last_name}`.toLocaleUpperCase()}</strong> </h2>
+                <h2 style={{margin:"10px 0", color:"rgba(35,43,75,255)"}}><strong>{`${consumerInfo.first_name} ${consumerInfo.middle_name} ${consumerInfo.last_name}`.toLocaleUpperCase()}</strong> </h2>
                 <p style={styles.textStyle}><strong>GENDER: <span style={styles.strong}>{`${consumerInfo.gender}`}</span></strong></p>
-                <p style={styles.textStyle}><strong>AGE: <span style={styles.strong}>{`${consumerInfo.age}`}</span></strong></p>
+                <p style={styles.textStyle}><strong>BIRTHDAY: <span style={styles.strong}>{`${month[birthday.getMonth()]} ${birthday.getDate()}, ${birthday.getFullYear()}`}</span></strong></p>
+                <p style={styles.textStyle}><strong>AGE: <span style={styles.strong}>{age()}</span></strong></p>
                 <p style={styles.textStyle}><strong>PHONE: <span style={styles.strong}>{consumerInfo.phone? `${consumerInfo.phone}`:"(No Phone Number)"}</span></strong> </p>
                 <p style={styles.textStyle}><strong> BARANGAY: <span style={styles.strong}>{`${consumerInfo.barangay}`}</span></strong></p>
                 <p style={styles.textStyle}><strong>PUROK: <span style={styles.strong}>{`${consumerInfo.purok}`}</span></strong></p>
@@ -98,12 +107,11 @@ const ConsumerData = ({
             <Paper style={styles.subcontainer2}>
                 <Box style={styles.subcontainer2_2}>
                     <Box style={styles.box2_2_2}><h2 style={{margin:0}}>Billing Records</h2></Box>
-                    <Box style={styles.box2_2_1}><p style={styles.p}>{consumerInfo.connected? "Connected":"Disconnected"}</p></Box>
+                    <Box style={styles.box2_2_1}><p style={styles.p}>{consumerInfo.consumer_status === "connected" ? "Connected":"Disconnected"}</p></Box>
                 </Box>
                 <ReadingTable 
                 month={month}
                 newrb={newrb}
-                billings={billings}
                 scale={.9}
                 height={400}
                 rbIsPending={rbIsPending}

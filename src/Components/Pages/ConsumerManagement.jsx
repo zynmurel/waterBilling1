@@ -12,23 +12,21 @@ import AddConsumer from '../ReadyComponents/ConsumerManagement/AddConsumer';
 import ConsumerData from '../ReadyComponents/ConsumerManagement/ConsumerData';
 import { Button, TextField, Snackbar, Alert, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import AuthUser from '../../Hook/AuthUser';
+import GetData from '../../Hook/SampleData';
 
 
 
 const ConsumerManagement = ({
-  barangayData, 
-  purokData, 
   gender, 
   civil_status, 
   usage_type, 
   brand, 
-  result, 
   month, 
-  reading, 
-  billing
+  reading,
 }) => {
   
+  const consumersData = GetData('http://localhost:8001', '/consumers');
+  const brgyPrkData = GetData('http://127.0.0.1:8000/api', '/brgyprk');
   const [page, setPage] = useState(0);
   const [openPopup, setOpenPopup] = useState(false)
   const [consumerPopUp, setConsumerPopup] = useState(false)
@@ -42,21 +40,10 @@ const ConsumerManagement = ({
   const [alertText, setAlertText] = useState("")
 
   const {data:readings, isPending:rbIsPending, error:rbError}= reading
-  const {data:billings, isPending:billIsPending, error:billError}= billing
-  const {data:consumer, isPending:conIsPending, error:conError, reload, setReload}= result
+  const {data:consumer, isPending:conIsPending, error:conError, reload, setReload}= consumersData
+  const {data:brgyPrk, isPending:bpIsPending, error:bpError}= brgyPrkData
+  console.log(brgyPrk)
 
-
-  //getBarangay & Purok
-  const {http} = AuthUser();
-  const [brgyPrk, setBrgyPrk] = useState();
-  useEffect(()=>{
-    fetchBrgyPrk()
-  },[])
-  const fetchBrgyPrk = () => {
-    http.get('/brgyprk').then((res)=>{
-      setBrgyPrk(res.data)
-    })
-  }
 
 
   //StickyBar()
@@ -68,8 +55,8 @@ const ConsumerManagement = ({
         setAlert(false);
     }
 
-    //Autocomple - Barangay
-    const allbarangay = []
+    //Autocomplete - Barangay
+    let allbarangay = []
     for (const key in brgyPrk) {
       allbarangay.push(key)
     }
@@ -78,12 +65,14 @@ const ConsumerManagement = ({
     allpurok = allpurok.map((p)=>{
         return +p
     })
+
+    allbarangay = allbarangay.sort()
   
     //StickyTable
-    const bCon = consumer&& barangay && purok? consumer.filter((c)=> c.barangay === barangay && (c.purok === purok || purok ===7)):consumer
+    const bCon = consumer && barangay && purok? consumer.filter((c)=> c.barangay === barangay && (c.purok === purok || purok ===7)):consumer
     const newCon = bCon? bCon.filter((c)=> `${c.first_name.toLowerCase()} ${c.middle_name.toLowerCase()} ${c.last_name.toLowerCase()}`.includes(name.toLowerCase())||`${c.id}`.includes(name)) : bCon
     const columns = [
-      { id: 'id', label: 'Consumer #', minWidth: 120 },
+      { id: 'user_key', label: 'Consumer #', minWidth: 120 },
       { id: 'name', label: 'Name', minWidth: 500 },
       { id: 'barangay', label: 'Barangay', minWidth: 200 },
       {
@@ -93,6 +82,7 @@ const ConsumerManagement = ({
         align: 'center',
       }
     ];
+     
 
     return ( 
         <div className="consumerManagement">
@@ -121,13 +111,15 @@ const ConsumerManagement = ({
             pageSetter={setPage}
             autoComHeight={500}
             options={allbarangay}
+            isPending={bpIsPending}
+            error={bpError}
             />
             
             <SelectLabels 
             minWidth={100} 
             m={0} 
             label={'Purok'} 
-            purokData={allpurok}
+            allpurok={allpurok}
             barangay={barangay}
             purok={purok} 
             setPurok={setPurok} 
@@ -153,6 +145,7 @@ const ConsumerManagement = ({
            conError={conError}
            newCon={newCon}
            columns={columns}
+
            />
 
            <AddPopup
@@ -167,15 +160,15 @@ const ConsumerManagement = ({
                conError={conError}
                reload={reload}
                setReload={setReload}
+               consumersData={consumersData}
 
                setOpenPopup={setOpenPopup}
-               barangayData={barangayData}
-               purokData={purokData}
+               allbarangay={allbarangay}
+               brgyPrk={brgyPrk}
                brand={brand}
                gender={gender}
                civil_status={civil_status}
                usage_type={usage_type}
-               result={result}
                consumerInfo={consumerInfo}
                setConsumerInfo={setConsumerInfo}
                setAlert={setAlert}
@@ -189,18 +182,14 @@ const ConsumerManagement = ({
             setOpenPopup = {setOpenPopup}
             setConsumerPopup={setConsumerPopup}
             consumerInfo={consumerInfo}
-            result={result}
             maxWidth={"md"}
             setConsumerInfo={setConsumerInfo}
             >
               <ConsumerData 
               setConsumerPopup={setConsumerPopup}
-              barangayData={barangayData} 
-              result={result}
               consumerInfo={consumerInfo}
               month={month}
               readings={readings}
-              billings={billings}
               rbIsPending={rbIsPending}
               rbError={rbError}
               />

@@ -52,7 +52,7 @@ const Home = ({result,}) => {
         text1:{
             fontSize:100, 
             margin:0, 
-            color:"rgb(15,94,156)",
+            color:"rgb(12,20,52)",
             margin:" -25px 0 0 0"
         },
         text2:{

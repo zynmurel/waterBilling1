@@ -42,7 +42,7 @@ export default function StickyHeadTable({
           fontSize: "1rem",
           color: "white",
           fontWeight:"bold",
-          color:"rgb(15,94,156)"
+          color:"rgb(12,20,52)"
         }
       }}>
               {columns.map((column) => (
@@ -97,7 +97,7 @@ export default function StickyHeadTable({
       <TablePagination
       sx={
         {
-          color:'rgb(15,94,156)',
+          color:'rgb(12,20,52)',
           boxShadow:'0px 0px 1px 0px rgb(0,0,0,.5)'
         }}
         component="div"

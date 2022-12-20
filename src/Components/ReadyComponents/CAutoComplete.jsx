@@ -1,6 +1,7 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import { useState } from 'react';
 
 export default function ComboBox({width, label, options, isPending, error, dataSetter, pageSetter, buttonDisabler, autoComHeight, firstData}) {
   // const { data:res, isPending, error } = barangayData
@@ -9,6 +10,14 @@ export default function ComboBox({width, label, options, isPending, error, dataS
   // res && res.map((r) => {
   //   allbarangay.push(r.barangay)
   // } )
+  let renderInput ="Barangay"
+  if(isPending){
+    renderInput ="Loading..."
+  }else if(error?true:false){
+    renderInput = "No Data..."
+  }else{
+    renderInput ="Barangay"
+  }
 console.log(firstData)
   return (
     <Autocomplete
@@ -20,7 +29,7 @@ console.log(firstData)
       options={options? options : []}
       sx={{ width: width }}
       onChange={(event , val)=>{ dataSetter(val); pageSetter(0); buttonDisabler(7)}}
-      renderInput={(params) => <TextField {...params} label={isPending? "Loading" : label} />}
+      renderInput={(params) => <TextField {...params} label={renderInput} />}
     />
   );
 }

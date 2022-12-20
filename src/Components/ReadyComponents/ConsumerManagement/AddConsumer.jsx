@@ -5,13 +5,13 @@ import WaterInfo from "./WaterInfo";
 import { useState } from "react";
 
 const AddConsumer = ({
-    barangayData, 
-    purokData, 
+    allbarangay,
+    brgyPrk,
     brand, 
     gender, 
     civil_status, 
     usage_type, 
-    result, 
+    consumersData, 
     setOpenPopup, 
     consumerInfo, 
     setConsumerInfo, 
@@ -42,8 +42,8 @@ const AddConsumer = ({
     const [ consumerLastName, setConsumerLastName ] = useState(dataIsOn? consumerInfo.last_name:"")
     const [ errConsumerLastName, setErrConsumerLastName ] = useState(false)
 
-    const [ consumerAge, setConsumerAge ] = useState(dataIsOn? consumerInfo.age:"")
-    const [ errConsumerAge, setErrConsumerAge ] = useState(false)
+    const [ consumerBirthday, setConsumerBirthday ] = useState(dataIsOn? consumerInfo.birthday:"")
+    const [ errConsumerBirthday, setErrConsumerBirthday ] = useState(false)
 
     const [ consumerGender, setConsumerGender ] = useState(dataIsOn? consumerInfo.gender:"")
     const [ errConsumerGender, setErrConsumerGender ] = useState(false)
@@ -118,12 +118,12 @@ const AddConsumer = ({
                 setErrConsumerLastName(true)
                 setAlert(true)
                 setAlertText("Consumer's Last name should atleast contain two letters")
-            }else if(!consumerAge){
-                setErrConsumerAge(true)
+            }else if(!consumerBirthday){
+                setErrConsumerBirthday(true)
                 setAlert(true)
                 setAlertText("Please fill up consumer's Age")
-            }else if(consumerAge<18){
-                setErrConsumerAge(true)
+            }else if(consumerBirthday<18){
+                setErrConsumerBirthday(true)
                 setAlert(true)
                 setAlertText("Consumer's Age must not be 18 below")
             }else if(!consumerGender){
@@ -179,7 +179,7 @@ const AddConsumer = ({
             consumerNum && !errConsumerNum && 
             consumerFirstName && !errConsumerFirstName &&
             consumerLastName && !errConsumerLastName &&
-            consumerAge && !errConsumerAge &&
+            consumerBirthday && !errConsumerBirthday &&
             consumerGender && !errConsumerGender&&
             !errConsumerPhone &&
             consumerCivilStatus && !errConsumerCivilStatus &&
@@ -193,7 +193,7 @@ const AddConsumer = ({
             consumerWaterType && !errConsumerWaterType &&
             consumerWaterRegDate && !errConsumerWaterRegDate
             ){
-                // console.log(consumerNum + consumerFirstName + consumerMiddleName + consumerLastName + consumerAge + consumerGender + consumerPhone + consumerCivilStatus + consumerSpouse + consumerPurok + consumerHousehold)
+                // console.log(consumerNum + consumerFirstName + consumerMiddleName + consumerLastName + consumerBirthday + consumerGender + consumerPhone + consumerCivilStatus + consumerSpouse + consumerPurok + consumerHousehold)
                 // console.log(consumerWaterBrand + consumerWaterFirstReading + consumerWaterSerial + consumerWaterType + consumerWaterRegDate.$M+consumerWaterRegDate.$D +  consumerWaterRegDate.$y)
                 const data = {
                     id:consumerNum,
@@ -202,7 +202,7 @@ const AddConsumer = ({
                     middle_name: consumerMiddleName,
                     phone: consumerPhone,
                     gender: consumerGender,
-                    age: consumerAge,
+                    age: consumerBirthday,
                     barangay: consumerBarangay,
                     purok: consumerPurok,
                     household_no: consumerHousehold,
@@ -220,7 +220,7 @@ const AddConsumer = ({
 
                 setButtonPending(true)
                 if(!dataIsOn){
-                    fetch("http://localhost:8000/Consumers",{
+                    fetch("http://localhost:8001/Consumers",{
                         method: 'POST',
                         headers: { "Content-Type":"application/json" },
                         body: JSON.stringify(data)
@@ -246,7 +246,7 @@ const AddConsumer = ({
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(data)
                     };
-                    fetch('http://localhost:8000/Consumers/'+consumerInfo.id, requestOptions)
+                    fetch('http://localhost:8001/Consumers/'+consumerInfo.id, requestOptions)
                         .then(response => response.json())
                         .then((data) => {
                             setOpenPopup(false)
@@ -296,9 +296,8 @@ const AddConsumer = ({
             <form autoComplete="off" noValidate style={style.form} onSubmit={handleSubmit}>
                     <PersonalInfo
                     style={style}
-                    result={result}
-                    barangayData={barangayData}
-                    purokData={purokData}
+                    allbarangay={allbarangay}
+                    brgyPrk={brgyPrk}
                     gender={gender}
                     civil_status={civil_status}
                     consumerInfo={consumerInfo}
@@ -325,10 +324,10 @@ const AddConsumer = ({
                     errConsumerLastName={errConsumerLastName} 
                     setErrConsumerLastName={setErrConsumerLastName}
 
-                    consumerAge={consumerAge}
-                    setConsumerAge={setConsumerAge}
-                    errConsumerAge={errConsumerAge} 
-                    setErrConsumerAge={setErrConsumerAge}
+                    consumerBirthday={consumerBirthday}
+                    setConsumerBirthday={setConsumerBirthday}
+                    errConsumerBirthday={errConsumerBirthday} 
+                    setErrConsumerBirthday={setErrConsumerBirthday}
 
                     consumerGender={consumerGender}
                     setConsumerGender={setConsumerGender}

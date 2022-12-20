@@ -33,7 +33,7 @@ const columns = [
   }
 ];
 
-export default function ReadingTable({month, newrb , scale, height, conIsPending, conError, readings}) {
+export default function ReadingTable({month, newrb , scale, height, conIsPending, conError, readings, setTotalBill,sum}) {
 
 console.log(readings)
   return (
@@ -86,6 +86,8 @@ console.log(readings)
                         value = row.total_reading
                       } else if (column.id === "bill"){
                         value = row.bill
+                        sum+=row.bill
+                        setTotalBill(sum)
                       } else if (column.id === "penalty"){
                         value = row.penalty
                       } 

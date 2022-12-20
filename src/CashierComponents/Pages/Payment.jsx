@@ -1,14 +1,14 @@
-import { Box, Card, Autocomplete, Button } from '@mui/material';
+import { Box, Card, Autocomplete, Button, Dialog, DialogTitle, DialogContent, Typography  } from '@mui/material';
 import '../../Styles/PageStyles/inquire.css'
 import { TextField} from '@mui/material';
 import { createFilterOptions } from '@mui/material';
 import { useState, useRef } from 'react';
-import ReadingTable from '../ReadyComponents/CReadingTable';
-import useEffect from '../../Hook/useFetch';
-import ReactToPrint from 'react-to-print'
-import GetData from '../../Hook/SampleData'
+import ReadingTable from '../../Components/ReadyComponents/CReadingTable';
+import ReactToPrint from 'react-to-print';
+import GetData from '../../Hook/SampleData';
+import PaymentInfo from '../ReadyComponents/PaymentInfo';
 
-const Inquire = ({month}) => {
+const Payment = ({month}) => {
 
     const consumersData = GetData('http://localhost:8001', '/consumers');
     const readingData = GetData('http://localhost:8001', '/reading');
@@ -18,6 +18,7 @@ const Inquire = ({month}) => {
 
     const [ searchedConsumer, setSearchedConsumer ] = useState("")
     const [ searchedConsumerId, setSearchedConsumerId ] = useState("")
+    const [popUp, setPopUp] = useState(false)
 
     const OPTIONS_LIMIT = 8;
     const filterOptions = createFilterOptions({
@@ -43,7 +44,7 @@ const Inquire = ({month}) => {
             display:"flex",
             flexDirection:"row",
             alignItems:"center",
-            justifyContent:"space-between",
+            justifyContent:"space-around",
             width:580
         },
         box2:{
@@ -90,8 +91,9 @@ const Inquire = ({month}) => {
             borderRadius:"2px",
         },
         text1:{
-            fontSize:50, 
+            fontSize:60, 
             margin:0, 
+            marginTop:"-15px",
             color:"rgb(12,20,52)",
             margin:" 0px 0 10px 0",
         },
@@ -101,7 +103,7 @@ const Inquire = ({month}) => {
         },
         h11:{
             margin:0,
-            fontSize:40,
+            fontSize:30,
             color:"rgb(12,20,52)",
         },
         box3text:{
@@ -121,28 +123,29 @@ const Inquire = ({month}) => {
     readings && readings.sort(sorter)
 
     //filter readings - only searched && paid
-    const newrb = readings? readings.filter((rb)=>{
+    const newrb = readings && searchedConsumer? readings.filter((rb)=>{
         console.log(rb.paid)
-        return rb.consumerId==searchedConsumerId && rb.date_paid === ""
+        return rb.consumerId==searchedConsumer.user_key && rb.date_paid === ""
         }):""
 
     //array of bills
     //add all bill from "arrayOfBill"
+
     let arrayOfBill = [] 
-    readings && readings.forEach(bill => {
+    newrb && newrb.forEach(bill => {
         if(bill.date_paid ==="") {
             arrayOfBill.push(bill.bill)}
     })
-
-    const sum = arrayOfBill.reduce((accumulator, value) => {
-         return accumulator + value;
-    }, 0);
+    const sum =  arrayOfBill.reduce((accumulator, value) => {
+        return accumulator + value;
+   }, 0)
+   console.log(sum!==0 && searchedConsumer?false:true)
 
     return ( 
             <Box className="inquire" sx={{...styles.inquire}}>
                 <Box className="container" sx={{...styles.container}}>
                     <Box className="box1" sx={styles.box1}>
-                            <h1 style={styles.text1}>INQUIRE FOR PAYMENT</h1>
+                            <h1 style={styles.text1}>PAYMENT</h1>
 
                         <Box className="box1">
                             <Box style={styles.box1_1}>
@@ -154,39 +157,34 @@ const Inquire = ({month}) => {
                                     options={consumer ? consumer: []}
                                     filterOptions={filterOptions}                      
                                     sx={{ width: 400 }}
-                                    onChange={(event , val)=>{ setSearchedConsumer(val); setSearchedConsumerId(val? val.user_key:"")}}
+                                    onChange={(event , val)=>{ setSearchedConsumer(val);}}
                                     renderInput={(params) => 
                                     <TextField
                                     {...params} 
                                     label={ isPending?"Loading...":"Search ID Number/Name" }
                                     />}
                                     />
-                                <ReactToPrint
-                                trigger={() => 
                                 <Button  
                                 variant="contained"
-                                disabled={searchedConsumer? false:true} 
-                                style={{height:55}}
-                                >Print/Download</Button>}
-                                content={() => componentRef.current}
-                                />
+                                disabled={sum!==0 && searchedConsumer?false:true} 
+                                style={{height:55, width:150, fontSize:18}}
+                                onClick={()=>setPopUp(true)}
+                                >Pay</Button>
                             </Box>
                         </Box>
                     </Box>
-                    <Card style={styles.box2} ref={componentRef}>
+                    <Card style={styles.box2}>
                         {searchedConsumer ? 
                         <Box style={styles.box3}>
                             <Box style={styles.box3_1}>
-                                <h1 style={styles.h11}>{searchedConsumer.id}</h1>
-                                <Box style={styles.box3_1_1}><p>{searchedConsumer.consumer_status==='connected'? "Connected":"Disconnected"}</p></Box>
+                                <h1 style={styles.h11}>{`${searchedConsumer.id} ${searchedConsumer.first_name} ${searchedConsumer.middle_name} ${searchedConsumer.last_name}`}</h1>
                             </Box>
                             <Box style={styles.box3_2}>
-                                <h2 style={styles.box3text}>{`${searchedConsumer.first_name} ${searchedConsumer.middle_name} ${searchedConsumer.last_name}`}</h2>
                                 <p style={{marginLeft:"1px",...styles.box3text}}>{`${searchedConsumer.barangay}, Purok ${searchedConsumer.purok}`}</p>
                                 <strong style={{marginLeft:"1px",...styles.box3text}}>{searchedConsumer.usage_type}</strong>
                             </Box>
                             <Box style={styles.box3_3}>
-                                <ReadingTable 
+                                <ReadingTable
                                 month={month}
                                 newrb={newrb}
                                 readings={readings}
@@ -203,10 +201,45 @@ const Inquire = ({month}) => {
                         </Box>
                         }
                     </Card>
+                    <Dialog open={popUp} maxWidth={'xs'} fullWidth >
+                <DialogTitle style={{margin:0,  textAlign:"left",paddingBottom:1}}>
+                    <Typography gutterBottom fontWeight={"bold"} fontSize={30} style={{margin:"0 auto", borderBottom:"1px solid gray"}}>
+                        Confirmation
+                    </Typography>
+                    </DialogTitle>
+
+                    <DialogContent style={{ display:'flex', justifyContent:'center', flexDirection:'column', alignItems:'center' }}>
+                                {searchedConsumer && 
+                                <PaymentInfo
+                                componentRef={componentRef}
+                                searchedConsumer={searchedConsumer}
+                                />
+                                }
+                                <Box style={{  display:'flex', justifyContent:'end', width:400 }}>
+                                <Button
+                                variant="outlined"
+                                disabled={searchedConsumer? false:true} 
+                                style={{height:40, width:80, fontSize:12, margin:2}}
+                                onClick={()=>setPopUp(false)}>
+                                Cancel
+                                </Button>
+                                
+                                <ReactToPrint
+                                trigger={() => 
+                                <Button  
+                                variant="contained"
+                                disabled={searchedConsumer? false:true} 
+                                style={{height:40, width:150, fontSize:12, margin:2}}
+                                >Confirm / Print</Button>}
+                                content={() => componentRef.current}
+                                />
+                                </Box>
+                    </DialogContent>
+                </Dialog>
            
                 </Box>
             </Box>
      );
 }
  
-export default Inquire;
+export default Payment;

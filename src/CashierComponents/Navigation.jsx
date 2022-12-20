@@ -5,7 +5,6 @@ import { HomeOutlined,
   UserOutlined, 
   DatabaseOutlined, 
   DashboardOutlined, 
-  AreaChartOutlined, 
   SettingOutlined, 
   QuestionCircleOutlined } from '@ant-design/icons';
 import {NavLink } from 'react-router-dom';
@@ -53,40 +52,13 @@ const Navigation = () => {
           <h3 style={styles.logodivh3}>WATERWORKS</h3>
       </Box>
       </Box>
-        <NavLink
-        to="/home"
-        style={({ isActive }) =>
-        isActive ? {...activeStyle, ...styles.navbar}: styles.navbar
-        }
-      >
-        <HomeOutlined style={styles.icon} />&nbsp;&nbsp;Home
-      </NavLink>
-
             <NavLink
-            to="/consumerManagement"
-            style={({ isActive }) =>
-              isActive ? {...activeStyle, ...styles.navbar}: styles.navbar
-            }
-          > 
-           <UserOutlined style={styles.icon}/>&nbsp;&nbsp;Consumer Management
-          </NavLink>
-
-            <NavLink
-            to="/inquire"
+            to="/payment"
             style={({ isActive }) =>
             isActive ? {...activeStyle, ...styles.navbar}: styles.navbar
             }
           >
-           <DatabaseOutlined style={styles.icon}/>&nbsp;&nbsp;Inquire
-          </NavLink>
-
-          <NavLink
-            to="/meterReading"
-            style={({ isActive }) =>
-            isActive ? {...activeStyle, ...styles.navbar}: styles.navbar
-            }
-          >
-            <DashboardOutlined style={styles.icon}/>&nbsp;&nbsp;Meter Reading
+           <DatabaseOutlined style={styles.icon}/>&nbsp;&nbsp;Payment
           </NavLink>
 
           <NavLink
@@ -96,15 +68,6 @@ const Navigation = () => {
             }
           >
             <TbReport style={styles.icon}/>&nbsp;&nbsp;Reports
-          </NavLink>
-
-          <NavLink
-            to="/systemMaintenance"
-            style={({ isActive }) =>
-            isActive ? {...activeStyle, ...styles.navbar}: styles.navbar
-            }
-          >
-            <SettingOutlined style={styles.icon}/>&nbsp;&nbsp;System Maintenance
           </NavLink>
 
           <NavLink

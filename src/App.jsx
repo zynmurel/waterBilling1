@@ -1,5 +1,6 @@
 import './App.css';
 import AdminPage from './UsersPage/AdminPage';
+import CashierPage from './UsersPage/CashierPage';
 import Login from './UsersPage/Login';
 import AuthUser from './Hook/AuthUser';
 
@@ -15,8 +16,12 @@ function App() {
       <Route path="/login" element={<Login/>}></Route> 
     </Routes>)
 
-  }else if(userDetails && userDetails.user_type == 'admin'){
+  }
+  else if(userDetails && userDetails.user_type == 'admin'){
     return <AdminPage/>
+  }
+  else if(userDetails && userDetails.user_type == 'cashier'){
+    return <CashierPage/>
   }
     
 

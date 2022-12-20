@@ -33,6 +33,8 @@ const Login = () => {
     const onSubmit = () => {
       http.post('/login', {email:email, password:password}).then((res)=>{
         setToken(res.data.data.user, res.data.data.token);
+      }).catch((err)=>{
+          console.log(err)
       })
     }
 

@@ -38,7 +38,7 @@ const Header = ({logoutUser}) => {
             <h1 style={{ color:'white' }}>Home</h1>
             <Box style={{ flexDirection:'row', ...styles.box}}>
             <Box style={{...styles.box, flexDirection:'column',alignItems:"end", color:"rgb(12,20,52)", justifyContent:"center"}}>
-                <h2 style={styles.text}>Admin</h2>
+                <h2 style={styles.text}>Cashier</h2>
             </Box>
             <Button 
             variant="text" 

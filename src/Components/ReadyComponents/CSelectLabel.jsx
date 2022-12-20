@@ -4,7 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export default function SelectLabels({minWidth , m, label, purok, setPurok, barangay,setPage, purokData, purIsPending, purError}) { 
+export default function SelectLabels({minWidth , m, label, purok, setPurok, barangay,setPage, allpurok}) { 
 
   const handleChange = (event) => {
     setPurok(event.target.value);
@@ -27,7 +27,7 @@ export default function SelectLabels({minWidth , m, label, purok, setPurok, bara
           <MenuItem value={7}>
             All
           </MenuItem>
-          {purokData && purokData.map((p)=>
+          {allpurok && allpurok.map((p)=>
             <MenuItem value={p} key={p}>{p}</MenuItem>
           )}
         </Select>

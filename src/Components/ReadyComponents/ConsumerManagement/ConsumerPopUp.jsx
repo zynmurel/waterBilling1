@@ -10,7 +10,7 @@ const ConsumerPopup = ({title, children, consumerPopUp, maxWidth, setConsumerPop
       padding:"0px 10px 0px 20px",
       display:"flex",
       justifyContent:"space-between",
-      backgroundColor:"rgb(15,94,156)"
+      backgroundColor:"rgb(12,20,52)"
     },
     typography:{
       margin:"0",

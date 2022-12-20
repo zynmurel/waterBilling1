@@ -1,10 +1,13 @@
 import { Paper, Box, FormControl, InputLabel, MenuItem, Select, TextField, Typography, Autocomplete } from "@mui/material";
 import { NumericFormat, PatternFormat } from 'react-number-format';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 const PersonalInfo = ({
     style, 
     consumerInfo,
-    barangayData, 
-    purokData, 
+    allbarangay,
+    brgyPrk,
     gender, 
     civil_status,
 
@@ -28,10 +31,10 @@ const PersonalInfo = ({
     errConsumerLastName, 
     setErrConsumerLastName,
 
-    consumerAge, 
-    setConsumerAge, 
-    errConsumerAge, 
-    setErrConsumerAge,
+    consumerBirthday, 
+    setConsumerBirthday, 
+    errConsumerBirthday, 
+    setErrConsumerBirthday,
 
     consumerGender, 
     setConsumerGender, 
@@ -68,15 +71,18 @@ const PersonalInfo = ({
     errConsumerHousehold, 
     setErrConsumerHousehold,
 }) => {
-    const {data:barData, barIsPending, barError}= barangayData
-    const {data:purData, purIsPending, purError}= purokData
 
-    const allbarangay = []
-    barData && barData.map((b)=>{
-        allbarangay.push(b.barangay)
-    })
-
+    const onKeyDown = (e) => {
+        e.preventDefault();
+     };
+     
     const dataIsOn = Object.keys(consumerInfo).length!==0
+
+    let allpurok = consumerBarangay && brgyPrk ? brgyPrk[consumerBarangay].sort() : [];
+
+    allpurok = allpurok.map((p)=>{
+        return +p
+    })
 
 
     return ( 
@@ -163,27 +169,23 @@ const PersonalInfo = ({
                             error={errConsumerLastName}
                             />
 
-                            <NumericFormat
-                            label="Age" 
-                            variant="outlined" 
-                            placeholder="ex: 34"
-                            value={consumerAge}
-                            allowNegative={false}
-                            required
-                            isAllowed={(values) => {
-                              const { value } = values;
-                              return value < 99 && !value.includes(".");
-                            }}
-                            onChange={(e) =>{
-                                const val = e.target.value
-                                setConsumerAge(val)
-                                // if(val){setErrConsumerAge(false)}
-                                val===0 || val<18 ? setErrConsumerAge(true): setErrConsumerAge(false)
-                            }}
-                            customInput={TextField}
-                            style={style.textfield}
-                            error={errConsumerAge}
-                            />
+                            
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker
+                                    label="Birthday"
+                                    value={consumerBirthday}
+                                    onChange={(newValue) => {
+                                    newValue? setConsumerBirthday(newValue): setConsumerBirthday("")
+                                    newValue && (isNaN(newValue.$D) || newValue.$D==null )? setErrConsumerBirthday(true): setErrConsumerBirthday(false)
+                                    }}
+                                    renderInput={(params, validator) => 
+                                    <TextField 
+                                    style={style.textfield}
+                                    onKeyDown={onKeyDown}
+                                    {...params}
+                                    error={errConsumerBirthday} />}
+                                />
+                            </LocalizationProvider>
                             
                             <FormControl 
                             error={errConsumerGender}
@@ -286,7 +288,7 @@ const PersonalInfo = ({
                                 if(val){setErrConsumerBarangay(false)}
                             }}
                             value={consumerBarangay}
-                            options={barData? allbarangay:[]}
+                            options={allbarangay}
                             renderInput={(params) => (
                                 <TextField
                                 error={errConsumerBarangay}
@@ -317,8 +319,8 @@ const PersonalInfo = ({
                                 value={consumerPurok}
                                 required
                                 >{
-                                    purData && purData.map((gen)=>(
-                                        <MenuItem value={gen.purok} key={gen.id}>{gen.purok}</MenuItem>
+                                    allpurok && allpurok.map((p)=>(
+                                        <MenuItem value={p} key={p}>{p}</MenuItem>
                                     ))
                                 }
                                 </Select>

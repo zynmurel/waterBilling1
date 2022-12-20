@@ -3,7 +3,7 @@ import AutoComplete from '../ReadyComponents/CAutoComplete'
 import SelectLabels from '../ReadyComponents/CSelectLabel';
 import AddPopup from '../ReadyComponents/ConsumerManagement/AddNewPopUp';
 import ConsumerPopUp from '../ReadyComponents/ConsumerManagement/ConsumerPopUp'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import React from 'react';
 import AddConsumer from '../ReadyComponents/ConsumerManagement/AddConsumer';
 import ConsumerData from '../ReadyComponents/ConsumerManagement/ConsumerData';
@@ -11,7 +11,10 @@ import { Button, TextField, Snackbar, Alert, InputAdornment } from '@mui/materia
 import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
 import SearchIcon from '@mui/icons-material/Search';
 import MeterReadingTable from '../ReadyComponents/MeterReading/MeterReadingTable';
-const MeterReading = ({barangayData, purokData, month:allmonth, year:allyear, result, reading}) => {
+import AuthUser from '../../Hook/AuthUser';
+import GetData from '../../Hook/SampleData';
+
+const MeterReading = ({ month:allmonth, year:allyear, result, reading}) => {
     console.log(reading)
     const [page, setPage] = useState(0);
     const [consumerPopUp, setConsumerPopup] = useState(false)
@@ -23,28 +26,29 @@ const MeterReading = ({barangayData, purokData, month:allmonth, year:allyear, re
     const [month, setMonth] = useState(allmonth[dateNow.getMonth()]);
     const [year, setYear] = useState(dateNow.getFullYear().toString()); 
 
-    const { data:barData, isPending:barIsPending, error:barError } = barangayData
-    const { data:purData, isPending:purIsPending, error:purError } = purokData;
+    //getBarangay & Purok
+    const {http} = AuthUser();
+
+    const brgyPrkData = GetData('http://127.0.0.1:8000/api', '/brgyprk');
+    const {data:brgyPrk, isPending:bpIsPending, error:bpError}= brgyPrkData
+
+    //Autocomplete - Barangay
     const allbarangay = []
-    barData && barData.map((r) => {
-      allbarangay.push(r.barangay)
-    } )
+    for (const key in brgyPrk) {
+      allbarangay.push(key)
+    }
+    let allpurok = barangay && brgyPrk ? brgyPrk[barangay].sort() : [];
 
-    const allpurok = []
-    purData && purData.map((r) => {
-      allpurok.push(r.purok)
-    } )
+    allpurok = allpurok.map((p)=>{
+        return +p
+    })
 
-    //StickyTable
-    const {data:consumer, isPending:conIsPending, error:conError, reload, setReload}= result
-    const bCon = consumer&& barangay && purok? consumer.filter((c)=> c.barangay === barangay && (c.purok === purok || purok ===7)):consumer
-    const newCon = bCon? bCon.filter((c)=> `${c.first_name.toLowerCase()} ${c.middle_name.toLowerCase()} ${c.last_name.toLowerCase()}`.includes(name.toLowerCase())||`${c.id}`.includes(name)) : bCon
-    const columns = [
-        { id: 'consumerId', label: 'Consumer ID', minWidth: 120 },
-        { id: 'name', label: 'Name', minWidth: 150 },
-        { id: 'totalReading', label: 'Past Reading', minWidth: 150},
-        { id: 'barangay', label: 'Barangay', minWidth: 150 },
-        { id: 'purok', label: 'Purok', minWidth: 100, align: 'center'}
+      const columns = [
+        { id: 'consumerId', label: 'Consumer ID', minWidth: 100, align:'left' },
+        { id: 'name', label: 'Consumer Name', minWidth: 150, align:'left' },
+        { id: 'pastReading', label: 'Past Reading', minWidth: 80, align:'center' },
+        { id: 'currentReading', label: 'Current Reading', minWidth: 80, align:'center' },
+        { id: 'totalReading', label: 'Total Reading', minWidth: 80, align:'center' },
     ];
 
     return ( 
@@ -61,8 +65,6 @@ const MeterReading = ({barangayData, purokData, month:allmonth, year:allyear, re
               pageSetter={setPage}
               autoComHeight={500}
               options={allyear}
-              isPending={barIsPending} 
-              error={barError} 
               firstData={year}
               /> 
               
@@ -74,8 +76,6 @@ const MeterReading = ({barangayData, purokData, month:allmonth, year:allyear, re
               pageSetter={setPage}
               autoComHeight={500}
               options={allmonth}
-              isPending={barIsPending} 
-              error={barError} 
               firstData={month}
               />
 
@@ -102,17 +102,15 @@ const MeterReading = ({barangayData, purokData, month:allmonth, year:allyear, re
               pageSetter={setPage}
               autoComHeight={500}
               options={allbarangay}
-              isPending={barIsPending} 
-              error={barError} 
+              isPending={bpIsPending}
+              error={bpError}
               />    
             
                 <SelectLabels 
                 minWidth={80} 
                 m={0}
                 label={'Purok'} 
-                purokData={allpurok}
-                purError={purError}
-                purIsPending={purIsPending}
+                allpurok={allpurok}
                 barangay={barangay}
                 purok={purok} 
                 setPurok={setPurok} 
@@ -125,9 +123,6 @@ const MeterReading = ({barangayData, purokData, month:allmonth, year:allyear, re
            setPage={setPage}
            setConsumerPopup={setConsumerPopup}
            setConsumerInfo={setConsumerInfo}
-           conIsPending={conIsPending} 
-           conError={conError}
-           newCon={newCon}
            columns={columns}
            />
            </div>
