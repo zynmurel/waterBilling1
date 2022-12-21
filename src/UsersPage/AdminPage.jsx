@@ -48,13 +48,11 @@ const AdminPage = () => {
 
           <Route path="/consumerManagement" element={
           <ConsumerManagement 
-          result={result} 
           brand={brand}
           gender={gender}
           civil_status={civil_status}
           usage_type={usage_type}
           month={month}
-          reading={reading}
            />}></Route> 
 
           <Route path="/inquire" element={<Inquire
@@ -67,8 +65,6 @@ const AdminPage = () => {
           <MeterReading
           month={month}
           year={year}
-          result={result} 
-          reading={reading}
           />}></Route> 
 
           <Route path="/reports" element={

@@ -74,6 +74,32 @@
     {
       "reading_id": 3,
       "reader_id": 12,
+      "consumerId": 10002,
+      "reading": 10,
+      "date": "2023-01-12T16:00:00.000Z",
+      "bill": 18,
+      "date_paid": "",
+      "penalty":"",
+      "total_reading":4,
+      "due_date": "2023-01-25T16:00:00.000Z",
+      "service_period": "2022-December"
+    },
+    {
+      "reading_id": 4,
+      "reader_id": 12,
+      "consumerId": 10001,
+      "reading": 10,
+      "date": "2023-02-12T16:00:00.000Z",
+      "bill": 18,
+      "date_paid": "",
+      "penalty":"",
+      "total_reading":4,
+      "due_date": "2023-02-25T16:00:00.000Z",
+      "service_period": "2022-January"
+    },
+    {
+      "reading_id": 5,
+      "reader_id": 12,
       "consumerId": 10001,
       "reading": 10,
       "date": "2023-01-12T16:00:00.000Z",

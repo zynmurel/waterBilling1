@@ -86,7 +86,7 @@ const Navigation = () => {
             isActive ? {...activeStyle, ...styles.navbar}: styles.navbar
             }
           >
-            <DashboardOutlined style={styles.icon}/>&nbsp;&nbsp;Meter Reading
+            <DashboardOutlined style={styles.icon}/>&nbsp;&nbsp;Meter Readings
           </NavLink>
 
           <NavLink

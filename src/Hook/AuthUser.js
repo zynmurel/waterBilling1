@@ -28,6 +28,7 @@ export default function AuthUser() {
 
         if(user.user_type==='admin'){navigate('/home')}
         if(user.user_type==='cashier'){navigate('/payment')}
+        if(user.user_type==='reader'){navigate('/reading')}
     }
 
     const logout = () => {

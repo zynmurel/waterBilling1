@@ -1,5 +1,6 @@
 import '../Styles/navigation.css'
 import { TbReport } from "react-icons/tb";
+import { BsInputCursorText } from "react-icons/bs";
 import { MdOutlineWaterDrop, MdPayments } from "react-icons/md";
 import { HomeOutlined, 
   UserOutlined, 
@@ -53,21 +54,21 @@ const Navigation = () => {
       </Box>
       </Box>
             <NavLink
-            to="/payment"
+            to="/reading"
             style={({ isActive }) =>
             isActive ? {...activeStyle, ...styles.navbar}: styles.navbar
             }
           >
-           <MdPayments style={styles.icon}/>&nbsp;&nbsp;Payment
+           <BsInputCursorText style={styles.icon}/>&nbsp;&nbsp;Reader
           </NavLink>
 
           <NavLink
-            to="/reports"
+            to="/meterReading"
             style={({ isActive }) =>
             isActive ? {...activeStyle, ...styles.navbar}: styles.navbar
             }
           >
-            <TbReport style={styles.icon}/>&nbsp;&nbsp;Reports
+            <DashboardOutlined style={styles.icon}/>&nbsp;&nbsp;Meter Readings
           </NavLink>
 
           <NavLink

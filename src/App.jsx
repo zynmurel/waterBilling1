@@ -3,6 +3,7 @@ import AdminPage from './UsersPage/AdminPage';
 import CashierPage from './UsersPage/CashierPage';
 import Login from './UsersPage/Login';
 import AuthUser from './Hook/AuthUser';
+import ReaderPage from './UsersPage/ReaderPage'
 
 import {  Routes, Route} from 'react-router-dom';
 
@@ -11,17 +12,18 @@ function App() {
   const userDetails = getUser()
   console.log(userDetails? userDetails.user_type : false);
   if(!getToken()){
-  
-  return (<Routes>
-      <Route path="/login" element={<Login/>}></Route> 
-    </Routes>)
-
+    return (<Routes>
+              <Route path="/login" element={<Login/>}></Route> 
+            </Routes>)
   }
   else if(userDetails && userDetails.user_type == 'admin'){
     return <AdminPage/>
   }
   else if(userDetails && userDetails.user_type == 'cashier'){
     return <CashierPage/>
+  }
+  else if(userDetails && userDetails.user_type == 'reader'){
+    return <ReaderPage/>
   }
     
 

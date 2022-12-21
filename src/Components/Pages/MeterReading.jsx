@@ -14,8 +14,7 @@ import MeterReadingTable from '../ReadyComponents/MeterReading/MeterReadingTable
 import AuthUser from '../../Hook/AuthUser';
 import GetData from '../../Hook/SampleData';
 
-const MeterReading = ({ month:allmonth, year:allyear, result, reading}) => {
-    console.log(reading)
+const MeterReading = ({ month:allmonth, year:allyear}) => {
     const [page, setPage] = useState(0);
     const [consumerPopUp, setConsumerPopup] = useState(false)
     const [purok, setPurok] = useState(7);

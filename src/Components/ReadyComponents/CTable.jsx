@@ -19,9 +19,11 @@ export default function StickyHeadTable({
   conIsPending, 
   conError,
   newCon,
-  columns
+  columns,
+  height,
+  rowPerPage
 }) {
-  const rowsPerPage = 10;
+  const rowsPerPage = rowPerPage;
 
 
   const handleChangePage = (event, newPage) => {
@@ -34,7 +36,7 @@ export default function StickyHeadTable({
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: 570,minHeight: 550 }}>
+      <TableContainer sx={{ maxHeight: 570,minHeight: height, }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow sx={{

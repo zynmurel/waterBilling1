@@ -5,7 +5,6 @@ import {  Routes, Route } from 'react-router-dom';
 import Help from '../Components/Pages/Help';
 import Payment from '../CashierComponents/Pages/Payment'
 import NotFound from '../Components/Pages/NotFound';
-import useFetch from '../Hook/useFetch';
 import AuthUser from '../Hook/AuthUser';
 import Reports from '../Components/Pages/Reports';
 

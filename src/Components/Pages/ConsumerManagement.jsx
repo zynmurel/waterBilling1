@@ -22,11 +22,11 @@ const ConsumerManagement = ({
   usage_type, 
   brand, 
   month, 
-  reading,
 }) => {
   
   const consumersData = GetData('http://localhost:8001', '/consumers');
   const brgyPrkData = GetData('http://127.0.0.1:8000/api', '/brgyprk');
+  const readingData = GetData('http://localhost:8001', '/reading')
   const [page, setPage] = useState(0);
   const [openPopup, setOpenPopup] = useState(false)
   const [consumerPopUp, setConsumerPopup] = useState(false)
@@ -39,7 +39,7 @@ const ConsumerManagement = ({
   const [alertType, setAlertType] = useState("warning")
   const [alertText, setAlertText] = useState("")
 
-  const {data:readings, isPending:rbIsPending, error:rbError}= reading
+  const {data:readings, isPending:rbIsPending, error:rbError}= readingData
   const {data:consumer, isPending:conIsPending, error:conError, reload, setReload}= consumersData
   const {data:brgyPrk, isPending:bpIsPending, error:bpError}= brgyPrkData
   console.log(brgyPrk)
@@ -145,6 +145,8 @@ const ConsumerManagement = ({
            conError={conError}
            newCon={newCon}
            columns={columns}
+           height={550}
+           rowPerPage={10}
 
            />
 
