@@ -70,14 +70,14 @@ const Navigation = () => {
             <TbReport style={styles.icon}/>&nbsp;&nbsp;Reports
           </NavLink>
 
-          <NavLink
+          {/* <NavLink
             to="/help"
             style={({ isActive }) =>
             isActive ? {...activeStyle, ...styles.navbar}: styles.navbar
             }
           >
             <QuestionCircleOutlined style={styles.icon}/>&nbsp;&nbsp;Help
-          </NavLink>
+          </NavLink> */}
           
         </div>
      );

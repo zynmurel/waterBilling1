@@ -71,14 +71,14 @@ const Navigation = () => {
             <DashboardOutlined style={styles.icon}/>&nbsp;&nbsp;Meter Readings
           </NavLink>
 
-          <NavLink
+          {/* <NavLink
             to="/help"
             style={({ isActive }) =>
             isActive ? {...activeStyle, ...styles.navbar}: styles.navbar
             }
           >
             <QuestionCircleOutlined style={styles.icon}/>&nbsp;&nbsp;Help
-          </NavLink>
+          </NavLink> */}
           
         </div>
      );

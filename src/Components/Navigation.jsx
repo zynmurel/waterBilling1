@@ -107,14 +107,14 @@ const Navigation = () => {
             <SettingOutlined style={styles.icon}/>&nbsp;&nbsp;System Maintenance
           </NavLink>
 
-          <NavLink
+          {/* <NavLink
             to="/help"
             style={({ isActive }) =>
             isActive ? {...activeStyle, ...styles.navbar}: styles.navbar
             }
           >
             <QuestionCircleOutlined style={styles.icon}/>&nbsp;&nbsp;Help
-          </NavLink>
+          </NavLink> */}
           
         </div>
      );
