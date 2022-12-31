@@ -1,5 +1,5 @@
 import '../Styles/navigation.css';
-import Header from '../CashierComponents/Header';
+import Header from '../UsersPage/Header';
 import Navigation from '../CashierComponents/Navigation';
 import {  Routes, Route } from 'react-router-dom';
 import Help from '../Components/Pages/Help';

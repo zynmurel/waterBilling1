@@ -1,5 +1,5 @@
 import '../Styles/navigation.css';
-import Header from '../ReaderComponents/Header';
+import Header from '../UsersPage/Header';
 import Navigation from '../ReaderComponents/Navigation';
 import {  Routes, Route } from 'react-router-dom';
 import Help from '../Components/Pages/Help';

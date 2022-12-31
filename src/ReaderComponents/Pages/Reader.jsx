@@ -1,6 +1,7 @@
 import '../../Styles/PageStyles/consumermanagement.css'
 import '../../Styles/PageStyles/home.css'
 import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
+import { NumericFormat, PatternFormat } from 'react-number-format';
 import ReadingTable from '../../ReaderComponents/ReadyComponents/ReadingTable'
 import AutoComplete from '../../Components/ReadyComponents/CAutoComplete'
 import SelectLabels from '../../Components/ReadyComponents/CSelectLabel';
@@ -25,19 +26,21 @@ const Reader = ({
   reading,
 }) => {
   
-  const consumersData = GetData('http://localhost:8001', '/consumers');
+  const consumersData = GetData('http://127.0.0.1:8000/api', '/consumer');
   const brgyPrkData = GetData('http://127.0.0.1:8000/api', '/brgyprk');
-  const sample = GetData('http://localhost:8001', '/reading?consumerId=10002')
-  console.log(sample && sample.data)
   const [page, setPage] = useState(0);
   const [popUp, setPopUp] = useState(false)
+  const [inputReading, setInputReading] = useState(null)
+  console.log(inputReading)
 
   const [consumerInfo, setConsumerInfo] = useState({})
-  const  readingInfo = GetData('http://localhost:8001', `/reading?consumerId=${consumerInfo.user_key?consumerInfo.user_key:10001}`)
-  const {data:readings, isPending:rbIsPending, error:rbError, reload, setReload}= readingInfo
-  const reloadToggle = () => {
-    setReload(reload? false:true)
-  }
+
+  const {data:consumer, isPending:conIsPending, error:conError}= consumersData
+  const {data:brgyPrk, isPending:bpIsPending, error:bpError}= brgyPrkData
+  
+  const  readingInfo = GetData('http://localhost:8001', `/PastReadings${consumerInfo && '?id='}${consumerInfo && consumerInfo.consumer_id}`) 
+  const {data:pastReading, isPending:pastReadingIsPending, error:pastReadingError, reload, setReload}= readingInfo;
+  console.log(pastReading)
       //date sorter
     const sorter = (a, b) => {
         const ayear = new Date(a.date)
@@ -48,7 +51,6 @@ const Reader = ({
         return  byear.getMonth() - ayear.getMonth() ;
         };
     };
-    readings && readings.sort(sorter)
   const [purok, setPurok] = useState(7);
   const [barangay, setBarangay] = useState("");
   const [name, setName] = useState("");
@@ -56,8 +58,6 @@ const Reader = ({
   const [alert, setAlert] = useState(false)
   const [alertType, setAlertType] = useState("warning")
   const [alertText, setAlertText] = useState("")
-  const {data:consumer, isPending:conIsPending, error:conError}= consumersData
-  const {data:brgyPrk, isPending:bpIsPending, error:bpError}= brgyPrkData
 
   const styles = {
     h1:{
@@ -67,6 +67,16 @@ const Reader = ({
         marginTop:"-15px",
         display:"flex",
         justifyContent:"center"
+    },
+    textfield:{
+      display:"flex", 
+      justifyContent:"center", 
+      alignItems:"center",
+      width:180,
+      margin:"20px auto 5px auto"
+    },
+    para:{
+      margin:0
     }
   }
 
@@ -96,7 +106,7 @@ const Reader = ({
     const bCon = consumer && barangay && purok? consumer.filter((c)=> c.barangay === barangay && (c.purok === purok || purok ===7)):consumer
     const newCon = bCon? bCon.filter((c)=> `${c.first_name.toLowerCase()} ${c.middle_name.toLowerCase()} ${c.last_name.toLowerCase()}`.includes(name.toLowerCase())||`${c.id}`.includes(name)) : bCon
     const columns = [
-      { id: 'user_key', label: 'Consumer #', minWidth: 120 },
+      { id: 'consumer_id', label: 'Consumer #', minWidth: 120 },
       { id: 'name', label: 'Name', minWidth: 300 },
       { id: 'barangay', label: 'Barangay', minWidth: 200 },
       {
@@ -153,7 +163,8 @@ const Reader = ({
 
           <div style={{ width:'100%', display:"flex", justifyContent:"center" }}>
            <ReadingTable
-           reloadToggle={reloadToggle}
+           reload={reload}
+           setReload={setReload}
            page={page}
            setPage={setPage}
            setPopUp={setPopUp}
@@ -163,13 +174,13 @@ const Reader = ({
            newCon={newCon}
            columns={columns}
            height={490}
-           rowPerPage={7}
+           rowPerPage={8}
            />
            </div>
            {readingInfo!==undefined && readingInfo.data && <Dialog open={popUp} maxWidth={'xs'} fullWidth >
                 <DialogTitle style={{margin:0,  textAlign:"left",paddingBottom:1}}>
                     <Typography gutterBottom fontWeight={"bold"} fontSize={30} style={{margin:"0 auto", borderBottom:"1px solid gray"}}>
-                        {consumerInfo.user_key}
+                        {consumerInfo.consumer_id}
                     </Typography>
                     </DialogTitle>
 
@@ -180,8 +191,52 @@ const Reader = ({
                     <p style={{ margin:0 }}>{`${consumerInfo.barangay}`}</p>
                     <p style={{ margin:0 }}>{`Purok ${consumerInfo.purok}`}</p>
                     <br />
-                    <h4 style={{ margin:0 }}>Past Reading:</h4>
-                    {readings && <p>{readings[0].service_period}</p>}
+                    <h4 style={{ margin:0 }}>Past Reading:</h4> 
+
+                    {consumerInfo && pastReading.length!==0 && !pastReadingError && !pastReadingIsPending && 
+                    <Box style={{display:"flex", justifyContent:"left", alignItems:"left", flexDirection:"column"}}>
+                      <p style={styles.para}>{`Reading: ${pastReading[0].past_reading}`}</p>
+                      <p style={styles.para}>{`Month: ${pastReading[0].month}`}</p>
+                      <p style={styles.para}>{`Year: ${pastReading[0].year}`}</p> 
+                      </Box>
+                    }
+
+                    {pastReadingIsPending && 
+                    <Box style={{color:"gray", display:"flex", justifyContent:"left", alignItems:"center"}}>Loading...</Box>
+                    }
+
+                    {pastReadingError && <Box style={{color:"rgb(255, 82, 82)", display:"flex", justifyContent:"center", alignItems:"center"}}>
+                    <h3>Failed To Fetch Data</h3></Box>
+                    }
+
+                    {reading && !pastReadingError && !pastReading.past_reading && 
+                    <Box style={{color:"gray", display:"flex", justifyContent:"center", alignItems:"center"}}><h3>No Past Reading</h3></Box>
+                    }
+
+                    <NumericFormat
+                            label="Input new reading" 
+                            variant="outlined" 
+                            placeholder={`ex: ${pastReading.length!==0 && pastReading[0].past_reading+1}`} 
+                            allowNegative={false}
+                            value={inputReading}
+                            //disabled={}
+                            isAllowed={(values) => {
+                              const { value } = values;
+                              return value < 99999 && !value.includes(".");
+                            }}
+                            onChange={(e) =>{
+                                const val = e.target.value
+                                setInputReading(val)
+                            }}
+                            customInput={TextField}
+                            style={styles.textfield}
+                            disabled={(pastReading.length===0 || pastReadingIsPending || pastReadingError)?true:false}
+                            />
+
+                    { ( pastReading.length!==0 && inputReading>pastReading[0].past_reading?false:true && inputReading!==null && consumerInfo &&!pastReadingError && !pastReadingIsPending ) ?//inputReading!==null &&
+                    <Box style={{display:"flex", justifyContent:"center", alignItems:"center", color:"red", fontSize:12}}>{"Reading must not be equals or below  "+pastReading[0].past_reading}</Box>
+                    :<Box style={{display:"flex", justifyContent:"center", alignItems:"center", color:"gray", fontSize:12}}>{""}</Box>
+                    }
                     
                       
                       <Box style={{  display:'flex', justifyContent:'end', width:400 }}>
@@ -189,13 +244,16 @@ const Reader = ({
                                 variant="outlined"
                                 disabled={consumerInfo? false:true} 
                                 style={{height:40, width:100, fontSize:12, margin:5}}
-                                onClick={()=>setPopUp(false)}>
+                                onClick={()=>{
+                                  setPopUp(false);
+                                  setInputReading(null);
+                                }}>
                                 Cancel
                                 </Button>
                                 
                                 <Button  
                                 variant="contained"
-                                disabled={consumerInfo? false:true} 
+                                disabled={( pastReadingIsPending || pastReadingError || pastReading.length === 0 || inputReading===null || inputReading.length===0)? true:false} 
                                 style={{height:40, width:120, fontSize:12, margin:5}}
                                 >Submit</Button>
                       </Box>

@@ -3,21 +3,23 @@ import '../../Styles/PageStyles/inquire.css'
 import { TextField} from '@mui/material';
 import { createFilterOptions } from '@mui/material';
 import { useState, useRef } from 'react';
-import ReadingTable from '../ReadyComponents/CReadingTable';
+import ReadingTable from '../../CashierComponents/ReadyComponents/ReadingTableCashier';
 import useEffect from '../../Hook/useFetch';
 import ReactToPrint from 'react-to-print'
 import GetData from '../../Hook/SampleData'
 
 const Inquire = ({month}) => {
 
-    const consumersData = GetData('http://localhost:8001', '/consumers');
-    const readingData = GetData('http://localhost:8001', '/reading');
+    const consumersData = GetData('http://127.0.0.1:8000/api', '/consumer');
+    //const readingData = GetData('http://127.0.0.1:8000/api', '/reading');
     const componentRef = useRef()
     const { data:consumer, isPending, error  } = consumersData
-    const {data:readings, conIsPending, conError}= readingData
 
     const [ searchedConsumer, setSearchedConsumer ] = useState("")
     const [ searchedConsumerId, setSearchedConsumerId ] = useState("")
+    const readingData = GetData('http://127.0.0.1:8001', `/reading?consumerId=${searchedConsumerId}`);
+    console.log(searchedConsumerId)
+    const {data:readings, isPending:readingIsPending, error:readingError, reload, setReload}= readingData;
 
     const OPTIONS_LIMIT = 8;
     const filterOptions = createFilterOptions({
@@ -52,7 +54,7 @@ const Inquire = ({month}) => {
             alignItems:"center",
             justifyContent:"center",
             flex:5,
-            width:600,
+            width:800,
             height:700,
             color:"rgb(75, 75, 75)",
             margin:"20px"
@@ -63,7 +65,7 @@ const Inquire = ({month}) => {
             alignItems:"center",
             justifyContent:"flex-start",
             height:800,
-            width:600,
+            width:800,
             padding:"25px 15px"
         },
         box3_1:{
@@ -71,21 +73,28 @@ const Inquire = ({month}) => {
             flexDirection:"row",
             alignItems:"flex-start",
             justifyContent:"space-between",
-            width:550,
+            width:650,
         },
         box3_2:{
-            width:550,
+            width:650,
         },
         box3_3:{
             padding:5,
             overflow: "hidden",
             overflowY: "scroll",
-            height:230,
+            height:300,
             marginTop:20
+        },
+        box3_3_3:{
+            display:"flex",
+            flexDirection:"row",
+            alignItems:"start",
+            justifyContent:"space-between",
+            width:650,
         },
         box3_1_1:{
             padding:"0 15px",
-            backgroundColor: searchedConsumer && searchedConsumer.consumer_status==="connected"?"rgb(156, 218, 32)":"rgb(242, 54, 54)",
+            backgroundColor: searchedConsumer && searchedConsumer.status==="Connected"?"rgb(156, 218, 32)":"rgb(242, 54, 54)",
             color:"white",
             borderRadius:"2px",
         },
@@ -110,8 +119,8 @@ const Inquire = ({month}) => {
     }
     //date sorter
     const sorter = (a, b) => {
-        const ayear = new Date(a.date)
-        const byear = new Date(b.date)
+        const ayear = new Date(a.registered_at)
+        const byear = new Date(b.registered_at)
         if(byear.getFullYear() !== ayear.getFullYear()){
         return   ayear.getFullYear() - byear.getFullYear();
         }else{
@@ -149,12 +158,12 @@ const Inquire = ({month}) => {
                                 <Autocomplete
                                     disablePortal
                                     disabled={isPending || error}
-                                    getOptionLabel={(option) => `${option.id} ${option.first_name} ${option.middle_name} ${option.last_name}`}
+                                    getOptionLabel={(option) => `${option.consumer_id} ${option.first_name} ${option.middle_name} ${option.last_name}`}
                                     id="combo-box-demo"
                                     options={consumer ? consumer: []}
                                     filterOptions={filterOptions}                      
                                     sx={{ width: 400 }}
-                                    onChange={(event , val)=>{ setSearchedConsumer(val); setSearchedConsumerId(val? val.user_key:"")}}
+                                    onChange={(event , val)=>{ setSearchedConsumer(val); setSearchedConsumerId(val? val.consumer_id:""); setReload(reload ? false:true)}}
                                     renderInput={(params) => 
                                     <TextField
                                     {...params} 
@@ -177,26 +186,29 @@ const Inquire = ({month}) => {
                         {searchedConsumer ? 
                         <Box style={styles.box3}>
                             <Box style={styles.box3_1}>
-                                <h1 style={styles.h11}>{searchedConsumer.id}</h1>
-                                <Box style={styles.box3_1_1}><p>{searchedConsumer.consumer_status==='connected'? "Connected":"Disconnected"}</p></Box>
+                                <h1 style={styles.h11}>{searchedConsumer.consumer_id}</h1>
+                                <Box style={styles.box3_1_1}><p>{searchedConsumer.status==='Connected'? "Connected":"Disconnected"}</p></Box>
                             </Box>
                             <Box style={styles.box3_2}>
                                 <h2 style={styles.box3text}>{`${searchedConsumer.first_name} ${searchedConsumer.middle_name} ${searchedConsumer.last_name}`}</h2>
                                 <p style={{marginLeft:"1px",...styles.box3text}}>{`${searchedConsumer.barangay}, Purok ${searchedConsumer.purok}`}</p>
                                 <strong style={{marginLeft:"1px",...styles.box3text}}>{searchedConsumer.usage_type}</strong>
                             </Box>
-                            <Box style={styles.box3_3}>
-                                <ReadingTable 
-                                month={month}
-                                newrb={newrb}
-                                readings={readings}
-                                scale={1}
-                                height={230}
-                                conIsPending={conIsPending} 
-                                conError={conError}
-                                />
+                            <Box style={{ ...styles.box3_3_3 }}>
+                                <Box>Maui</Box>
+                                <Box style={styles.box3_3}>
+                                    <h3 style={{ marginTop:0, marginBottom:5 }}>Billings last 5 months</h3>
+                                    <ReadingTable 
+                                    readingIsPending={readingIsPending} 
+                                    readingError={readingError}
+                                    month={month}
+                                    newrb={newrb}
+                                    readings={readings}
+                                    scale={1}
+                                    height={230}
+                                    />
+                                </Box>
                             </Box>
-                            <h3>Total Billing: {sum}</h3>
                         </Box>:
                         <Box>
                             <h1 style={styles.h1}>SEARCH CONSUMER</h1>

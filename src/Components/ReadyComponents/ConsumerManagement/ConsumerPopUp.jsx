@@ -31,7 +31,7 @@ const ConsumerPopup = ({title, children, consumerPopUp, maxWidth, setConsumerPop
 
       <DialogTitle style={styles.dialogTitle}>
         <Typography gutterBottom fontWeight={"bold"} fontSize={40} style={styles.typography}>
-            {consumerInfo.id? consumerInfo.id : "none"} 
+            {consumerInfo.consumer_id? consumerInfo.consumer_id : "none"} 
         </Typography>
         <Box style={styles.box}>
           <Button color="warning" aria-label="edit" onClick={()=> setOpenPopup(true)}><EditIcon sx={{fontSize:35, color:"orange", margin:"0 5px"}}/></Button>

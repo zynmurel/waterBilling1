@@ -18,7 +18,7 @@ const ConsumerData = ({
         }
         return age
     }
-    const date = new Date(consumerInfo.date)
+    const date = new Date(consumerInfo.registered_at)
     const styles = {
         container:{
             display:"flex",
@@ -57,7 +57,7 @@ const ConsumerData = ({
         },
         box2_2_1:{
             padding:"0 15px",
-            backgroundColor: consumerInfo && consumerInfo.consumer_status==="connected"?"rgb(156, 218, 32)":"rgb(242, 54, 54)",
+            backgroundColor: consumerInfo && consumerInfo.status==="Connected"?"rgb(156, 218, 32)":"rgb(242, 54, 54)",
             color:"white",
             borderRadius:"2px",
             height:40,
@@ -72,9 +72,9 @@ const ConsumerData = ({
         }
     }
     const newrb = readings? readings.filter((rb)=>{
-        return rb.consumerId==consumerInfo.id
+        return rb.consumerId==consumerInfo.consumer_id
         }):""
-        console.log(consumerInfo.id)
+        console.log(consumerInfo.consumer_id)
     const sorter = (a, b) => {
         const ayear = new Date(a.date)
         const byear = new Date(b.date)
@@ -107,7 +107,7 @@ const ConsumerData = ({
             <Paper style={styles.subcontainer2}>
                 <Box style={styles.subcontainer2_2}>
                     <Box style={styles.box2_2_2}><h2 style={{margin:0}}>Billing Records</h2></Box>
-                    <Box style={styles.box2_2_1}><p style={styles.p}>{consumerInfo.consumer_status === "connected" ? "Connected":"Disconnected"}</p></Box>
+                    <Box style={styles.box2_2_1}><p style={styles.p}>{consumerInfo.status === "Connected" ? "Connected":"Disconnected"}</p></Box>
                 </Box>
                 <ReadingTable 
                 month={month}

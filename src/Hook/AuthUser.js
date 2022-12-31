@@ -26,15 +26,16 @@ export default function AuthUser() {
         setToken(token);
         setUser(user);
 
-        if(user.user_type==='admin'){navigate('/home')}
-        if(user.user_type==='cashier'){navigate('/payment')}
-        if(user.user_type==='reader'){navigate('/reading')}
+        if(user.user_type==='Admin'){navigate('/home')}
+        if(user.user_type==='Cashier'){navigate('/payment')}
+        if(user.user_type==='Reader'){navigate('/reading')}
+        if(user.user_type==='Consumer'){navigate('/consumerBilling')}
     }
 
     const logout = () => {
         sessionStorage.clear();
 
-        navigate('/login');
+        navigate('/');
     }
 
     const http = axios.create({

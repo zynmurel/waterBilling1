@@ -10,7 +10,7 @@ import PaymentInfo from '../ReadyComponents/PaymentInfo';
 
 const Payment = ({month}) => {
 
-    const consumersData = GetData('http://localhost:8001', '/consumers');
+    const consumersData = GetData('http://127.0.0.1:8000/api', '/consumer');
     const readingData = GetData('http://localhost:8001', '/reading');
     const componentRef = useRef()
     const { data:consumer, isPending, error  } = consumersData
@@ -69,7 +69,7 @@ const Payment = ({month}) => {
         },
         box3_1:{
             display:"flex",
-            flexDirection:"row",
+            flexDirection:"column",
             alignItems:"flex-start",
             justifyContent:"space-between",
             width:550,
@@ -106,6 +106,11 @@ const Payment = ({month}) => {
             fontSize:30,
             color:"rgb(12,20,52)",
         },
+        h12:{
+            margin:0,
+            fontSize:25,
+            color:"rgb(12,20,52)",
+        },
         box3text:{
             margin:"5px 0",
         }
@@ -125,7 +130,7 @@ const Payment = ({month}) => {
     //filter readings - only searched && paid
     const newrb = readings && searchedConsumer? readings.filter((rb)=>{
         console.log(rb.paid)
-        return rb.consumerId==searchedConsumer.user_key && rb.date_paid === ""
+        return rb.consumerId==searchedConsumer.consumer_id && rb.date_paid === ""
         }):""
 
     //array of bills
@@ -152,7 +157,7 @@ const Payment = ({month}) => {
                                 <Autocomplete
                                     disablePortal
                                     disabled={isPending || error}
-                                    getOptionLabel={(option) => `${option.id} ${option.first_name} ${option.middle_name} ${option.last_name}`}
+                                    getOptionLabel={(option) => `${option.consumer_id} ${option.first_name} ${option.middle_name} ${option.last_name}`}
                                     id="combo-box-demo"
                                     options={consumer ? consumer: []}
                                     filterOptions={filterOptions}                      
@@ -177,7 +182,8 @@ const Payment = ({month}) => {
                         {searchedConsumer ? 
                         <Box style={styles.box3}>
                             <Box style={styles.box3_1}>
-                                <h1 style={styles.h11}>{`${searchedConsumer.id} ${searchedConsumer.first_name} ${searchedConsumer.middle_name} ${searchedConsumer.last_name}`}</h1>
+                                <h1 style={styles.h11}>{`${searchedConsumer.consumer_id}`}</h1>
+                                <h2 style={styles.h12}>{`${searchedConsumer.first_name} ${searchedConsumer.middle_name} ${searchedConsumer.last_name}`}</h2>
                             </Box>
                             <Box style={styles.box3_2}>
                                 <p style={{marginLeft:"1px",...styles.box3text}}>{`${searchedConsumer.barangay}, Purok ${searchedConsumer.purok}`}</p>

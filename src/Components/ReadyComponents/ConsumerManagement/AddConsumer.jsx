@@ -30,7 +30,7 @@ const AddConsumer = ({
 
     const [buttonPending, setButtonPending] = useState(false)
 
-    const [ consumerNum, setConsumerNum ] = useState(dataIsOn? consumerInfo.id:"")
+    const [ consumerNum, setConsumerNum ] = useState(dataIsOn? consumerInfo.consumer_id:"")
     const [ errConsumerNum, setErrConsumerNum ] = useState(false)
     
     const [ consumerFirstName, setConsumerFirstName ] = useState(dataIsOn? consumerInfo.first_name:"")
@@ -78,7 +78,8 @@ const AddConsumer = ({
     const [ consumerWaterFirstReading, setConsumerWaterFirstReading ]= useState(dataIsOn? consumerInfo.first_reading:"")
     const [ errConsumerWaterFirstReading, setErrConsumerWaterFirstReading ] = useState(false)
 
-    const [ consumerWaterRegDate, setConsumerWaterRegDate ]= useState(dataIsOn? consumerInfo.date :"")
+    const [ consumerWaterRegDate, setConsumerWaterRegDate ]= useState(dataIsOn? consumerInfo.registered_at :"")
+    console.log(dataIsOn? consumerInfo.registered_at:"")
     const [ errConsumerWaterRegDate, setErrConsumerWaterRegDate ] = useState(false)
    
     const handleSubmit = (e) =>{

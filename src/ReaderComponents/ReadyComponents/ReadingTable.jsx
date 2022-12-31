@@ -23,7 +23,8 @@ export default function StickyHeadTable({
   columns,
   height,
   rowPerPage,
-  reloadToggle
+  reload, 
+  setReload
 }) {
   const rowsPerPage = rowPerPage;
 
@@ -65,11 +66,16 @@ export default function StickyHeadTable({
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover tabIndex={-1} key={row.id} >
+                  <TableRow hover tabIndex={-1} key={row.consumer_id} >
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
-                        <TableCell key={column.id} align={column.align} onClick={()=>{  reloadToggle(); setPopUp(true); setConsumerInfo(row); }}>
+                        <TableCell key={column.id} align={column.align} 
+                        onClick={()=>{ 
+                          setPopUp(true); 
+                          setConsumerInfo(row); 
+                          setReload(reload? false:true);
+                          }}>
                           {column.id === "name"? `${row.first_name} ${row.middle_name? row.middle_name[0]+".":""} ${row.last_name}` :value}
                         </TableCell>
                       );

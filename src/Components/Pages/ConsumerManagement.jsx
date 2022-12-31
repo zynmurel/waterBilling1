@@ -24,7 +24,7 @@ const ConsumerManagement = ({
   month, 
 }) => {
   
-  const consumersData = GetData('http://localhost:8001', '/consumers');
+  const consumersData = GetData('http://127.0.0.1:8000/api', '/consumer');
   const brgyPrkData = GetData('http://127.0.0.1:8000/api', '/brgyprk');
   const readingData = GetData('http://localhost:8001', '/reading')
   const [page, setPage] = useState(0);
@@ -69,10 +69,10 @@ const ConsumerManagement = ({
     allbarangay = allbarangay.sort()
   
     //StickyTable
-    const bCon = consumer && barangay && purok? consumer.filter((c)=> c.barangay === barangay && (c.purok === purok || purok ===7)):consumer
-    const newCon = bCon? bCon.filter((c)=> `${c.first_name.toLowerCase()} ${c.middle_name.toLowerCase()} ${c.last_name.toLowerCase()}`.includes(name.toLowerCase())||`${c.id}`.includes(name)) : bCon
+    const bCon = consumer && barangay && purok? consumer.filter((c)=> c.barangay === barangay && (c.purok == purok || purok ==7)):consumer
+    const newCon = bCon? bCon.filter((c)=> `${c.first_name.toLowerCase()} ${c.middle_name.toLowerCase()} ${c.last_name.toLowerCase()}`.includes(name.toLowerCase())||`${c.consumer_id}`.includes(name)) : bCon
     const columns = [
-      { id: 'user_key', label: 'Consumer #', minWidth: 120 },
+      { id: 'consumer_id', label: 'Consumer #', minWidth: 120 },
       { id: 'name', label: 'Name', minWidth: 500 },
       { id: 'barangay', label: 'Barangay', minWidth: 200 },
       {

@@ -44,11 +44,14 @@
       "consumer_status":"connected"
     }
   ],
+
+
+  
   "reading": [
     {
       "reading_id": 1,
       "reader_id": 12,
-      "consumerId": 10001,
+      "consumerId": "0000000003",
       "reading": 0,
       "date": "2022-11-12T16:00:00.000Z",
       "bill": 20,
@@ -61,7 +64,7 @@
     {
       "reading_id": 2,
       "reader_id": 12,
-      "consumerId": 10001,
+      "consumerId": "0000000003",
       "reading": 6,
       "date": "2022-12-12T16:00:00.000Z",
       "bill": 19,
@@ -74,7 +77,7 @@
     {
       "reading_id": 3,
       "reader_id": 12,
-      "consumerId": 10002,
+      "consumerId": "0000000002",
       "reading": 10,
       "date": "2023-01-12T16:00:00.000Z",
       "bill": 18,
@@ -87,7 +90,7 @@
     {
       "reading_id": 4,
       "reader_id": 12,
-      "consumerId": 10001,
+      "consumerId": "0000000002",
       "reading": 10,
       "date": "2023-02-12T16:00:00.000Z",
       "bill": 18,
@@ -100,7 +103,7 @@
     {
       "reading_id": 5,
       "reader_id": 12,
-      "consumerId": 10001,
+      "consumerId": "0000000001",
       "reading": 10,
       "date": "2023-01-12T16:00:00.000Z",
       "bill": 18,
@@ -109,6 +112,32 @@
       "total_reading":4,
       "due_date": "2023-01-25T16:00:00.000Z",
       "service_period": "2022-December"
+    }
+  ],
+  "PastReadings":[
+    {
+      "id":"0000000001",
+      "past_reading":12,
+      "month":"January",
+      "year":"2022"
+    },
+    {
+      "id":"0000000002",
+      "past_reading":13,
+      "month":"January",
+      "year":"2022"
+    },
+    {
+      "id":"0000000003",
+      "past_reading":14,
+      "month":"January",
+      "year":"2022"
+    },
+    {
+      "id":"0000000004",
+      "past_reading":0,
+      "month":"January",
+      "year":"2022"
     }
   ],
   "CubicRate":[
@@ -161,6 +190,33 @@
         "value":21
       }
     
+  ],
+  "UserConsumer":[
+    {
+      "consumer_id": "0000000001",
+      "user_id": 1,
+      "first_name": "Andrei",
+      "middle_name": "Ugpo",
+      "last_name": "Chatto",
+      "gender": "Male",
+      "birthday": 979430400,
+      "phone": "9486207359",
+      "civil_status": "Widowed",
+      "name_of_spouse": "",
+      "brgyprk_id": 13,
+      "household_no": 12,
+      "first_reading": 0,
+      "usage_type": "residential",
+      "serial_no": 3014,
+      "brand": "Sunrise",
+      "status": "Connected",
+      "delinquent": 0,
+      "registered_at": "2019-02-28",
+      "created_at": "2022-12-23 09:11:37",
+      "updated_at": "2022-12-23 09:11:37",
+      "barangay": "Boctol",
+      "purok": "1"
+  }
   ]
   
 

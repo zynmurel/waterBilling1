@@ -18,7 +18,6 @@ export default function ComboBox({width, label, options, isPending, error, dataS
   }else{
     renderInput ="Barangay"
   }
-console.log(firstData)
   return (
     <Autocomplete
       disablePortal

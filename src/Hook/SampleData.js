@@ -19,6 +19,7 @@ const useFetch = (baseUrl, url)=> {
     });
 
     useEffect(()=>{
+      setIsPending(true)
         setTimeout(()=>{
           http.get(url)
           .then(res=>{
