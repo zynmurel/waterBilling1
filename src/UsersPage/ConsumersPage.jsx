@@ -20,7 +20,7 @@ const Consumer = () => {
 
     const logoutUser = () => {
       if(token != undefined){
-        logout();
+        logout(); 
       }
     }
     const styles = {
