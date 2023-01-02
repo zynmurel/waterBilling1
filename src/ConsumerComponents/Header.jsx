@@ -3,7 +3,7 @@ import '../Styles/header.css'
 import { MdOutlineWaterDrop } from "react-icons/md";
 import { useState } from 'react';
 
-const Header = ({logoutUser}) => {
+const Header = ({logoutUser, consumer, consumerIsPending, consumerError}) => {
     const [anchorEl, setAnchorEl] = useState(null);
   
     const handleClick = (event) => {
@@ -94,14 +94,10 @@ const Header = ({logoutUser}) => {
                 </Box>
 
                 <Paper style={styles.paper} aria-describedby={id} onClick={handleClick}>
-                    <h2>SM</h2>
+                {consumer && <h2>{`${consumer[0].first_name[0]+consumer[0].last_name[0]}`}</h2>}
+                {consumerIsPending && <h2>...</h2>}
+                {consumerError && <h2></h2>}
                 </Paper>
-
-                {/* <Button
-                onClick={logoutUser}
-                >
-                Logout
-            </Button> */}
             </Box>
         </Box>
      );
