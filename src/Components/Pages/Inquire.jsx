@@ -175,7 +175,7 @@ const Inquire = ({month}) => {
                                 <Button  
                                 variant="contained"
                                 disabled={searchedConsumer? false:true} 
-                                style={{height:55}}
+                                style={{height:55, color:'white', backgroundColor: searchedConsumer? 'rgb(12,20,52)':'rgb(191, 191, 191)'}} 
                                 >Print/Download</Button>}
                                 content={() => componentRef.current}
                                 />

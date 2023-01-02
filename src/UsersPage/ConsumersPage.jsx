@@ -16,7 +16,6 @@ const Consumer = () => {
     const consumersData = GetData('http://127.0.0.1:8001', `/UserConsumer?user_id=${getUser().user_id}`);
     const consumersBillings = GetData('http://127.0.0.1:8001', `/reading`);
     const { data:consumer, isPending:consumerIsPending, error:consumerError } = consumersData;
-    console.log(consumersBillings.data && consumersBillings)
 
     const logoutUser = () => {
       if(token != undefined){

@@ -99,6 +99,9 @@ body{
   .yearBox{
     transform: scale(1.2) translate(20%, 0%);
   }
+  .dialog{
+    transform: scale(1.4);
+  }
   }
 
 

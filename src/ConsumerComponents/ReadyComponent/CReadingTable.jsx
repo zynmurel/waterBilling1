@@ -27,9 +27,8 @@ const columns = [
   }
 ];
 
-export default function ReadingTable({month, newrb , scale, height, rbIsPending, rbError, readings}) {
+export default function ReadingTable({month, newrb , scale, height, rbIsPending, rbError, readings, setSelectedBilling}) {
 
-console.log(readings)
   return (
     <div className={'tablePaper'}>
       <Paper sx={{ width: 600, overflow: 'hidden', transform:`scale(${scale})`}}>
@@ -67,7 +66,6 @@ console.log(readings)
     {newrb && newrb
         .map((row, index) => {
           const service_period = row.service_period.split("-")
-          console.log(service_period)
 
           return (
             <TableRow  role="checkbox" tabIndex={-1} key={row.reading_id} style={!row.date_paid?{height:60}:{backgroundColor:"rgb(132, 240, 139)", height:60}}>
@@ -85,9 +83,8 @@ console.log(readings)
                 } else if (column.id === "penalty"){
                   value = row.penalty
                 } 
-
                 return (
-                  <TableCell key={column.id} align={column.align} style={{padding:10 , fontSize:24}}>
+                  <TableCell key={column.id} align={column.align} style={{padding:10 , fontSize:24}} onClick={()=> setSelectedBilling(row)}>
                      {value}
                   </TableCell>
                 );

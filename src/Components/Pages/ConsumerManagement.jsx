@@ -127,10 +127,10 @@ const ConsumerManagement = ({
 
             <Button 
             disabled={conError?true:false || conIsPending}
-            variant="outlined" 
-            style={{width:200}}
+            variant="contained" 
+            style={{width:200, backgroundColor:'rgb(12,20,52)', color:'white', backgroundColor: (conError?true:false || conIsPending)?'rgb(191, 191, 191)':'rgb(12,20,52)'}}
             onClick={()=> {setOpenPopup(true); setConsumerInfo({})}}
-            >
+            > 
               <PersonAddAltRoundedIcon
               sx={{ marginRight:1}}
               />Add Consumer</Button>
