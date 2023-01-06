@@ -130,9 +130,6 @@ body{
 }
 
 @media screen and (max-width: 800px) and (min-height: 800px){
-  .content{
-  transform: scale(1.5);
-  }
   .snackbar{
     transform: scale(1.7) translate(20%, -50%);  
   }
