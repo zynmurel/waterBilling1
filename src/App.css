@@ -129,7 +129,7 @@ body{
   justify-content: center;
 }
 
-@media screen and (max-width: 750px) and (min-height: 1000px){
+@media screen and (max-width: 800px) and (min-height: 800px){
   .content{
   transform: scale(1.5);
   }
