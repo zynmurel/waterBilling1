@@ -129,9 +129,9 @@ body{
   justify-content: center;
 }
 
-/* @media screen and (max-width: 750px) and (min-height: 1000px){
+@media screen and (max-width: 750px) and (min-height: 1000px){
   .content{
-  transform: scale(1.7);
+  transform: scale(1.5);
   }
   .snackbar{
     transform: scale(1.7) translate(20%, -50%);  
@@ -200,4 +200,4 @@ body{
 }
   }
 
- */
+
