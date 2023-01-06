@@ -53,77 +53,89 @@ const MeterReading = ({ month:allmonth, year:allyear}) => {
     return ( 
         <div className="meterReading">
             <div className="container">
-            <div className="searchAddBar">
+            <div className="searchBarMR">
+            <div className="searchBar">
 
 
-            <AutoComplete  
-              width={125} 
-              label={'Year'} 
-              dataSetter={setYear}
-              buttonDisabler={setPurok}
-              pageSetter={setPage}
-              autoComHeight={500}
-              options={allyear}
-              firstData={year}
-              /> 
-              
+              <div className="searchAddBar1">
+                <AutoComplete  
+                width={"100%"} 
+                label={'Year'} 
+                dataSetter={setYear}
+                buttonDisabler={setPurok}
+                pageSetter={setPage}
+                autoComHeight={500}
+                options={allyear}
+                firstData={year}
+                /> 
+                
+                <AutoComplete  
+                width={"100%"} 
+                label={'Month'} 
+                dataSetter={setMonth}
+                buttonDisabler={setPurok}
+                pageSetter={setPage}
+                autoComHeight={500}
+                options={allmonth}
+                firstData={month}
+                />
+                </div>
+
+                <div className="searchAddBar1"> 
+
+              <TextField 
+                id="outlined-basic" 
+                label={"Search ID Number/Name" }
+                InputProps= {{
+                endAdornment: (
+                    <InputAdornment position="end">
+                      <SearchIcon />
+                    </InputAdornment>
+                  ),
+                }}
+                variant="outlined" 
+                style={{width:400}}
+                onChange={(e)=>{setName(e.target.value); setPage(0)}}
+                />
+                </div>
+
+              <div className="searchAddBar1">
+
               <AutoComplete  
-              width={180} 
-              label={'Month'} 
-              dataSetter={setMonth}
-              buttonDisabler={setPurok}
-              pageSetter={setPage}
-              autoComHeight={500}
-              options={allmonth}
-              firstData={month}
+                width={220} 
+                label={'Barangay'} 
+                dataSetter={setBarangay}
+                buttonDisabler={setPurok}
+                pageSetter={setPage}
+                autoComHeight={500}
+                options={allbarangay}
+                isPending={bpIsPending}
+                error={bpError}
+                />    
+
+                  <SelectLabels 
+                  minWidth={80} 
+                  m={0}
+                  label={'Purok'} 
+                  allpurok={allpurok}
+                  barangay={barangay}
+                  purok={purok} 
+                  setPurok={setPurok} 
+                  setPage={setPage}/>
+
+              </div>
+              </div>
+
+              <div className="meterReadingTable">
+              <MeterReadingTable
+              page={page}
+              setPage={setPage}
+              setConsumerPopup={setConsumerPopup}
+              setConsumerInfo={setConsumerInfo}
+              columns={columns}
               />
-
-            <TextField 
-              id="outlined-basic" 
-              label={"Search ID Number/Name" }
-              InputProps= {{
-              endAdornment: (
-                  <InputAdornment position="end">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-              variant="outlined" 
-              style={{width:400}}
-              onChange={(e)=>{setName(e.target.value); setPage(0)}}
-              />
-            
-            <AutoComplete  
-              width={220} 
-              label={'Barangay'} 
-              dataSetter={setBarangay}
-              buttonDisabler={setPurok}
-              pageSetter={setPage}
-              autoComHeight={500}
-              options={allbarangay}
-              isPending={bpIsPending}
-              error={bpError}
-              />    
-            
-                <SelectLabels 
-                minWidth={80} 
-                m={0}
-                label={'Purok'} 
-                allpurok={allpurok}
-                barangay={barangay}
-                purok={purok} 
-                setPurok={setPurok} 
-                setPage={setPage}/>
-
-           </div>
-
-           <MeterReadingTable
-           page={page}
-           setPage={setPage}
-           setConsumerPopup={setConsumerPopup}
-           setConsumerInfo={setConsumerInfo}
-           columns={columns}
-           />
+              </div>
+            </div>
            </div>
         </div>
      );

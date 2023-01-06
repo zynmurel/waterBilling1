@@ -15,7 +15,7 @@ import { useState, useEffect } from 'react';
 
 const AdminPage = () => {
 
-  const {token, logout, getData} = AuthUser();
+  const {token, logout, getData, getUser} = AuthUser();
   const result= useFetch("http://localhost:8001/Consumers");
   const reading = useFetch("http://localhost:8001/reading");
   const date = new Date('1644883200' * 1000)
@@ -33,6 +33,7 @@ const AdminPage = () => {
       logout();
     }
   }
+  const userType = getUser().user_type;
     return ( 
         <div className="adminpage">
  
@@ -41,6 +42,7 @@ const AdminPage = () => {
         <div className='routes' >
         <Header 
         logoutUser={logoutUser}
+        userType={userType}
         />
         <Routes>  
           <Route path="/home" element={

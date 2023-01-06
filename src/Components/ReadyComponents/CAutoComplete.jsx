@@ -10,16 +10,18 @@ export default function ComboBox({width, label, options, isPending, error, dataS
   // res && res.map((r) => {
   //   allbarangay.push(r.barangay)
   // } )
-  let renderInput ="Barangay"
+  console.log(label)
+  let renderInput =label
   if(isPending){
     renderInput ="Loading..."
   }else if(error?true:false){
     renderInput = "No Data..."
   }else{
-    renderInput ="Barangay"
+    renderInput =label
   }
   return (
     <Autocomplete
+    style={{ flex:3 }}
       disablePortal
       value={firstData}
       ListboxProps={{ style: { maxHeight: autoComHeight }, position: "top-start" }}

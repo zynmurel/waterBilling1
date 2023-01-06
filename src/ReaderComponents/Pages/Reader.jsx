@@ -1,7 +1,8 @@
 import '../../Styles/PageStyles/consumermanagement.css'
 import '../../Styles/PageStyles/home.css'
+import '../../App.css'
 import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
-import { NumericFormat, PatternFormat } from 'react-number-format';
+import { NumericFormat } from 'react-number-format';
 import ReadingTable from '../../ReaderComponents/ReadyComponents/ReadingTable'
 import AutoComplete from '../../Components/ReadyComponents/CAutoComplete'
 import SelectLabels from '../../Components/ReadyComponents/CSelectLabel';
@@ -16,13 +17,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import GetData from '../../Hook/SampleData';
 
 
-
+ 
 const Reader = ({
-  gender, 
-  civil_status, 
-  usage_type, 
-  brand, 
-  month, 
   reading,
 }) => {
   
@@ -106,13 +102,13 @@ const Reader = ({
     const bCon = consumer && barangay && purok? consumer.filter((c)=> c.barangay === barangay && (c.purok === purok || purok ===7)):consumer
     const newCon = bCon? bCon.filter((c)=> `${c.first_name.toLowerCase()} ${c.middle_name.toLowerCase()} ${c.last_name.toLowerCase()}`.includes(name.toLowerCase())||`${c.id}`.includes(name)) : bCon
     const columns = [
-      { id: 'consumer_id', label: 'Consumer #', minWidth: 120 },
-      { id: 'name', label: 'Name', minWidth: 300 },
-      { id: 'barangay', label: 'Barangay', minWidth: 200 },
+      { id: 'consumer_id', label: 'Consumer #', minWidth: 100 },
+      { id: 'name', label: 'Name', minWidth: 130 },
+      { id: 'barangay', label: 'Barangay', minWidth: 120 },
       {
         id: 'purok',
         label: 'Purok',
-        minWidth: 100,
+        minWidth: 80,
         align: 'center',
       }
     ];
@@ -120,9 +116,10 @@ const Reader = ({
 
     return ( 
         <div className="consumerManagement">
-           <div className="container">
+           <div className="container" style={{ display:'flex', flexDirection:'column', alignItems:'center' }}>
             <h1 className="box1" style={{ ...styles.h1 }}>READER</h1>
-           <div className="searchAddBar">
+           <div className='searchBar'>
+           <div className="searchAddBar1">
             <TextField 
               id="outlined-basic" 
               label={"Search ID Number/Name" }
@@ -134,12 +131,14 @@ const Reader = ({
                 ),
               }}
               variant="outlined" 
-              style={{width:450}}
+              style={{width:'100%'}}
               onChange={(e)=>{setName(e.target.value); setPage(0)}}
               />
-
-            <AutoComplete  
-            width={300} 
+           </div>
+           
+            <div className="searchAddBar1">
+              <AutoComplete  
+            width={'100%'} 
             label={'Barangay'} 
             dataSetter={setBarangay}
             buttonDisabler={setPurok}
@@ -151,7 +150,7 @@ const Reader = ({
             />
             
             <SelectLabels 
-            minWidth={100} 
+            minWidth={'100%'} 
             m={0} 
             label={'Purok'} 
             allpurok={allpurok}
@@ -159,9 +158,10 @@ const Reader = ({
             purok={purok} 
             setPurok={setPurok} 
             setPage={setPage}/>
+            </div>
            </div>
 
-          <div style={{ width:'100%', display:"flex", justifyContent:"center" }}>
+          <div style={{width:'80%', display:"flex", justifyContent:"center" }} className={'readingTable'}>
            <ReadingTable
            reload={reload}
            setReload={setReload}
@@ -177,7 +177,8 @@ const Reader = ({
            rowPerPage={8}
            />
            </div>
-           {readingInfo!==undefined && readingInfo.data && <Dialog open={popUp} maxWidth={'xs'} fullWidth >
+           {readingInfo!==undefined && readingInfo.data && 
+           <Dialog open={popUp} maxWidth={'xs'} fullWidth className='readerDialog'>
                 <DialogTitle style={{margin:0,  textAlign:"left",paddingBottom:1}}>
                     <Typography gutterBottom fontWeight={"bold"} fontSize={30} style={{margin:"0 auto", borderBottom:"1px solid gray"}}>
                         {consumerInfo.consumer_id}
@@ -185,7 +186,7 @@ const Reader = ({
                     </DialogTitle>
 
                     <DialogContent style={{ display:'flex', justifyContent:'center', flexDirection:'column' }}>
-                    <Box className='content'>
+                    <Box>
                     <h3 style={{ margin:0, marginTop:5 }}>{`${consumerInfo.first_name} ${consumerInfo.middle_name} ${consumerInfo.last_name}`}</h3>
                     <p style={{ margin:0 }}>{`${consumerInfo.usage_type}`}</p>
                     <p style={{ margin:0 }}>{`${consumerInfo.barangay}`}</p>

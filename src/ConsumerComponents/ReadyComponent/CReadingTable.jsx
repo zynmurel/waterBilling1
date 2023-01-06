@@ -68,7 +68,7 @@ export default function ReadingTable({month, newrb , scale, height, rbIsPending,
           const service_period = row.service_period.split("-")
 
           return (
-            <TableRow  role="checkbox" tabIndex={-1} key={row.reading_id} style={!row.date_paid?{height:60}:{backgroundColor:"rgb(132, 240, 139)", height:60}}>
+            <TableRow  role="checkbox" tabIndex={-1} key={row.reading_id} style={!row.date_paid?{height:60, cursor:'pointer'}:{backgroundColor:"rgb(132, 240, 139)", height:60, cursor:'pointer'}}>
               {columns.map((column) => {
                 
                 let value = "";

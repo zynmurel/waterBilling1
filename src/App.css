@@ -32,6 +32,35 @@ body{
     transform: rotate(360deg);
   }
 }
+.consumerManagement{
+  z-index: -1;
+  height: 95%;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  transform: translateY(2%);
+}
+.searchBar{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.searchAddBar1{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 5px 5px;
+  margin:5px ;
+  width: 350px;
+} 
+.searchBarMR{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 
 .body1{
   display: flex;
@@ -45,10 +74,19 @@ body{
   z-index: 1;
   height: 100%;
 }
+.navigation{
+  flex: 1;
+  background-color: rgb(12,20,52);
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px;
+}
 .routes{
   flex: 4.5;
   position: relative;
   background-color: rgb(244, 248, 255);
+  color:rgb(6, 185, 0)
 }
 
 
@@ -82,8 +120,16 @@ body{
   height:20px;
   background-color:'rgb(12,20,52)';
 }
+.logoutNav{
+  visibility: hidden;
+}
+.searchBarMR{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-@media screen and (max-width: 750px) and (min-height: 1000px){
+/* @media screen and (max-width: 750px) and (min-height: 1000px){
   .content{
   transform: scale(1.7);
   }
@@ -102,6 +148,56 @@ body{
   .dialog{
     transform: scale(1.4);
   }
+
+  /*Navigation Mobile View*/
+  .body1{
+    flex-direction: column;
+  }
+  .navigation{
+    flex-direction: row;
+    flex: .2;
+    align-items: center;
+    z-index: 3;
+  }
+  .navbar{
+    padding-right: 20px;
+    margin-left: 10px;
+  }
+  .header{
+    visibility: hidden;
+  }
+  .logoutNav{
+    visibility: visible;
   }
 
+  /*ReaderPage*/
 
+.consumerManagement{
+  transform: translateY(-3%);
+}
+.searchBar{
+  flex-direction: column;
+  width: 65%;
+  transform: scale(1.5) translateY(15%);
+  z-index: 1;
+}
+.readingTable{
+  transform: scale(1.2) translateY(20%);
+  width: 80%;
+  z-index: 0;
+}
+.readerDialog{
+  transform: scale(1.5);
+}
+
+/*Meter Reading Mobile View*/
+.searchBarMR{
+  transform: translateY(-25%) scale(.9);
+}
+.meterReadingTable{
+  transform: translateY(20%);
+  z-index: 0;
+}
+  }
+
+ */

@@ -10,13 +10,20 @@ import { HomeOutlined,
   QuestionCircleOutlined } from '@ant-design/icons';
 import {NavLink } from 'react-router-dom';
 import { Box } from '@mui/material';
-const Navigation = () => {
+import UserButton from '../UsersPage/UserButton';
+import AuthUser from '../Hook/AuthUser';
+
+const Navigation = ({logoutUser}) => {
+
+  const { getUser } = AuthUser()
+  const userType = getUser().user_type;
   const activeStyle = {backgroundColor:'rgb(42, 53, 94)',color:"white",}
   const styles = {
     navbar:{
       display:"flex", 
       alignItems:"center", 
-      flexDirection:"row"
+      flexDirection:"row",
+
     },
     logodiv:{
       display:'flex',
@@ -45,7 +52,7 @@ const Navigation = () => {
   }
     return ( 
         <div className="navigation">
-
+ 
       <Box className='logodiv' style={styles.logodiv}>
       <MdOutlineWaterDrop style={styles.logodivicon} />
       <Box style={styles.logodivText}>
@@ -58,6 +65,7 @@ const Navigation = () => {
             style={({ isActive }) =>
             isActive ? {...activeStyle, ...styles.navbar}: styles.navbar
             }
+            className={'navbar'}
           >
            <BsInputCursorText style={styles.icon}/>&nbsp;&nbsp;Reader
           </NavLink>
@@ -67,9 +75,17 @@ const Navigation = () => {
             style={({ isActive }) =>
             isActive ? {...activeStyle, ...styles.navbar}: styles.navbar
             }
+            className={'navbar'}
           >
             <DashboardOutlined style={styles.icon}/>&nbsp;&nbsp;Meter Readings
           </NavLink>
+          
+          <div className='logoutNav'>
+          <UserButton
+            logoutUser={logoutUser}
+            userType={userType}
+            />
+          </div>
 
           {/* <NavLink
             to="/help"

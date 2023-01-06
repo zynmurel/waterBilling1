@@ -7,6 +7,8 @@ import ReadingTable from '../../Components/ReadyComponents/CReadingTable';
 import ReactToPrint from 'react-to-print';
 import GetData from '../../Hook/SampleData';
 import PaymentInfo from '../ReadyComponents/PaymentInfo';
+import Confirmation from '../ReadyComponents/Confirmation';
+import { NumericFormat } from 'react-number-format';
 
 const Payment = ({month}) => {
 
@@ -19,6 +21,7 @@ const Payment = ({month}) => {
     const [ searchedConsumer, setSearchedConsumer ] = useState("")
     const [ searchedConsumerId, setSearchedConsumerId ] = useState("")
     const [popUp, setPopUp] = useState(false)
+    const [confirmPopup, setConfirmPopup] = useState(false)
 
     const OPTIONS_LIMIT = 8;
     const filterOptions = createFilterOptions({
@@ -113,6 +116,9 @@ const Payment = ({month}) => {
         },
         box3text:{
             margin:"5px 0",
+        },
+        billtextfield:{
+            margin:10
         }
     }
     //date sorter
@@ -169,16 +175,27 @@ const Payment = ({month}) => {
                                     label={ isPending?"Loading...":"Search ID Number/Name" }
                                     />}
                                     />
-                                <Button  
-                                variant="contained"
-                                disabled={sum!==0 && searchedConsumer?false:true} 
-                                style={{height:55, width:150, fontSize:18}}
-                                onClick={()=>setPopUp(true)}
-                                >Pay</Button>
+                                    <Button  
+                                    variant="contained"
+                                    disabled={sum!==0 && searchedConsumer?false:true} 
+                                    style={{height:50, width:100, fontSize:15, marginLeft:5, color:'white', backgroundColor:(sum!==0 && searchedConsumer?false:true)?'rgb(191, 191, 191)':'rgb(6, 185, 0)'}}
+                                    onClick={()=>setPopUp(true)}
+                                    >Pay</Button>
+
+                                    <ReactToPrint
+                                    trigger={() => 
+                                    <Button  
+                                    variant="contained"
+                                    disabled={sum!==0 && searchedConsumer?false:true} 
+                                    style={{height:50, width:100, fontSize:15, marginLeft:5, color:'white', backgroundColor:(sum!==0 && searchedConsumer?false:true)?'rgb(191, 191, 191)':'rgb(12,20,52)' }}
+                                    >Print</Button>}
+                                    content={() => componentRef.current}
+                                    />
                             </Box>
                         </Box>
                     </Box>
-                    <Card style={styles.box2}>
+                    <Card style={styles.box2}
+                    ref={componentRef}>
                         {searchedConsumer ? 
                         <Box style={styles.box3}>
                             <Box style={styles.box3_1}>
@@ -208,39 +225,83 @@ const Payment = ({month}) => {
                         }
                     </Card>
                     <Dialog open={popUp} maxWidth={'xs'} fullWidth >
-                <DialogTitle style={{margin:0,  textAlign:"left",paddingBottom:1}}>
-                    <Typography gutterBottom fontWeight={"bold"} fontSize={30} style={{margin:"0 auto", borderBottom:"1px solid gray"}}>
-                        Confirmation
-                    </Typography>
-                    </DialogTitle>
+                    <DialogTitle style={{margin:0,  textAlign:"left",paddingBottom:1}}>
+                        <Typography gutterBottom fontWeight={"bold"} fontSize={30} style={{margin:"0 auto", borderBottom:"1px solid gray"}}>
+                            Payment
+                        </Typography>
+                        </DialogTitle>
 
-                    <DialogContent style={{ display:'flex', justifyContent:'center', flexDirection:'column', alignItems:'center' }}>
-                                {searchedConsumer && 
-                                <PaymentInfo
-                                componentRef={componentRef}
-                                searchedConsumer={searchedConsumer}
-                                />
-                                }
-                                <Box style={{  display:'flex', justifyContent:'end', width:400 }}>
-                                <Button
-                                variant="outlined"
-                                disabled={searchedConsumer? false:true} 
-                                style={{height:40, width:80, fontSize:12, margin:2}}
-                                onClick={()=>setPopUp(false)}>
-                                Cancel
-                                </Button>
-                                
-                                <ReactToPrint
-                                trigger={() => 
-                                <Button  
-                                variant="contained"
-                                disabled={searchedConsumer? false:true} 
-                                style={{height:40, width:150, fontSize:12, margin:2}}
-                                >Confirm / Print</Button>}
-                                content={() => componentRef.current}
-                                />
-                                </Box>
-                    </DialogContent>
+                        <DialogContent style={{ display:'flex', justifyContent:'center', flexDirection:'column', alignItems:'center' }}>
+                                    {searchedConsumer && 
+                                    <PaymentInfo
+                                    searchedConsumer={searchedConsumer}
+                                    />
+                                    }
+                                    <NumericFormat
+                                        label="Input Payment" 
+                                        variant="outlined" 
+                                        placeholder={`Bill: 34`} 
+                                        allowNegative={false}
+                                        value={""}
+                                        //disabled={}
+                                        isAllowed={(values) => {
+                                        const { value } = values;
+                                        return value < 99999 && !value.includes(".");
+                                        }}
+                                        onChange={(e) =>{
+                                            const val = e.target.value
+                                        }}
+                                        customInput={TextField}
+                                        style={styles.billtextfield}
+                                        />
+                                    <Box style={{  display:'flex', justifyContent:'end', width:400 }}>
+                                    <Button
+                                    variant="outlined"
+                                    disabled={searchedConsumer? false:true} 
+                                    style={{height:40, width:80, fontSize:12, margin:2}}
+                                    onClick={()=>setPopUp(false)}>
+                                    Cancel
+                                    </Button>
+                                    
+                                    <Button  
+                                    variant="contained"
+                                    disabled={searchedConsumer? false:true} 
+                                    style={{height:40, width:100, fontSize:12, margin:2}}
+                                    onClick={()=> setConfirmPopup(true)}
+                                    >Pay</Button>
+                                    </Box>
+                        </DialogContent>
+                </Dialog>
+
+                <Dialog open={confirmPopup} maxWidth={'xs'} fullWidth >
+                    <DialogTitle style={{margin:0,  textAlign:"left",paddingBottom:1}}>
+                        <Typography gutterBottom fontWeight={"bold"} fontSize={30} style={{margin:"0 auto"}}>
+                            Confirmation
+                        </Typography>
+                        </DialogTitle>
+
+                        <DialogContent style={{ display:'flex', justifyContent:'center', flexDirection:'column', alignItems:'center' }}>
+                                    {searchedConsumer && 
+                                    <Confirmation
+                                    searchedConsumer={searchedConsumer}
+                                    />
+                                    }
+                                    <Box style={{  display:'flex', justifyContent:'end', width:400 }}>
+                                    <Button
+                                    variant="outlined"
+                                    disabled={searchedConsumer? false:true} 
+                                    style={{height:40, width:80, fontSize:12, margin:2}}
+                                    onClick={()=>setConfirmPopup(false)}>
+                                    Cancel
+                                    </Button>
+                                    
+                                    <Button  
+                                    variant="contained"
+                                    disabled={searchedConsumer? false:true} 
+                                    style={{height:40, width:160, fontSize:12, margin:2}}
+                                    >Confirm Payment</Button>
+                                    </Box>
+                        </DialogContent>
                 </Dialog>
            
                 </Box>

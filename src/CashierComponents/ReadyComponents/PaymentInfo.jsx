@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 const PaymentInfo = ({componentRef, searchedConsumer}) => {
     return ( 
-    <Box ref={componentRef} style={{  padding:5, width:370,  margin:5, color:'black' }}>
+    <Box style={{  padding:5, width:370,  margin:5, color:'black' }}>
     <h2 style={{ margin:0 }}>
         {searchedConsumer.user_key}
     </h2>

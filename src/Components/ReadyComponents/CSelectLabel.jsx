@@ -13,7 +13,7 @@ export default function SelectLabels({minWidth , m, label, purok, setPurok, bara
 
 
   return (
-    <div>
+    <div style={{ flex:1 }}>
       <FormControl sx={{ m: m, minWidth: minWidth }}>
         <InputLabel id="demo-simple-select-helper-label">{label}</InputLabel>
         <Select

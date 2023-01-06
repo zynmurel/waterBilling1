@@ -34,7 +34,7 @@ const Header = ({logoutUser}) => {
 
     }
     return ( 
-        <Box className="header">
+        <Box className="header" >
             <h1 style={{ color:'white' }}>Home</h1>
             <Box style={{ flexDirection:'row', ...styles.box}}>
             <Box style={{...styles.box, flexDirection:'column',alignItems:"end", color:"rgb(12,20,52)", justifyContent:"center"}}>
