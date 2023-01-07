@@ -2,36 +2,23 @@ import '../Styles/navigation.css'
 import { TbReport } from "react-icons/tb";
 import { BsInputCursorText } from "react-icons/bs";
 import { MdOutlineWaterDrop, MdPayments } from "react-icons/md";
-import { HomeOutlined, 
-  UserOutlined, 
-  DatabaseOutlined, 
-  DashboardOutlined, 
-  SettingOutlined, 
-  QuestionCircleOutlined } from '@ant-design/icons';
+import { DashboardOutlined, } from '@ant-design/icons';
 import {NavLink } from 'react-router-dom';
 import { Box } from '@mui/material';
-import UserButton from '../UsersPage/UserButton';
 import AuthUser from '../Hook/AuthUser';
+import TemporaryDrawer from './ReadyComponents/Drawer';
 
-const Navigation = ({logoutUser}) => {
+const Navigation = ({logoutUser, month, year}) => {
 
   const { getUser } = AuthUser()
   const userType = getUser().user_type;
-  const activeStyle = {backgroundColor:'rgb(42, 53, 94)',color:"white",}
+  const activeStyle = {backgroundColor:'rgb(42, 53, 94)',color:"white"}
   const styles = {
     navbar:{
       display:"flex", 
       alignItems:"center", 
       flexDirection:"row",
 
-    },
-    logodiv:{
-      display:'flex',
-      flexDirection:'row',
-      alignItems:'center',
-      margin:'10px 0',
-    },
-    logodivText:{
     },
     logodivh1:{
       margin:0
@@ -53,11 +40,11 @@ const Navigation = ({logoutUser}) => {
     return ( 
         <div className="navigation">
  
-      <Box className='logodiv' style={styles.logodiv}>
-      <MdOutlineWaterDrop style={styles.logodivicon} />
-      <Box style={styles.logodivText}>
-          <h1 style={styles.logodivh1}>BALILIHAN</h1>
-          <h3 style={styles.logodivh3}>WATERWORKS</h3>
+      <Box className='logodiv'>
+      <MdOutlineWaterDrop className='logodivicon' />
+      <Box className='logoText'>
+          <h1 >BALILIHAN</h1>
+          <h3 >WATERWORKS</h3>
       </Box>
       </Box>
             <NavLink
@@ -67,7 +54,7 @@ const Navigation = ({logoutUser}) => {
             }
             className={'navbar'}
           >
-           <BsInputCursorText style={styles.icon}/>&nbsp;&nbsp;Reader
+           <BsInputCursorText className='icon'/>&nbsp;&nbsp;Reader
           </NavLink>
 
           <NavLink
@@ -77,14 +64,12 @@ const Navigation = ({logoutUser}) => {
             }
             className={'navbar'}
           >
-            <DashboardOutlined style={styles.icon}/>&nbsp;&nbsp;Meter Readings
+            <DashboardOutlined className='icon'/>&nbsp;&nbsp;Meter Readings
           </NavLink>
           
           <div className='logoutNav'>
-          <UserButton
-            logoutUser={logoutUser}
-            userType={userType}
-            />
+            <TemporaryDrawer
+            logoutUser={logoutUser}/>
           </div>
 
           {/* <NavLink

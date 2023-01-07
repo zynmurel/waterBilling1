@@ -44,7 +44,6 @@ const Inquire = ({month}) => {
         box1_1:{
             display:"flex",
             flexDirection:"row",
-            alignItems:"center",
             justifyContent:"space-between",
             width:580
         },
@@ -57,7 +56,7 @@ const Inquire = ({month}) => {
             width:800,
             height:700,
             color:"rgb(75, 75, 75)",
-            margin:"20px"
+            margin:"0 20px 20px 20px"
         },
         box3:{
             display:"flex",
@@ -153,7 +152,7 @@ const Inquire = ({month}) => {
                     <Box className="box1" sx={styles.box1}>
                             <h1 style={styles.text1}>INQUIRE FOR PAYMENT</h1>
 
-                        <Box className="box1">
+                        <Box className="inquireBox1">
                             <Box style={styles.box1_1}>
                                 <Autocomplete
                                     disablePortal

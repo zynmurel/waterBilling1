@@ -24,7 +24,9 @@ const Cashier = () => {
         <div className="cashierpage" >
         <div className="body1">
         <Navigation
-        logoutUser={logoutUser}/>  
+        logoutUser={logoutUser}
+        month={month}
+        year={year}/>  
         <div className='routes' >
         <Header 
         logoutUser={logoutUser}

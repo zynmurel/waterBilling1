@@ -54,12 +54,19 @@ body{
   margin:5px ;
   width: 350px;
 } 
+.searchAddBar2{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 5px 5px;
+  margin:5px ;
+  width: 350px;
+} 
 .searchBarMR{
   display: flex;
   flex-direction: column;
   height: 100%;
 }
-
 
 .body1{
   display: flex;
@@ -85,7 +92,7 @@ body{
   flex: 4.5;
   position: relative;
   background-color: rgb(244, 248, 255);
-  color:rgb(6, 185, 0)
+  overflow: auto;
 }
 
 
@@ -130,6 +137,8 @@ body{
   align-items: center;
   justify-content: center;
 }
+
+/*Consumer Page CSS*/
 .consumerContainer{
   max-width:750px;
   min-width:750px;
@@ -172,6 +181,55 @@ body{
 .billingYear h1{
   margin-right: 20px;
 }
+.skeletonConsumer{
+  margin-top: 20px;
+  height: 60px;
+}
+.skeleton1{
+  margin:22px 10px 10px 20px;
+}
+.skeleton2{
+  margin:10px 10px 0 20px;
+}
+/*Admin Inquire*/
+.inquireBox1{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/*Reader Navigation*/
+.logodiv{
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  margin:10px 0;
+}
+.logodivicon{
+  font-size:60px;
+  margin-top:5;
+}
+.logodiv h1, .logodiv h3{
+  margin: 0;
+}
+.box1{
+  font-size:60px;
+  color:rgb(12,20,52);
+  margin-bottom:10px;
+  margin-top:-15px;
+  display:flex;
+  justify-content:center;
+}
+.readingTable{
+  width:80%,
+} 
+.readerPopUpMobile{
+  visibility: hidden;
+}
+.readerPopUp{
+  visibility: visible;
+}
+
 
 @media screen and (max-width: 479px){
   .content{
@@ -181,6 +239,96 @@ body{
     border-radius: 0;
   }
 
+  /*Reader Navigation Mobile View*/
+.logodivicon{
+  font-size:40px;
+  margin-top:5px;
+}
+.logodiv h1{
+  font-size: 24px;
+} 
+.logodiv h3{
+  font-size: 15px;
+}
+.navigation{
+  justify-content: space-between;
+}
+.navbar{
+  padding:0 !important;
+  margin-left: 10px;
+  font-size: 1px;
+  visibility: hidden;
+}
+.navbar .icon{
+  font-size: 1px;
+}
+.readerBurger{
+  font-size: 40px;
+}  
+.readerPopUpMobile{
+  visibility: visible;
+}
+.burgerContent{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 230px;
+}
+.readerPopUp{
+  visibility: hidden;
+}
+
+.box1{
+  font-size:50px;
+  transform: translateY(-15%);
+}
+.container{
+  transform: translateY(-8%);
+}
+.searchBar{
+  flex-direction: column;
+  width: 65%;
+  transform: scale(1.5) translateY(5%);
+  z-index: 1;
+}
+.searchAddBar1{
+  transform: scale(.7) translateY(-15%);
+} 
+.searchAddBar2{
+  transform: scale(.7) translateY(-60%);
+} 
+.readingTable{
+  transform: scale(.8) translateY(-15%);
+  width: 120%;
+  z-index: 0;
+}
+.readerDialog{
+  transform: scale(1);
+}
+.navbarMobile{
+  padding:5px 10px !important;
+  font-size: 20px;
+  visibility: visible;
+  color: black;
+  display: flex;
+  align-items: center;
+  width: 180px;
+}
+.iconMobile{
+  font-size: 30px;
+}
+.readerLogoutMobile{
+  background-color: rgb(206, 0, 0);
+  color: azure;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  font-size: 20px;
+  padding: 5px 10px;
+  margin: 60px 0 10px 0;
+}
 
   /*Consumer Page Mobile View*/
   .consumerContainer{
@@ -209,6 +357,9 @@ body{
   .tablePaper{
     transform: scale(.65) translateY(-25%);
   }
+  .skeletonConsumer{
+    transform: scale(.5) translateY(-80%);
+  }
 
 
   /*Navigation Mobile View*/
@@ -221,10 +372,6 @@ body{
     align-items: center;
     z-index: 3;
   }
-  .navbar{
-    padding-right: 20px;
-    margin-left: 10px;
-  }
   .header{
     visibility: hidden;
   }
@@ -232,25 +379,7 @@ body{
     visibility: visible;
   }
 
-  /*ReaderPage*/
 
-.consumerManagement{
-  transform: translateY(-3%);
-}
-.searchBar{
-  flex-direction: column;
-  width: 65%;
-  transform: scale(1.5) translateY(15%);
-  z-index: 1;
-}
-.readingTable{
-  transform: scale(1.2) translateY(20%);
-  width: 80%;
-  z-index: 0;
-}
-.readerDialog{
-  transform: scale(1.5);
-}
 
 /*Meter Reading Mobile View*/
 .searchBarMR{

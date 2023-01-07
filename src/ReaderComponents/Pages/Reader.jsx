@@ -56,14 +56,6 @@ const Reader = ({
   const [alertText, setAlertText] = useState("")
 
   const styles = {
-    h1:{
-        fontSize:60,
-        color:"rgb(12,20,52)",
-        marginBottom:10,
-        marginTop:"-15px",
-        display:"flex",
-        justifyContent:"center"
-    },
     textfield:{
       display:"flex", 
       justifyContent:"center", 
@@ -117,7 +109,7 @@ const Reader = ({
     return ( 
         <div className="consumerManagement">
            <div className="container" style={{ display:'flex', flexDirection:'column', alignItems:'center' }}>
-            <h1 className="box1" style={{ ...styles.h1 }}>READER</h1>
+            <h1 className="box1">READER</h1>
            <div className='searchBar'>
            <div className="searchAddBar1">
             <TextField 
@@ -136,7 +128,7 @@ const Reader = ({
               />
            </div>
            
-            <div className="searchAddBar1">
+            <div className="searchAddBar2">
               <AutoComplete  
             width={'100%'} 
             label={'Barangay'} 
@@ -161,7 +153,7 @@ const Reader = ({
             </div>
            </div>
 
-          <div style={{width:'80%', display:"flex", justifyContent:"center" }} className={'readingTable'}>
+          <div style={{ display:"flex", justifyContent:"center" }} className={'readingTable'}>
            <ReadingTable
            reload={reload}
            setReload={setReload}
@@ -240,7 +232,7 @@ const Reader = ({
                     }
                     
                       
-                      <Box style={{  display:'flex', justifyContent:'end', width:400 }}>
+                      <Box style={{  display:'flex', justifyContent:'end' }}>
                       <Button
                                 variant="outlined"
                                 disabled={consumerInfo? false:true} 
