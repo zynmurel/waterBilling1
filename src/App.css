@@ -37,7 +37,7 @@ body{
   height: 95%;
   display: flex;
   justify-content: center;
-  align-items: start;
+  align-items: flex-start;
   transform: translateY(2%);
 }
 .searchBar{
@@ -129,7 +129,11 @@ body{
   justify-content: center;
 }
 
-@media screen and (max-width: 800px) and (min-height: 800px){
+@media screen and (max-width: 479px){
+  .content{
+    background-color: aqua;
+    width: 300px;
+  }
   .snackbar{
     transform: scale(1.7) translate(20%, -50%);  
   }
