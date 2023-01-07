@@ -14,7 +14,6 @@
 }
 
 body{
-  background-color: #ffffff;
   align-items: center;
   justify-content: center;
   color: white;
@@ -106,6 +105,9 @@ body{
   justify-content: center;
   align-items: center;
   transform: scale(1.0);
+  background-color: aliceblue;
+  color:rgb(12,20,52);
+  border-radius: 20px;
 }
 .textFieldBox{
   width: 300px;
@@ -118,7 +120,7 @@ body{
 .button{
   width:300px;
   height:20px;
-  background-color:'rgb(12,20,52)';
+  background-color:rgb(12,20,52);
 }
 .logoutNav{
   visibility: hidden;
@@ -131,7 +133,9 @@ body{
 
 @media screen and (max-width: 479px){
   .content{
-    background-color: aqua;
+    width: 100%;
+    height: 100%;
+    background:linear-gradient(rgb(0, 139, 186) 0%, rgb(255, 255, 255) 80%);
   }
   .snackbar{
     transform: scale(1.7) translate(20%, -50%);  

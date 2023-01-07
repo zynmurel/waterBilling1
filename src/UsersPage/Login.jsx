@@ -116,8 +116,7 @@ const Login = () => {
       }
     return ( 
         <div style={styles.parent} className={'parent'}>
-      <Paper
-      style={styles.content}
+      <Box
       className={'content'}
       >
         
@@ -174,7 +173,7 @@ const Login = () => {
             > Login </Button>
 
 
-      </Paper>
+      </Box>
             <Snackbar 
             className='snackbar'
             open={errorMessage.length!==0?true:false} 
