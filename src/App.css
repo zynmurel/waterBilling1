@@ -137,9 +137,6 @@ body{
     height: 100%;
     background:linear-gradient(rgb(0, 139, 186) 0%, rgb(255, 255, 255) 80%);
   }
-  .snackbar{
-    transform: scale(.8) translate(-10%, -50%);  
-  }
   .tablePaper{
     transform: scale(1.2) translateY(10%) ;
   }
