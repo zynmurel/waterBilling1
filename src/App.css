@@ -132,7 +132,6 @@ body{
 @media screen and (max-width: 479px){
   .content{
     background-color: aqua;
-    width: 300px;
   }
   .snackbar{
     transform: scale(1.7) translate(20%, -50%);  
