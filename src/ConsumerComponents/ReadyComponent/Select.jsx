@@ -13,8 +13,8 @@ export default function BasicSelect({year, selectedYear, setSelectedYear}) {
   };
 
   return (
-    <Box sx={{ minWidth: 120 }} className={'yearBox'}>
-      <FormControl fullWidth>
+    <Box  className={'yearBox'}>
+      <FormControl fullWidth >
         <InputLabel id="demo-simple-select-label">Year</InputLabel>
         <Select
           labelId="demo-simple-select-label"

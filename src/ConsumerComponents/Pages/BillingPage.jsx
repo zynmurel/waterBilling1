@@ -13,15 +13,6 @@ const BillingPage = ({ month, consumersData, year, consumersBillings }) => {
 
     const styles = {
         billings:{
-            backgroundColor:"white",
-            color:'rgb(12,20,52)',
-            margin:'0 30px',
-        },
-        billingYear:{
-        display:'flex',
-        flexDirection:'row',
-        justifyContent:'start',
-        alignItems:'center',
         },
         table:{
         display:'flex',
@@ -41,9 +32,9 @@ const BillingPage = ({ month, consumersData, year, consumersBillings }) => {
     };
     billings && billings.sort(sorter)
     return ( 
-        <Box style={ styles.billings }>
+        <Box className={'billingContainer'}>
             <Box style={styles.billingYear} className={'billingYear'}>
-                <h1 style={{ marginRight:10 }}>Billing Records: </h1>
+                <h1>Billing Records: </h1>
                 <Select
                 year={year}
                 selectedYear={selectedYear}

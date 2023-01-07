@@ -130,6 +130,48 @@ body{
   align-items: center;
   justify-content: center;
 }
+.consumerContainer{
+  max-width:750px;
+  min-width:750px;
+  overflow:hidden;
+}
+.consumerpage{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.consumerIdName{
+  margin:10px 10px 0 30px;
+  color:rgb(12,20,52);
+}
+.consumerIdName h1{
+  margin: 0;
+  font-size: 80px;
+}
+.consumerIdName p{
+  margin: 0;
+  font-size: 40px;
+}
+.consumerContent{
+  display:flex;
+  flex-direction: column;
+  justify-content:center;
+  height:100%;
+}
+.billingContainer{
+  background-color:white;
+  color:rgb(12,20,52);
+  margin:0 30px;
+}
+.billingYear{
+  display:flex;
+  flex-direction:row;
+  justify-content:start;
+  align-items:center;
+}
+.billingYear h1{
+  margin-right: 20px;
+}
 
 @media screen and (max-width: 479px){
   .content{
@@ -138,18 +180,36 @@ body{
     background:linear-gradient(rgb(146, 178, 205) 0%, rgb(255, 255, 255) 30%,white 70%, rgb(146, 178, 205)  100% );
     border-radius: 0;
   }
-  .tablePaper{
-    transform: scale(1.2) translateY(10%) ;
+
+
+  /*Consumer Page Mobile View*/
+  .consumerContainer{
+    max-width:100%;
+    min-width:100%;
   }
-  .billingYear{
-    transform: scale(1.2) translate(8.4%, 15%) ;
+  .consumerIdName{
+    margin:10px 10px 0 10px;
+  }
+  .consumerIdName h1{
+    font-size: 40px;
+  }
+  .consumerIdName p{
+    font-size: 20px;
+  }
+  .billingYear h1{
+    font-size: 20px;
+    margin-right: 0px;
+  }
+  .billingContainer{
+    margin:0 10px;
   }
   .yearBox{
-    transform: scale(1.2) translate(20%, 0%);
+    transform: scale(.8);
   }
-  .dialog{
-    transform: scale(1.4);
+  .tablePaper{
+    transform: scale(.65) translateY(-25%);
   }
+
 
   /*Navigation Mobile View*/
   .body1{

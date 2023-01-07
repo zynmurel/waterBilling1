@@ -11,6 +11,7 @@ import ConsumersPage from './UsersPage/ConsumersPage';
 function App() {
   const {getToken, getUser} = AuthUser();
   const userDetails = getUser()
+  return <ConsumersPage/>
   if(!getToken()){
     return (<Routes>
               <Route path="/" element={<Login/>}></Route> 

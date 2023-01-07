@@ -13,9 +13,36 @@ const Consumer = () => {
     const year= [2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022, 2023];
 
     //sample consumer
-    const consumersData = GetData('http://127.0.0.1:8001', `/UserConsumer?user_id=${getUser().user_id}`);
-    const consumersBillings = GetData('http://127.0.0.1:8001', `/reading`);
+    //const consumersData = GetData('http://localhost:8001', `/UserConsumer?user_id=${getUser().user_id}`);
+    const consumersData = {data:[{
+      "consumer_id": "0000000001",
+      "user_id": 1,
+      "first_name": "Andrei",
+      "middle_name": "Ugpo",
+      "last_name": "Chatto",
+      "gender": "Male",
+      "birthday": 979430400,
+      "phone": "9486207359",
+      "civil_status": "Widowed",
+      "name_of_spouse": "",
+      "brgyprk_id": 13,
+      "household_no": 12,
+      "first_reading": 0,
+      "usage_type": "residential",
+      "serial_no": 3014,
+      "brand": "Sunrise",
+      "status": "Connected",
+      "delinquent": 0,
+      "registered_at": "2019-02-28",
+      "created_at": "2022-12-23 09:11:37",
+      "updated_at": "2022-12-23 09:11:37",
+      "barangay": "Boctol",
+      "purok": "1"
+  }],isPending:false, error:null}
+    const consumersBillings = GetData('http://localhost:8001', `/reading`);
     const { data:consumer, isPending:consumerIsPending, error:consumerError } = consumersData;
+    console.log(consumer? consumer:'')
+
 
     const logoutUser = () => {
       if(token != undefined){
@@ -34,11 +61,6 @@ const Consumer = () => {
           height:"100%",
         },
         content:{
-          height:"100%",
-          width:"100%",
-          maxWidth:"750px",
-          minWidth:"750px",
-          overflow:'hidden'
         },
         id:{
           fontSize:"80px",
@@ -63,22 +85,22 @@ const Consumer = () => {
         }
     }
     return ( 
-        <div className="consumerpage" style={styles.body}>
+        <div className="consumerpage">
         <Header 
         consumer={consumer}
         consumerError={consumerError}
         consumerIsPending={consumerIsPending}
         logoutUser={logoutUser}
         />
-        <Box style={styles.container}>
+        <Box className="consumerContainer">
           <Routes>  
 
           <Route path="/consumerBilling" element={
-        <Box style={styles.content}>
+        <Box className="consumerContent">
            {!consumerIsPending && consumer && consumer.length!==0 && 
-           <Box style={styles.top}>
-           <h1 style={styles.id}>{consumer[0].consumer_id}</h1> 
-           <p style={styles.name}>{`${consumer[0].first_name} ${consumer[0].middle_name} ${consumer[0].last_name}`}</p>
+           <Box className={'consumerIdName'}>
+           <h1 >{consumer[0].consumer_id}</h1> 
+           <p >{`${consumer[0].first_name} ${consumer[0].middle_name} ${consumer[0].last_name}`}</p>
            </Box>
            }
 
