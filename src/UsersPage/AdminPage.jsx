@@ -16,6 +16,7 @@ import { useState, useEffect } from 'react';
 
 const AdminPage = ({year, month, hostJson, hostLaravel}) => {
 
+  console.log(hostLaravel)
   const {token, logout, getData, getUser} = AuthUser();
   const result = GetData(hostJson, `/consumers`);
   const reading = GetData(hostJson, `/reading`);
@@ -31,7 +32,7 @@ const AdminPage = ({year, month, hostJson, hostLaravel}) => {
       logout();
     }
   }
-  const userType = getUser().user_type;
+  //const userType = getUser().user_type;
     return ( 
         <div className="adminpage">
  
@@ -40,7 +41,7 @@ const AdminPage = ({year, month, hostJson, hostLaravel}) => {
         <div className='routes' >
         <Header 
         logoutUser={logoutUser}
-        userType={userType}
+        //userType={userType}
         />
         <Routes>  
           <Route path="/home" element={

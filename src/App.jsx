@@ -26,7 +26,11 @@ function App() {
   const hostJson = 'http://192.168.0.124:8001';
 
   //return <ReaderPage/>
-  // return <AdminPage/>
+   return <AdminPage
+   year={year}
+   month={month} 
+   hostJson={hostJson}
+   hostLaravel={hostLaravel}/>
   // return <CashierPage/>
   // return <ConsumersPage/>
   if(!getToken()){

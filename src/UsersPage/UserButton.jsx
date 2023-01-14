@@ -2,7 +2,7 @@ import { Box, Button, Popover } from '@mui/material';
 import { useState } from 'react';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-const UserButton = ({ logoutUser, userType }) => {
+const UserButton = ({ logoutUser, /*userType*/ }) => {
     const [anchorEl, setAnchorEl] = useState(null);
   
     const handleClick = (event) => {
@@ -60,7 +60,7 @@ const UserButton = ({ logoutUser, userType }) => {
             </Popover>
             <Box style={{ flexDirection:'row', ...styles.box}} >
             <Box style={{...styles.box, flexDirection:'column',alignItems:"end", color:"rgb(12,20,52)", justifyContent:"center"}}>
-                <h2 style={styles.text}>{userType}</h2>
+                <h2 style={styles.text}>{/*userType*/ "Maui"}</h2>
             </Box>
             <Button 
             variant="text" 
