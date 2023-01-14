@@ -11,18 +11,16 @@ import Reports from '../Components/Pages/Reports';
 import NotFound from '../Components/Pages/NotFound';
 import useFetch from '../Hook/useFetch';
 import AuthUser from '../Hook/AuthUser';
+import GetData from '../Hook/SampleData'
 import { useState, useEffect } from 'react';
 
-const AdminPage = () => {
+const AdminPage = ({year, month, hostJson, hostLaravel}) => {
 
   const {token, logout, getData, getUser} = AuthUser();
-  const result= useFetch("http://localhost:8001/Consumers");
-  const reading = useFetch("http://localhost:8001/reading");
+  const result = GetData(hostJson, `/consumers`);
+  const reading = GetData(hostJson, `/reading`);
   const date = new Date('1644883200' * 1000)
   console.log(date.getMonth())
-
-  const month= ["January","February","March","April","May","June","July","August","September","October","November","December"];
-  const year= ["2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022"];
   const brand = ["Brand", "Sunrise"];
   const usage_type = ["Residential","Commercial"];
   const civil_status = ["Single", "Married"];
@@ -52,6 +50,8 @@ const AdminPage = () => {
 
           <Route path="/consumerManagement" element={
           <ConsumerManagement 
+          hostJson={hostJson}
+          hostLaravel={hostLaravel}
           brand={brand}
           gender={gender}
           civil_status={civil_status}
@@ -60,6 +60,8 @@ const AdminPage = () => {
            />}></Route> 
 
           <Route path="/inquire" element={<Inquire
+          hostJson={hostJson}
+          hostLaravel={hostLaravel}
           result={result} 
           month={month}
           reading={reading}
@@ -79,7 +81,9 @@ const AdminPage = () => {
           reading={reading}
           />}></Route> 
 
-          <Route path="/systemMaintenance" element={<SystemMaintenance/>}></Route> 
+          <Route path="/systemMaintenance" element={<SystemMaintenance
+          hostJson={hostJson}
+          hostLaravel={hostLaravel}/>}></Route> 
 
           <Route path="/help" element={<Help/>}></Route> 
 

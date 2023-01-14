@@ -5,7 +5,7 @@ import Utilities from "../ReadyComponents/SystemMaintenance/Utilities";
 import Accounts from "../ReadyComponents/SystemMaintenance/Accounts";
 import NavBar from '../ReadyComponents/SystemMaintenance/SMNavBar';
 import { Paper } from '@mui/material';
-const SystemMaintenance = () => {
+const SystemMaintenance = ({hostLaravel, hostJson}) => {
     const [active, setActive] = useState('utilities')
     const styles = {
         content:{
@@ -25,7 +25,8 @@ const SystemMaintenance = () => {
             <Box style={styles.content}>
                 <NavBar setActive={setActive} active={active}/> 
                 <Paper style={styles.paper}>   
-                    {active==='utilities' && <Utilities/>}
+                    {active==='utilities' && <Utilities
+                    hostJson={hostJson}/>}
                     {active==='accounts' && <Accounts/>}
                 </Paper>
             </Box>

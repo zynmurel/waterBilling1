@@ -8,16 +8,16 @@ import useEffect from '../../Hook/useFetch';
 import ReactToPrint from 'react-to-print'
 import GetData from '../../Hook/SampleData'
 
-const Inquire = ({month}) => {
+const Inquire = ({month, hostLaravel, hostJson}) => {
 
-    const consumersData = GetData('http://127.0.0.1:8000/api', '/consumer');
+    const consumersData = GetData(`${hostLaravel}/api`, '/consumer');
     //const readingData = GetData('http://127.0.0.1:8000/api', '/reading');
     const componentRef = useRef()
     const { data:consumer, isPending, error  } = consumersData
 
     const [ searchedConsumer, setSearchedConsumer ] = useState("")
     const [ searchedConsumerId, setSearchedConsumerId ] = useState("")
-    const readingData = GetData('http://127.0.0.1:8001', `/reading?consumerId=${searchedConsumerId}`);
+    const readingData = GetData(hostJson, `/reading?consumerId=${searchedConsumerId}`);
     console.log(searchedConsumerId)
     const {data:readings, isPending:readingIsPending, error:readingError, reload, setReload}= readingData;
 

@@ -4,8 +4,8 @@ import BasicTable from "./UtilitiesList";
 import { useState } from "react";
 import GetData from '../../../Hook/SampleData';
 
-const Utilities = ({children}) => {
-    const consumersData = GetData('http://localhost:8001', '/CubicRate');
+const Utilities = ({children, hostJson}) => {
+    const consumersData = GetData(hostJson, '/CubicRate');
     console.log(consumersData.data && consumersData.data.find( item => item.id === "Residential1to5").value)
     const getUtitlity = (id) => {
         return consumersData.data && consumersData.data.find( item => item.id === id).value

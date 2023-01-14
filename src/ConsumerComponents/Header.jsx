@@ -2,6 +2,7 @@ import { Box, Button, Paper, Popover } from '@mui/material';
 import '../Styles/header.css'
 import { MdOutlineWaterDrop } from "react-icons/md";
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 const Header = ({logoutUser, consumer, consumerIsPending, consumerError}) => {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -85,6 +86,12 @@ const Header = ({logoutUser, consumer, consumerIsPending, consumerError}) => {
                 </Button>   
             </Popover>
             <Box style={{...styles.box}}>
+            <NavLink
+                to="/consumerBilling"
+                style={({ isActive }) =>
+                isActive ? {margin:0, padding:0, paddingRight:20}: {margin:0, padding:0, paddingRight:20}
+                }
+            >
                 <Box className='logodiv' style={styles.logodiv}>
                     <MdOutlineWaterDrop style={styles.logodivicon} />
                     <Box style={styles.logodivText}>
@@ -92,6 +99,7 @@ const Header = ({logoutUser, consumer, consumerIsPending, consumerError}) => {
                         <h3 style={styles.logodivh3}>WATERWORKS</h3>
                     </Box>
                 </Box>
+            </NavLink>
 
                 <Paper style={styles.paper} aria-describedby={id} onClick={handleClick}>
                 {consumer && <h2>{`${consumer[0].first_name[0]+consumer[0].last_name[0]}`}</h2>}

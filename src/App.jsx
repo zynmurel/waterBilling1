@@ -9,24 +9,63 @@ import {  Routes, Route} from 'react-router-dom';
 import ConsumersPage from './UsersPage/ConsumersPage';
 
 function App() {
-  const {getToken, getUser} = AuthUser();
+  const date = new Date();
+  const month= ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  let year= [];
+  let x =2000;
+  for( x ; x<=date.getFullYear(); x++){
+    year.push(x.toString())
+  }
+  
+  const {getToken, getUser, hostLaravel} = AuthUser();
   const userDetails = getUser();
+  //Dolores Wifi
+  //const hostJson = 'http://192.168.254.174:8001';
+
+  //Selwin Wifi
+  const hostJson = 'http://192.168.0.124:8001';
+
+  //return <ReaderPage/>
+  // return <AdminPage/>
+  // return <CashierPage/>
+  // return <ConsumersPage/>
   if(!getToken()){
     return (<Routes>
               <Route path="/" element={<Login/>}></Route> 
             </Routes>)
   }
   else if(userDetails && userDetails.user_type == 'Admin'){
-    return <AdminPage/>
+    return <AdminPage  
+    year={year}
+    month={month} 
+    hostJson={hostJson}
+    hostLaravel={hostLaravel}/>
   }
   else if(userDetails && userDetails.user_type == 'Cashier'){
-    return <CashierPage/>
+    return (
+    <CashierPage
+    year={year}
+    month={month}
+    hostJson={hostJson}
+    hostLaravel={hostLaravel}
+    />
+    )
   }
   else if(userDetails && userDetails.user_type == 'Reader'){
-    return <ReaderPage/>
+    return <ReaderPage
+    year={year}
+    month={month}
+    hostJson={hostJson}
+    hostLaravel={hostLaravel}/>
   }
   else if(userDetails && userDetails.user_type == 'Consumer'){
-    return <ConsumersPage/>
+    return (
+    <ConsumersPage
+    year={year}
+    month={month}
+    hostJson={hostJson}
+    hostLaravel={hostLaravel}
+    />)
   }
     
 

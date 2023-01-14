@@ -17,16 +17,17 @@ import GetData from '../../Hook/SampleData';
 
 
 const ConsumerManagement = ({
+  hostLaravel,
+  hostJson,
   gender, 
   civil_status, 
   usage_type, 
   brand, 
   month, 
 }) => {
-  
-  const consumersData = GetData('http://127.0.0.1:8000/api', '/consumer');
-  const brgyPrkData = GetData('http://127.0.0.1:8000/api', '/brgyprk');
-  const readingData = GetData('http://localhost:8001', '/reading')
+  const consumersData = GetData(`${hostLaravel}/api`, '/consumer');
+  const brgyPrkData = GetData(`${hostLaravel}/api`, '/brgyprk');
+  const readingData = GetData(hostJson, '/reading')
   const [page, setPage] = useState(0);
   const [openPopup, setOpenPopup] = useState(false)
   const [consumerPopUp, setConsumerPopup] = useState(false)

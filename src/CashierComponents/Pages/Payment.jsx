@@ -10,10 +10,11 @@ import PaymentInfo from '../ReadyComponents/PaymentInfo';
 import Confirmation from '../ReadyComponents/Confirmation';
 import { NumericFormat } from 'react-number-format';
 
-const Payment = ({month}) => {
-
-    const consumersData = GetData('http://127.0.0.1:8000/api', '/consumer');
-    const readingData = GetData('http://localhost:8001', '/reading');
+const Payment = ({month, hostJson, hostLaravel}) => {
+    console.log(hostJson )
+    console.log(hostLaravel)
+    const consumersData = GetData(`${hostLaravel}/api`, '/consumer');
+    const readingData = GetData(hostJson, '/reading');
     const componentRef = useRef()
     const { data:consumer, isPending, error  } = consumersData
     const {data:readings, conIsPending, conError}= readingData
@@ -22,6 +23,7 @@ const Payment = ({month}) => {
     const [ searchedConsumerId, setSearchedConsumerId ] = useState("")
     const [popUp, setPopUp] = useState(false)
     const [confirmPopup, setConfirmPopup] = useState(false)
+    console.log(readings)
 
     const OPTIONS_LIMIT = 8;
     const filterOptions = createFilterOptions({
@@ -48,7 +50,8 @@ const Payment = ({month}) => {
             flexDirection:"row",
             alignItems:"center",
             justifyContent:"space-around",
-            width:580
+            width:580,
+            marginTop:10
         },
         box2:{
             display:"flex",
@@ -59,7 +62,7 @@ const Payment = ({month}) => {
             width:600,
             height:700,
             color:"rgb(75, 75, 75)",
-            margin:"20px"
+            margin:"0px 0 20px 0"
         },
         box3:{
             display:"flex",
@@ -98,7 +101,7 @@ const Payment = ({month}) => {
             margin:0, 
             marginTop:"-15px",
             color:"rgb(12,20,52)",
-            margin:" 0px 0 10px 0",
+            margin:" 10px 0 10px 0",
         },
         h1:{
             color:"#989898",
@@ -167,7 +170,7 @@ const Payment = ({month}) => {
                                     id="combo-box-demo"
                                     options={consumer ? consumer: []}
                                     filterOptions={filterOptions}                      
-                                    sx={{ width: 400 }}
+                                    sx={{ width: 400, height:55 }}
                                     onChange={(event , val)=>{ setSearchedConsumer(val);}}
                                     renderInput={(params) => 
                                     <TextField

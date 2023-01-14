@@ -52,7 +52,7 @@ const MeterReading = ({ month:allmonth, year:allyear}) => {
 
     return ( 
         <div className="meterReading">
-            <div className="container">
+            <div className="meterReadingContent">
             <div className="searchBarMR">
             <div className="searchBar">
 
@@ -81,7 +81,7 @@ const MeterReading = ({ month:allmonth, year:allyear}) => {
                 />
                 </div>
 
-                <div className="searchAddBar1"> 
+                <div className="searchAddBar2"> 
 
               <TextField 
                 id="outlined-basic" 
@@ -99,7 +99,7 @@ const MeterReading = ({ month:allmonth, year:allyear}) => {
                 />
                 </div>
 
-              <div className="searchAddBar1">
+              <div className="searchAddBar3">
 
               <AutoComplete  
                 width={220} 

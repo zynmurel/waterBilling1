@@ -33,7 +33,6 @@ body{
 }
 .consumerManagement{
   z-index: -1;
-  height: 95%;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -55,6 +54,14 @@ body{
   width: 350px;
 } 
 .searchAddBar2{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 5px 5px;
+  margin:5px ;
+  width: 350px;
+} 
+.searchAddBar3{
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -92,6 +99,8 @@ body{
   flex: 4.5;
   position: relative;
   background-color: rgb(244, 248, 255);
+}
+.inquire{
   overflow: auto;
 }
 
@@ -142,12 +151,12 @@ body{
 .consumerContainer{
   max-width:750px;
   min-width:750px;
-  overflow:hidden;
 }
 .consumerpage{
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow:auto;
 }
 .consumerIdName{
   margin:10px 10px 0 30px;
@@ -231,12 +240,15 @@ body{
 }
 
 
-@media screen and (max-width: 479px){
+@media screen and (max-width: 909px){
   .content{
     width: 100%;
     height: 100%;
     background:linear-gradient(rgb(146, 178, 205) 0%, rgb(255, 255, 255) 30%,white 70%, rgb(146, 178, 205)  100% );
     border-radius: 0;
+  }
+  .snackbar{
+    transform: translateY(-20%);
   }
 
   /*Reader Navigation Mobile View*/
@@ -284,18 +296,25 @@ body{
 }
 .container{
   transform: translateY(-8%);
+  overflow: auto;
 }
 .searchBar{
   flex-direction: column;
   width: 65%;
-  transform: scale(1.5) translateY(5%);
+  transform: scale(1.3) translateY(5%);
   z-index: 1;
 }
 .searchAddBar1{
   transform: scale(.7) translateY(-15%);
+  z-index: 3;
 } 
 .searchAddBar2{
   transform: scale(.7) translateY(-60%);
+  z-index:2;
+} 
+.searchAddBar3{
+  transform: scale(.7) translateY(-100%);
+  z-index: 1;
 } 
 .readingTable{
   transform: scale(.8) translateY(-15%);
@@ -383,11 +402,20 @@ body{
 
 /*Meter Reading Mobile View*/
 .searchBarMR{
-  transform: translateY(-25%) scale(.9);
+  transform: translateY(20%) scale(1);
 }
 .meterReadingTable{
-  transform: translateY(20%);
+  transform: translateY(-15%) scale(.75);
   z-index: 0;
+  display: flex;
+  justify-content: center;
+} 
+.meterReadingTableContent{
+  width: 70%;
+   overflow:hidden;
+}
+.meterReadingContent{
+  transform: translateY(-10%);
 }
   }
 

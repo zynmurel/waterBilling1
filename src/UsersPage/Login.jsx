@@ -179,7 +179,7 @@ const Login = () => {
             open={errorMessage.length!==0?true:false} 
             autoHideDuration={4000} 
             onClose={handleAlertClose}
-            anchorOrigin={{ vertical:'bottom', horizontal:'left' }}
+            anchorOrigin={{ vertical:'bottom', horizontal:'center' }}
             style={{ width:'300px' }}
             >
                     <Alert

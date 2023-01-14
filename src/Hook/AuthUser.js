@@ -2,6 +2,12 @@ import axios from "axios"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 export default function AuthUser() {
+    // Dolores Wifi
+    //const hostLaravel = 'http://192.168.254.174:8080';
+
+    //Selwin Wifi
+    const hostLaravel = 'http://192.168.0.124:8080';
+    
     const navigate = useNavigate()
 
     const getToken = () => {
@@ -39,7 +45,7 @@ export default function AuthUser() {
     }
 
     const http = axios.create({
-        baseURL:'http://127.0.0.1:8000/api',
+        baseURL:`${hostLaravel}/api`,
         headers:{
             'Content-type' : 'application/json',
             'Authorization' : `Bearer ${token}`
@@ -54,6 +60,7 @@ export default function AuthUser() {
         getToken,
         getUser,
         http,
-        logout
+        logout,
+        hostLaravel
     }
 }

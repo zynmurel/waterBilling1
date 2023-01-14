@@ -64,7 +64,7 @@ export default function StickyHeadTable({
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover tabIndex={-1} key={row.id} >
+                  <TableRow hover tabIndex={-1} key={row.consumer_id} >
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (

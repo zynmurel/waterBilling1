@@ -7,14 +7,12 @@ import NotFound from '../Components/Pages/NotFound';
 import GetData from '../Hook/SampleData';
 import Skeleton from '@mui/material/Skeleton';
 
-const Consumer = () => {
+const Consumer = ({hostJson, hostLaravel, year, month}) => {
     const {token, logout, getUser} = AuthUser();
-    const month= ["January","February","March","April","May","June","July","August","September","October","November","December"];
-    const year= [2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022, 2023];
 
     //sample consumer
-  const consumersData = GetData('http://localhost:8001', `/UserConsumer?user_id=${2}`);
-  const consumersBillings = GetData('http://localhost:8001', `/reading`);
+  const consumersData = GetData(hostJson, `/UserConsumer?user_id=${getUser().user_id}`);
+  const consumersBillings = GetData(hostJson, `/reading`);
 
     const { data:consumer, isPending:consumerIsPending, error:consumerError } = consumersData;
     console.log(consumer? consumer:'')

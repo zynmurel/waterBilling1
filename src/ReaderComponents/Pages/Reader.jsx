@@ -19,11 +19,14 @@ import GetData from '../../Hook/SampleData';
 
  
 const Reader = ({
+  hostJson,
+  hostLaravel,
   reading,
 }) => {
   
-  const consumersData = GetData('http://127.0.0.1:8000/api', '/consumer');
-  const brgyPrkData = GetData('http://127.0.0.1:8000/api', '/brgyprk');
+   const consumersData = GetData(`${hostLaravel}/api`, '/consumer');
+  const brgyPrkData = GetData(`${hostLaravel}/api`, '/brgyprk');
+  
   const [page, setPage] = useState(0);
   const [popUp, setPopUp] = useState(false)
   const [inputReading, setInputReading] = useState(null)
@@ -34,7 +37,9 @@ const Reader = ({
   const {data:consumer, isPending:conIsPending, error:conError}= consumersData
   const {data:brgyPrk, isPending:bpIsPending, error:bpError}= brgyPrkData
   
-  const  readingInfo = GetData('http://localhost:8001', `/PastReadings${consumerInfo && '?id='}${consumerInfo && consumerInfo.consumer_id}`) 
+  const  readingInfo = GetData(hostJson, `/PastReadings${consumerInfo && '?id='}${consumerInfo && consumerInfo.consumer_id}`) 
+
+
   const {data:pastReading, isPending:pastReadingIsPending, error:pastReadingError, reload, setReload}= readingInfo;
   console.log(pastReading)
       //date sorter
@@ -92,7 +97,7 @@ const Reader = ({
   
     //StickyTable
     const bCon = consumer && barangay && purok? consumer.filter((c)=> c.barangay === barangay && (c.purok === purok || purok ===7)):consumer
-    const newCon = bCon? bCon.filter((c)=> `${c.first_name.toLowerCase()} ${c.middle_name.toLowerCase()} ${c.last_name.toLowerCase()}`.includes(name.toLowerCase())||`${c.id}`.includes(name)) : bCon
+    const newCon = bCon? bCon.filter((c)=> `${c.first_name.toLowerCase()} ${c.middle_name.toLowerCase()} ${c.last_name.toLowerCase()}`.includes(name.toLowerCase())||`${c.consumer_id}`.includes(name)) : bCon
     const columns = [
       { id: 'consumer_id', label: 'Consumer #', minWidth: 100 },
       { id: 'name', label: 'Name', minWidth: 130 },

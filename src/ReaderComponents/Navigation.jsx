@@ -11,7 +11,6 @@ import TemporaryDrawer from './ReadyComponents/Drawer';
 const Navigation = ({logoutUser, month, year}) => {
 
   const { getUser } = AuthUser()
-  const userType = getUser().user_type;
   const activeStyle = {backgroundColor:'rgb(42, 53, 94)',color:"white"}
   const styles = {
     navbar:{

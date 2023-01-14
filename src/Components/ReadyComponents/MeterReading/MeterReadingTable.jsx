@@ -33,7 +33,7 @@ export default function MeterReadingTable({
   };
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+    <Paper className='meterReadingTableContent'>
       <TableContainer sx={{ maxHeight: 570,minHeight: 550 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
