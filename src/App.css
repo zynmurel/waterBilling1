@@ -296,7 +296,6 @@ body{
 }
 .container{
   transform: translateY(-8%);
-  overflow: auto;
 }
 .searchBar{
   flex-direction: column;

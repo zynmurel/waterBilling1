@@ -11,10 +11,11 @@ const Consumer = ({hostJson, hostLaravel, year, month}) => {
     const {token, logout, getUser} = AuthUser();
 
     //sample consumer
-  const consumersData = GetData(hostJson, `/UserConsumer?user_id=${getUser().user_id}`);
+  const consumersData = GetData(hostLaravel, `/api/consumer/${getUser().user_id}`);
   const consumersBillings = GetData(hostJson, `/reading`);
 
     const { data:consumer, isPending:consumerIsPending, error:consumerError } = consumersData;
+    console.log(consumer && consumer)
     console.log(consumer? consumer:'')
 
 
@@ -67,8 +68,8 @@ const Consumer = ({hostJson, hostLaravel, year, month}) => {
         <Box className="consumerContent">
            {!consumerIsPending && consumer && consumer.length!==0 && 
            <Box className={'consumerIdName'}>
-           <h1 >{consumer[0].consumer_id}</h1> 
-           <p >{`${consumer[0].first_name} ${consumer[0].middle_name} ${consumer[0].last_name}`}</p>
+           <h1 >{"ID "+consumer.consumer_id}</h1> 
+           <p >{`${consumer.first_name} ${consumer.middle_name} ${consumer.last_name}`}</p>
            </Box>
            }
 

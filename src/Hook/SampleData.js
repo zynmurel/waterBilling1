@@ -20,7 +20,6 @@ const useFetch = (baseUrl, url)=> {
 
     useEffect(()=>{
       setIsPending(true)
-        setTimeout(()=>{
           http.get(url)
           .then(res=>{
             if(res.statusText!=="OK"){
@@ -38,7 +37,6 @@ const useFetch = (baseUrl, url)=> {
             setError("Cannot fetch this data...")
             setData(null)
           })
-        },1000)
 
       },[reload])
 

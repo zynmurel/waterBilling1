@@ -16,21 +16,23 @@ function App() {
   for( x ; x<=date.getFullYear(); x++){
     year.push(x.toString())
   }
-  
+
+  const datum = Date.parse(date)
+  console.log(date)
   const {getToken, getUser, hostLaravel} = AuthUser();
   const userDetails = getUser();
   //Dolores Wifi
   //const hostJson = 'http://192.168.254.174:8001';
 
   //Selwin Wifi
-  const hostJson = 'http://192.168.0.124:8001';
+  const hostJson = 'http://192.168.254.175:8001';
 
   //return <ReaderPage/>
-   return <AdminPage
-   year={year}
-   month={month} 
-   hostJson={hostJson}
-   hostLaravel={hostLaravel}/>
+  //  return <AdminPage
+  //  year={year}
+  //  month={month} 
+  //  hostJson={hostJson}
+  //  hostLaravel={hostLaravel}/>
   // return <CashierPage/>
   // return <ConsumersPage/>
   if(!getToken()){
@@ -52,7 +54,7 @@ function App() {
     month={month}
     hostJson={hostJson}
     hostLaravel={hostLaravel}
-    />
+    /> 
     )
   }
   else if(userDetails && userDetails.user_type == 'Reader'){

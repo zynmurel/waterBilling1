@@ -19,7 +19,7 @@ const Header = ({logoutUser, userType}) => {
         <Box className="header">
             <UserButton
             logoutUser={logoutUser}
-            //userType={userType}
+            userType={userType}
             />
         </Box>
      );

@@ -1,10 +1,12 @@
-import {  Box, Button, Snackbar  } from "@mui/material";
+import {  Box, Button, Snackbar, Select, InputLabel, MenuItem, FormControl  } from "@mui/material";
 import { Container } from "@mui/system";
 import PersonalInfo from "./PersonalInfo";
 import WaterInfo from "./WaterInfo";
 import { useState } from "react";
+import axios from "axios"
 
 const AddConsumer = ({
+    hostLaravel,
     allbarangay,
     brgyPrk,
     brand, 
@@ -20,29 +22,35 @@ const AddConsumer = ({
     setAlertText, 
     setAlertType, 
 
+    setConsumerPopup,
+
     consumer, 
     conIsPending, 
     conError, 
     reload, 
     setReload
 }) => {
+    const sampleDate = new Date()
+    const birthdate = new Date(consumerInfo.birthday * 1000)
+    const birthdateFormat = `${birthdate.getFullYear()}/${birthdate.getMonth()+1}/${birthdate.getDate()}`
+    console.log(`${birthdate.getFullYear()}/${birthdate.getMonth()+1}/${birthdate.getDate()}`)
     const dataIsOn = Object.keys(consumerInfo).length!==0
 
-    const [buttonPending, setButtonPending] = useState(false)
-
-    const [ consumerNum, setConsumerNum ] = useState(dataIsOn? consumerInfo.consumer_id:"")
-    const [ errConsumerNum, setErrConsumerNum ] = useState(false)
+    const [buttonPending, setButtonPending] = useState(true)
+    console.log(consumerInfo)
+    const [ consumerEmail, setConsumerEmail ] = useState(dataIsOn? consumerInfo.consumer_id:"")
+    const [ errConsumerEmail, setErrConsumerEmail ] = useState(false)
     
     const [ consumerFirstName, setConsumerFirstName ] = useState(dataIsOn? consumerInfo.first_name:"")
     const [ errConsumerFirstName, setErrConsumerFirstName ] = useState(false)
     
-    const [ consumerMiddleName, setConsumerMiddleName ] = useState(dataIsOn? consumerInfo.middle_name:"")
+    const [ consumerMiddleName, setConsumerMiddleName ] = useState(dataIsOn? consumerInfo.middle_name?consumerInfo.middle_name:"":"")
     const [ errConsumerMiddleName, setErrConsumerMiddleName ] = useState(false)
 
     const [ consumerLastName, setConsumerLastName ] = useState(dataIsOn? consumerInfo.last_name:"")
     const [ errConsumerLastName, setErrConsumerLastName ] = useState(false)
 
-    const [ consumerBirthday, setConsumerBirthday ] = useState(dataIsOn? consumerInfo.birthday:"")
+    const [ consumerBirthday, setConsumerBirthday ] = useState(dataIsOn? birthdateFormat:"")
     const [ errConsumerBirthday, setErrConsumerBirthday ] = useState(false)
 
     const [ consumerGender, setConsumerGender ] = useState(dataIsOn? consumerInfo.gender:"")
@@ -54,7 +62,7 @@ const AddConsumer = ({
     const [ consumerCivilStatus, setConsumerCivilStatus ] = useState(dataIsOn? consumerInfo.civil_status:"")
     const [ errConsumerCivilStatus, setErrConsumerCivilStatus ] = useState(false)
 
-    const [ consumerSpouse, setConsumerSpouse ]= useState(dataIsOn? consumerInfo.name_of_spouse:"")
+    const [ consumerSpouse, setConsumerSpouse ]= useState(dataIsOn? consumerInfo.name_of_spouse?consumerInfo.name_of_spouse:"":"")
     const [ errConsumerSpouse, setErrConsumerSpouse ] = useState(false)
 
     const [ consumerBarangay, setConsumerBarangay ]= useState(dataIsOn? consumerInfo.barangay:"")
@@ -77,29 +85,21 @@ const AddConsumer = ({
 
     const [ consumerWaterFirstReading, setConsumerWaterFirstReading ]= useState(dataIsOn? consumerInfo.first_reading:"")
     const [ errConsumerWaterFirstReading, setErrConsumerWaterFirstReading ] = useState(false)
-
     const [ consumerWaterRegDate, setConsumerWaterRegDate ]= useState(dataIsOn? consumerInfo.registered_at :"")
-    console.log(dataIsOn? consumerInfo.registered_at:"")
+
+    const registrationDate = new Date(consumerWaterRegDate)
     const [ errConsumerWaterRegDate, setErrConsumerWaterRegDate ] = useState(false)
-   
+
+    const [status, setStatus] = useState(dataIsOn? consumerInfo.status:"")
+
+    const handleChange = (event) => {
+        setStatus(event.target.value)
+    }
     const handleSubmit = (e) =>{
         setAlertType("warning")
         e.preventDefault()
         setAlert(false);
-            const cont = consumer && consumer.find((con)=>{
-                if(con.id == consumerNum && !dataIsOn){
-                    setAlert(true)
-                    setErrConsumerNum(true)
-                    setAlertText("This Consumer Number Is Already Used.")
-                    return true
-                }
-    })
-        if(!cont){
-            if(!consumerNum){
-                setErrConsumerNum(true)
-                setAlert(true)
-                setAlertText("Please fill up consumer's ID")
-            }else if(!consumerFirstName){
+            if(!consumerFirstName){
                 setErrConsumerFirstName(true)
                 setAlert(true)
                 setAlertText("Please fill up consumer's First name")
@@ -115,6 +115,10 @@ const AddConsumer = ({
                 setErrConsumerLastName(true)
                 setAlert(true)
                 setAlertText("Please fill up consumer's Last name")
+            }else if(!consumerEmail){
+                setErrConsumerEmail(true)
+                setAlert(true)
+                setAlertText("Please fill up consumer's ID")
             }else if(consumerLastName.length<2){
                 setErrConsumerLastName(true)
                 setAlert(true)
@@ -177,97 +181,107 @@ const AddConsumer = ({
                 setAlertText("Please fill up Registration Date")
             }
             if(
-            consumerNum && !errConsumerNum && 
-            consumerFirstName && !errConsumerFirstName &&
-            consumerLastName && !errConsumerLastName &&
-            consumerBirthday && !errConsumerBirthday &&
-            consumerGender && !errConsumerGender&&
-            !errConsumerPhone &&
-            consumerCivilStatus && !errConsumerCivilStatus &&
-            !errConsumerSpouse &&
-            consumerBarangay && !errConsumerBarangay &&
-            consumerPurok && !errConsumerPurok &&
-            consumerHousehold && !errConsumerHousehold &&
-            consumerWaterBrand && !errConsumerWaterBrand &&
-            consumerWaterFirstReading && !errConsumerWaterFirstReading &&
-            consumerWaterSerial && !errConsumerWaterSerial &&
-            consumerWaterType && !errConsumerWaterType &&
-            consumerWaterRegDate && !errConsumerWaterRegDate
+                consumerEmail && !errConsumerEmail && 
+                consumerFirstName && !errConsumerFirstName &&
+                consumerLastName && !errConsumerLastName &&
+                consumerBirthday && !errConsumerBirthday &&
+                consumerGender && !errConsumerGender&&
+                !errConsumerPhone &&
+                consumerCivilStatus && !errConsumerCivilStatus &&
+                !errConsumerSpouse &&
+                consumerBarangay && !errConsumerBarangay &&
+                consumerPurok && !errConsumerPurok &&
+                consumerHousehold && !errConsumerHousehold &&
+                consumerWaterBrand && !errConsumerWaterBrand &&
+                 !errConsumerWaterFirstReading &&
+                consumerWaterSerial && !errConsumerWaterSerial &&
+                consumerWaterType && !errConsumerWaterType &&
+                consumerWaterRegDate && !errConsumerWaterRegDate
             ){
-                // console.log(consumerNum + consumerFirstName + consumerMiddleName + consumerLastName + consumerBirthday + consumerGender + consumerPhone + consumerCivilStatus + consumerSpouse + consumerPurok + consumerHousehold)
-                // console.log(consumerWaterBrand + consumerWaterFirstReading + consumerWaterSerial + consumerWaterType + consumerWaterRegDate.$M+consumerWaterRegDate.$D +  consumerWaterRegDate.$y)
-                const data = {
-                    id:consumerNum,
-                    first_name: consumerFirstName,
-                    last_name: consumerLastName,
-                    middle_name: consumerMiddleName,
-                    phone: consumerPhone,
-                    gender: consumerGender,
-                    age: consumerBirthday,
-                    barangay: consumerBarangay,
-                    purok: consumerPurok,
-                    household_no: consumerHousehold,
-                    civil_status: consumerCivilStatus,
-                    name_of_spouse: consumerSpouse,
-                    usage_type: consumerWaterType,
-                    first_reading: consumerWaterFirstReading,
-                    serial_no: consumerWaterSerial,
-                    brand: consumerWaterBrand,
-                    date: consumerWaterRegDate,
-                    delinquent:false,
-                    connected:true,
-                    archive:false
-                }
-
+                const bdayDate = new Date(consumerBirthday)
+                const data = { 
+                first_name:consumerFirstName,
+                last_name:consumerLastName,
+                middle_name:consumerMiddleName,
+                gender:consumerGender,
+                birthday:`${bdayDate.getFullYear()}/${bdayDate.getMonth()+1}/${bdayDate.getDate()}`,
+                phone:consumerPhone,
+                civil_status:consumerCivilStatus,
+                name_of_spouse:consumerSpouse,
+                household_no:consumerHousehold,
+                first_reading:consumerWaterFirstReading,
+                usage_type:consumerWaterType,
+                serial_no:consumerWaterSerial,
+                brand:consumerWaterBrand,
+                email:consumerEmail,
+                status:"Connected",
+                delinquent:0,
+                registered_at:`${registrationDate.getFullYear()}-${registrationDate.getMonth()+1}-${registrationDate.getDate()}`,
+                user_type:"Consumer",
+                password:`${consumerFirstName.toLowerCase()}${consumerLastName.toLowerCase()}123`.replace(" ",""),
+                barangay: consumerBarangay,
+                purok:consumerPurok
+            }
                 setButtonPending(true)
                 if(!dataIsOn){
-                    fetch("http://localhost:8001/Consumers",{
-                        method: 'POST',
-                        headers: { "Content-Type":"application/json" },
-                        body: JSON.stringify(data)
-                    }).then(()=>{
-                            console.log(data)
+                    const headers = { 
+                        'Content-type' : 'application/json',
+                        'Accept' : 'application/json',
+                      };
+                      axios.post(`${hostLaravel}/api/consumer`, data, { headers })
+                          .then(response => {
+                            console.log(response)
                             setOpenPopup(false)
                             setButtonPending(false)
                             setReload(reload? false: true)
                             setAlert(true)
                             setAlertText("Consumer Added!")
-                            setAlertType("success")
-                    })
-                    .catch(err=> {
-                        setOpenPopup(true)
-                        setButtonPending(true)
-                        setAlert(true)
-                        setAlertText(err)
-                        setAlertType("error")
-                    })
+                            setAlertType("success")})
+                          .catch(error => {
+                            console.error('There was an error!', error);
+                        });
+                      
+                    
                 }else{
-                    const requestOptions = {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(data)
-                    };
-                    fetch('http://localhost:8001/Consumers/'+consumerInfo.id, requestOptions)
-                        .then(response => response.json())
-                        .then((data) => {
+                    const sample = {
+                        first_name:consumerFirstName,
+                        last_name:consumerLastName,
+                        middle_name:consumerMiddleName,
+                        gender:consumerGender,
+                        birthday:`${bdayDate.getFullYear()}/${bdayDate.getMonth()+1}/${bdayDate.getDate()}`,
+                        phone:consumerPhone,
+                        civil_status:consumerCivilStatus,
+                        name_of_spouse:consumerSpouse,
+                        barangay: consumerBarangay,
+                        purok:consumerPurok,
+                        household_no:consumerHousehold,
+                        first_reading:consumerWaterFirstReading,
+                        usage_type:consumerWaterType,
+                        serial_no:consumerWaterSerial,
+                        brand:consumerWaterBrand,
+                        status:status,
+                        delinquent:0,
+                        registered_at:`${registrationDate.getFullYear()}-${registrationDate.getMonth()+1}-${registrationDate.getDate()}`
+                }
+                    const headers = { 
+                        'Content-type' : 'application/json',
+                        'Accept' : 'application/json',
+                      };
+                      axios.put(`${hostLaravel}/api/consumer/${consumerInfo.user_id}`, sample, { headers })
+                          .then(response => {
+                            console.log(response)
                             setOpenPopup(false)
+                            setConsumerPopup(false)
                             setButtonPending(false)
                             setReload(reload? false: true)
-                            setConsumerInfo(data)
                             setAlert(true)
                             setAlertText("Consumer Updated!")
-                            setAlertType("success")
-                        })
-                        .catch(err=> {
-                            console.log(err.message)
-                            setOpenPopup(false)
-                            setButtonPending(false)
-                            setAlert(true)
-                            setAlertText(err.message)
-                            setAlertType("error")
-                        })
+                            setAlertType("success")})
+                          .catch(error => {
+                            console.error('There was an error!', error);
+                        });
                 }
-            }}
+            }
     }
 
     const style={
@@ -295,6 +309,25 @@ const AddConsumer = ({
     return ( 
         <Container style={style.container}>
             <form autoComplete="off" noValidate style={style.form} onSubmit={handleSubmit}>
+
+        {dataIsOn && 
+        <FormControl variant="standard" sx={{ m: 1, minWidth: 120, position:'absolute', top:5, right:50 }}>
+            <InputLabel id="demo-simple-select-standard-label">Status</InputLabel>
+            <Select
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
+              value={status}
+              onChange={(e)=> {
+                handleChange(e);
+                setButtonPending(false);
+              }}
+              label="Status"
+            >
+              <MenuItem value={"Connected"}>Connected</MenuItem>
+              <MenuItem value={"Disconnected"}>Disconnected</MenuItem>
+              <MenuItem value={"Archive"}>Archive</MenuItem>
+            </Select>
+          </FormControl>}
                     <PersonalInfo
                     style={style}
                     allbarangay={allbarangay}
@@ -302,13 +335,15 @@ const AddConsumer = ({
                     gender={gender}
                     civil_status={civil_status}
                     consumerInfo={consumerInfo}
+                    dataIsOn={dataIsOn}
+                    setButtonPending={setButtonPending}
 
                     setAlert={setAlert}
                     
-                    consumerNum={consumerNum}
-                    setConsumerNum={setConsumerNum}
-                    errConsumerNum={errConsumerNum} 
-                    setErrConsumerNum={setErrConsumerNum}
+                    consumerEmail={consumerEmail}
+                    setConsumerEmail={setConsumerEmail}
+                    errConsumerEmail={errConsumerEmail} 
+                    setErrConsumerEmail={setErrConsumerEmail}
 
                     consumerFirstName={consumerFirstName}
                     setConsumerFirstName={setConsumerFirstName}
@@ -369,6 +404,7 @@ const AddConsumer = ({
                     />
                 <Box style={{display:"flex", flexDirection:"column", flex:1}}>
                     <WaterInfo 
+                    setButtonPending={setButtonPending}
                     style={style}
                     brand={brand}
                     usage_type={usage_type}

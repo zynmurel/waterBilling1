@@ -10,7 +10,7 @@ const ConsumerData = ({
     rbError
 }) => {
     const dateNow = new Date()
-    const birthday = new Date(consumerInfo.birthday)
+    const birthday = new Date(consumerInfo.birthday *1000)
     const age = () =>{
         let age = dateNow.getFullYear() - birthday.getFullYear() - 1
         if(dateNow.getMonth()<=birthday.getMonth() && dateNow.getDate()<=birthday.getDate()){
@@ -84,6 +84,16 @@ const ConsumerData = ({
         return byear.getMonth() - ayear.getMonth();
         };
     };
+
+  function calculate_age(dob) { 
+    var diff_ms = Date.now() - dob.getTime();
+    var age_dt = new Date(diff_ms); 
+  
+    return Math.abs(age_dt.getUTCFullYear() - 1970);
+}
+
+console.log(calculate_age(new Date("1999/01/19")));
+console.log(`${birthday.getFullYear()}/${birthday.getMonth()+1}/${birthday.getDate()}`)
     readings && newrb.sort(sorter)
     return (  
         <Box style={styles.container}>
@@ -91,7 +101,7 @@ const ConsumerData = ({
                 <h2 style={{margin:"10px 0", color:"rgba(35,43,75,255)"}}><strong>{`${consumerInfo.first_name} ${consumerInfo.middle_name} ${consumerInfo.last_name}`.toLocaleUpperCase()}</strong> </h2>
                 <p style={styles.textStyle}><strong>GENDER: <span style={styles.strong}>{`${consumerInfo.gender}`}</span></strong></p>
                 <p style={styles.textStyle}><strong>BIRTHDAY: <span style={styles.strong}>{`${month[birthday.getMonth()]} ${birthday.getDate()}, ${birthday.getFullYear()}`}</span></strong></p>
-                <p style={styles.textStyle}><strong>AGE: <span style={styles.strong}>{age()}</span></strong></p>
+                <p style={styles.textStyle}><strong>AGE: <span style={styles.strong}>{calculate_age(new Date(`${birthday.getFullYear()}/${birthday.getMonth()+1}/${birthday.getDate()}`))}</span></strong></p>
                 <p style={styles.textStyle}><strong>PHONE: <span style={styles.strong}>{consumerInfo.phone? `${consumerInfo.phone}`:"(No Phone Number)"}</span></strong> </p>
                 <p style={styles.textStyle}><strong> BARANGAY: <span style={styles.strong}>{`${consumerInfo.barangay}`}</span></strong></p>
                 <p style={styles.textStyle}><strong>PUROK: <span style={styles.strong}>{`${consumerInfo.purok}`}</span></strong></p>

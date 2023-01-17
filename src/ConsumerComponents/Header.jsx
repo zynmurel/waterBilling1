@@ -102,7 +102,7 @@ const Header = ({logoutUser, consumer, consumerIsPending, consumerError}) => {
             </NavLink>
 
                 <Paper style={styles.paper} aria-describedby={id} onClick={handleClick}>
-                {consumer && <h2>{`${consumer[0].first_name[0]+consumer[0].last_name[0]}`}</h2>}
+                {consumer && <h2>{`${consumer.first_name[0]+consumer.last_name[0]}`}</h2>}
                 {consumerIsPending && <h2>...</h2>}
                 {consumerError && <h2></h2>}
                 </Paper>

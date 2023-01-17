@@ -6,7 +6,7 @@ export default function AuthUser() {
     //const hostLaravel = 'http://192.168.254.174:8080';
 
     //Selwin Wifi
-    const hostLaravel = 'http://127.0.0.1:8001';
+    const hostLaravel = 'http://192.168.254.175:8080';
     
     const navigate = useNavigate()
 
@@ -48,9 +48,10 @@ export default function AuthUser() {
         baseURL:`${hostLaravel}/api`,
         headers:{
             'Content-type' : 'application/json',
-            'Authorization' : `Bearer ${token}`
+            'Authorization' : `Bearer ${token}`,
         }
     });
+
 
 
     return {

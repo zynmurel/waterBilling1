@@ -22,7 +22,7 @@ const AdminPage = ({year, month, hostJson, hostLaravel}) => {
   const reading = GetData(hostJson, `/reading`);
   const date = new Date('1644883200' * 1000)
   console.log(date.getMonth())
-  const brand = ["Brand", "Sunrise"];
+  const brand = ["Nature Spring", "Sunrise"];
   const usage_type = ["Residential","Commercial"];
   const civil_status = ["Single", "Married"];
   const gender = ["Male", "Female"];
@@ -32,7 +32,7 @@ const AdminPage = ({year, month, hostJson, hostLaravel}) => {
       logout();
     }
   }
-  //const userType = getUser().user_type;
+  const userType = getUser().user_type;
     return ( 
         <div className="adminpage">
  
@@ -41,7 +41,7 @@ const AdminPage = ({year, month, hostJson, hostLaravel}) => {
         <div className='routes' >
         <Header 
         logoutUser={logoutUser}
-        //userType={userType}
+        userType={userType}
         />
         <Routes>  
           <Route path="/home" element={
@@ -72,6 +72,8 @@ const AdminPage = ({year, month, hostJson, hostLaravel}) => {
           <MeterReading
           month={month}
           year={year}
+          hostJson={hostJson}
+          hostLaravel={hostLaravel}
           />}></Route> 
 
           <Route path="/reports" element={

@@ -1,6 +1,7 @@
 import '../../Styles/PageStyles/consumermanagement.css'
 import '../../Styles/PageStyles/home.css'
 import '../../App.css'
+import axios from "axios"
 import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
 import { NumericFormat } from 'react-number-format';
 import ReadingTable from '../../ReaderComponents/ReadyComponents/ReadingTable'
@@ -15,6 +16,7 @@ import React from 'react';
 import { Box, Button, Dialog, DialogTitle, DialogContent, Typography, TextField, Snackbar, Alert, InputAdornment  } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import GetData from '../../Hook/SampleData';
+import AuthUser from '../../Hook/AuthUser';
 
 
  
@@ -23,14 +25,19 @@ const Reader = ({
   hostLaravel,
   reading,
 }) => {
-  
+
+  //Date to Timestamp Format
+  const date = new Date()
+  const datum = Date.parse(date)
+
+  const { getUser } = AuthUser();
+  const reader = getUser()
    const consumersData = GetData(`${hostLaravel}/api`, '/consumer');
   const brgyPrkData = GetData(`${hostLaravel}/api`, '/brgyprk');
   
   const [page, setPage] = useState(0);
   const [popUp, setPopUp] = useState(false)
   const [inputReading, setInputReading] = useState(null)
-  console.log(inputReading)
 
   const [consumerInfo, setConsumerInfo] = useState({})
 
@@ -109,6 +116,40 @@ const Reader = ({
         align: 'center',
       }
     ];
+
+    //Submit Reading function
+    const submitReading = () => {
+    //   http.post('/reading', {
+    //     reader_id:1,
+    //         consumer_id:3,
+    //         service_period_id:12,
+    //         previous_reading:0,
+    //         present_reading:12,
+    //         reading_date:1642118400
+    // }).then((res)=>{
+    //     console.log(res.message)
+    //   }).catch((err)=>{
+    //       console.log(err)
+    //   })
+
+    const reading = {
+              reader_id: reader.user_id,
+              consumer_id: consumerInfo.consumer_id,
+              service_period_id:12,
+              previous_reading:0,
+              present_reading: inputReading,
+              reading_date:datum/1000
+      };
+    const headers = { 
+      'Content-type' : 'application/json',
+      'Accept' : 'application/json',
+    };
+    axios.post(`${hostLaravel}/api/reading`, reading, { headers })
+        .then(response => console.log(response))
+        .catch(error => {
+          console.error('There was an error!', error);
+      });
+    }
      
 
     return ( 
@@ -253,6 +294,7 @@ const Reader = ({
                                 variant="contained"
                                 disabled={( pastReadingIsPending || pastReadingError || pastReading.length === 0 || inputReading===null || inputReading.length===0)? true:false} 
                                 style={{height:40, width:120, fontSize:12, margin:5}}
+                                onClick={()=>submitReading()}
                                 >Submit</Button>
                       </Box>
                     </Box>

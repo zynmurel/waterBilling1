@@ -4,6 +4,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 const PersonalInfo = ({
+    setButtonPending,
     style, 
     consumerInfo,
     allbarangay,
@@ -11,10 +12,10 @@ const PersonalInfo = ({
     gender, 
     civil_status,
 
-    consumerNum, 
-    setConsumerNum,
-    errConsumerNum,
-    setErrConsumerNum,
+    consumerEmail, 
+    setConsumerEmail,
+    errConsumerEmail,
+    setErrConsumerEmail,
 
     consumerFirstName, 
     setConsumerFirstName, 
@@ -70,6 +71,7 @@ const PersonalInfo = ({
     setConsumerHousehold, 
     errConsumerHousehold, 
     setErrConsumerHousehold,
+
 }) => {
 
     const onKeyDown = (e) => {
@@ -92,29 +94,6 @@ const PersonalInfo = ({
                     </Typography>
                     <Box style={{display:"flex", justifyContent:"center", flexDirection:"row"}}>
                         <Box style={{display:"flex", flexDirection:"column", flex:1, marginRight:10}}>
-                            <NumericFormat
-                            //{...other}
-                            //getInputRef={ref}
-                            label="Consumer ID" 
-                            variant="outlined" 
-                            placeholder="ex: 10000"
-                            allowNegative={false}
-                            value={consumerNum}
-                            disabled={dataIsOn}
-                            required
-                            isAllowed={(values) => {
-                              const { value } = values;
-                              return value < 999999 && !value.includes(".");
-                            }}
-                            onChange={(e) =>{
-                                const val = e.target.value
-                                setConsumerNum(val)
-                                if(val){setErrConsumerNum(false)}
-                            }}
-                            customInput={TextField}
-                            style={style.textfield}
-                            error={errConsumerNum}
-                            />
                             
                             <TextField 
                             id="outlined-basic" 
@@ -124,7 +103,7 @@ const PersonalInfo = ({
                             placeholder="ex: Juan"
                             onChange={(e) =>{
                                 const val = e.target.value.replace(/[^a-z, /s, /u00f1, /u00d1, /., /-]/gi, '');
-
+                                setButtonPending(false)
                                 setConsumerFirstName(val);
                                 if(val.length>1){setErrConsumerFirstName(false)}
                             }}
@@ -145,7 +124,8 @@ const PersonalInfo = ({
                             error={errConsumerMiddleName}
                             onChange={(e) =>{
                                 const val = e.target.value.replace(/[^a-z, /s, /u00f1, /u00d1, /., /-]/gi, '');
-
+                                
+                                setButtonPending(false)
                                 setConsumerMiddleName(val);
                                 if(val.length>1||val.length===0){setErrConsumerMiddleName(false)}
                             }}
@@ -159,7 +139,8 @@ const PersonalInfo = ({
                             placeholder="ex: Enrile"
                             onChange={(e) =>{
                                 const val = e.target.value.replace(/[^a-z, /s, /u00f1, /u00d1, /., /-]/gi, '');
-
+                                
+                                setButtonPending(false)
                                 setConsumerLastName(val);
                                 if(val.length>1){setErrConsumerLastName(false)}
                             }}
@@ -175,6 +156,7 @@ const PersonalInfo = ({
                                     label="Birthday"
                                     value={consumerBirthday}
                                     onChange={(newValue) => {
+                                    setButtonPending(false)
                                     newValue? setConsumerBirthday(newValue): setConsumerBirthday("")
                                     newValue && (isNaN(newValue.$D) || newValue.$D==null )? setErrConsumerBirthday(true): setErrConsumerBirthday(false)
                                     }}
@@ -202,6 +184,7 @@ const PersonalInfo = ({
                                 onChange={(e) =>{
                                     const val = e.target.value
                                     setConsumerGender(val);
+                                    setButtonPending(false)
                                     if(val){setErrConsumerGender(false)}
                                 }}
                                 value={consumerGender}
@@ -213,9 +196,6 @@ const PersonalInfo = ({
                                 }
                                 </Select>
                             </FormControl>
-                        
-                        </Box>
-                        <Box style={{display:"flex", flexDirection:"column", flex:1}}>
 
                             <PatternFormat 
                             customInput={TextField}
@@ -225,13 +205,38 @@ const PersonalInfo = ({
                             mask="#"
                             onChange={(e) =>{
                                 const val = e.target.value
-                                setConsumerPhone(val)
+
+                                setButtonPending(false)
+                                setConsumerPhone(val);
                                 !val.includes("#") || val.length===0 ?setErrConsumerPhone(false): setErrConsumerPhone(true)
                             }}
                             value={consumerPhone}
                             error={errConsumerPhone}
                              />
+                        
+                        </Box>
+                        <Box style={{display:"flex", flexDirection:"column", flex:1}}>
 
+
+                        {!dataIsOn && <TextField 
+                            id="outlined-basic" 
+                            label="Email" 
+                            variant="outlined" 
+                            type="text"
+                            placeholder="ex: example@gmail.com"
+                            onChange={(e) =>{
+                                const val = e.target.value
+
+                                setButtonPending(false)
+                                setConsumerEmail(val);
+                                if(val.length>1){setErrConsumerEmail(false)}
+                            }}
+                            style={style.textfield}
+                            value={consumerEmail}
+                            required
+                            error={errConsumerEmail}
+                            disabled={dataIsOn}
+                            />}
                             <FormControl 
                             style={style.textfield}
                             error={errConsumerCivilStatus}>
@@ -246,6 +251,7 @@ const PersonalInfo = ({
                                 defaultValue={""}
                                 onChange={(e) =>{
                                     const val = e.target.value
+                                    setButtonPending(false)
                                     if(val==="Single"){
                                         setConsumerSpouse("")
                                     }
@@ -271,6 +277,7 @@ const PersonalInfo = ({
                             onChange={(e) =>{
                                 const val = e.target.value.replace(/[^a-z, /s, /u00f1, /u00d1, /., /-]/gi, '');
 
+                                setButtonPending(false)
                                 setConsumerSpouse(val);
                                 if(val.length>1||val.length===0){setErrConsumerSpouse(false)}
                             }}
@@ -285,6 +292,7 @@ const PersonalInfo = ({
                             ListboxProps={{ style: { maxHeight: 150 }, position: "top-start" }}
                             onChange={(event , val)=>{ 
                                 setConsumerBarangay(val)
+                                setButtonPending(false)
                                 if(val){setErrConsumerBarangay(false)}
                             }}
                             value={consumerBarangay}
@@ -314,6 +322,7 @@ const PersonalInfo = ({
                                 onChange={(e) =>{
                                     const val = e.target.value
                                     setConsumerPurok(val);
+                                    setButtonPending(false)
                                     if(val){setErrConsumerPurok(false)}
                                 }}
                                 value={consumerPurok}
@@ -340,6 +349,7 @@ const PersonalInfo = ({
                             onChange={(e) =>{
                                 const val = e.target.value
                                 setConsumerHousehold(val)
+                                setButtonPending(false)
                                 if(val){setErrConsumerHousehold(false)}
                             }}
                             customInput={TextField}

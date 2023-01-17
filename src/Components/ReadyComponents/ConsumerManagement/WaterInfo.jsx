@@ -4,6 +4,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 const WaterInfo = ({
+    setButtonPending,
     style,  
     usage_type, 
     brand,
@@ -59,6 +60,7 @@ const WaterInfo = ({
                                 defaultValue={""}
                                 onChange={(e) =>{
                                     const val = e.target.value
+                                    setButtonPending(false);
                                     setConsumerWaterType(val);
                                     if(val){setErrConsumerWaterType(false)}
                                 }}
@@ -86,6 +88,7 @@ const WaterInfo = ({
                                     defaultValue={""}
                                     onChange={(e) =>{
                                         const val = e.target.value
+                                        setButtonPending(false);
                                         setConsumerWaterBrand(val);
                                         if(val){setErrConsumerWaterBrand(false)}
                                     }}
@@ -108,6 +111,7 @@ const WaterInfo = ({
                                 onChange={(e) =>{
                                     const val = e.target.value.replace(/[^0-9,\-]/gi, '');
 
+                                    setButtonPending(false);
                                     setConsumerWaterSerial(val);
                                     !val || val.length>4? setErrConsumerWaterSerial(true) : setErrConsumerWaterSerial(false)
                                 }}
@@ -131,6 +135,7 @@ const WaterInfo = ({
                                 }}
                                 onChange={(e) =>{
                                     const val = e.target.value
+                                    setButtonPending(false);
                                     setConsumerWaterFirstReading(val)
                                     val===""? setErrConsumerWaterFirstReading(true): setErrConsumerWaterFirstReading(false)
                                 }}
@@ -143,6 +148,8 @@ const WaterInfo = ({
                                     label="Registration Date"
                                     value={consumerWaterRegDate}
                                     onChange={(newValue) => {
+
+                                    setButtonPending(false)
                                     newValue? setConsumerWaterRegDate(newValue): setConsumerWaterRegDate("")
                                     newValue && (isNaN(newValue.$D) || newValue.$D==null )? setErrConsumerWaterRegDate(true): setErrConsumerWaterRegDate(false)
                                     }}

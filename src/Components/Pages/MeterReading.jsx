@@ -14,7 +14,7 @@ import MeterReadingTable from '../ReadyComponents/MeterReading/MeterReadingTable
 import AuthUser from '../../Hook/AuthUser';
 import GetData from '../../Hook/SampleData';
 
-const MeterReading = ({ month:allmonth, year:allyear}) => {
+const MeterReading = ({ month:allmonth, year:allyear, hostLaravel, hostJson}) => {
     const [page, setPage] = useState(0);
     const [consumerPopUp, setConsumerPopup] = useState(false)
     const [purok, setPurok] = useState(7);
@@ -28,7 +28,7 @@ const MeterReading = ({ month:allmonth, year:allyear}) => {
     //getBarangay & Purok
     const {http} = AuthUser();
 
-    const brgyPrkData = GetData('http://127.0.0.1:8000/api', '/brgyprk');
+    const brgyPrkData = GetData(`${hostLaravel}/api`, '/brgyprk');
     const {data:brgyPrk, isPending:bpIsPending, error:bpError}= brgyPrkData
 
     //Autocomplete - Barangay

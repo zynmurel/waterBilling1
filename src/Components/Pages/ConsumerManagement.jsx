@@ -71,7 +71,7 @@ const ConsumerManagement = ({
   
     //StickyTable
     const bCon = consumer && barangay && purok? consumer.filter((c)=> c.barangay === barangay && (c.purok == purok || purok ==7)):consumer
-    const newCon = bCon? bCon.filter((c)=> `${c.first_name.toLowerCase()} ${c.middle_name.toLowerCase()} ${c.last_name.toLowerCase()}`.includes(name.toLowerCase())||`${c.consumer_id}`.includes(name)) : bCon
+    const newCon = bCon? bCon.filter((c)=> `${c.first_name.toLowerCase()} ${c.middle_name && c.middle_name.toLowerCase()} ${c.last_name.toLowerCase()}`.includes(name.toLowerCase())||`${c.consumer_id}`.includes(name)) : bCon
     const columns = [
       { id: 'consumer_id', label: 'Consumer #', minWidth: 120 },
       { id: 'name', label: 'Name', minWidth: 500 },
@@ -158,12 +158,14 @@ const ConsumerManagement = ({
              consumerInfo={consumerInfo}
              >
                <AddConsumer 
+               hostLaravel={hostLaravel}
                consumer={consumer}
                conIsPending={conIsPending}
                conError={conError}
                reload={reload}
                setReload={setReload}
                consumersData={consumersData}
+               setConsumerPopup={setConsumerPopup}
 
                setOpenPopup={setOpenPopup}
                allbarangay={allbarangay}
@@ -204,7 +206,7 @@ const ConsumerManagement = ({
                     <Alert
                     onClose={handleAlertClose}  
                     severity={alertType} sx={{ width: '100%' }}
-                    style={{zIndex:6}}>
+                    >
                     {alertText}
                     </Alert>
                 </Snackbar>
