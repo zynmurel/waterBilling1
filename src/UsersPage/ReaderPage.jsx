@@ -44,6 +44,8 @@ const Cashier = ({year, month, hostJson, hostLaravel}) => {
           <MeterReading
           month={month}
           year={year}
+          hostJson={hostJson}
+          hostLaravel={hostLaravel}
           />}></Route>
           
           <Route path="/help" element={<Help/>}></Route> 

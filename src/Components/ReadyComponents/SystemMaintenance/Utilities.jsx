@@ -39,7 +39,7 @@ const Utilities = ({children, hostJson}) => {
             display:'flex',
             flexDirection:'column',
             alignItems:'center',
-            backgroundColor:'rgb(218, 222, 233)',
+            backgroundColor:'rgb(250, 250, 250)',
             padding:20,
             width:540,
             height:515,

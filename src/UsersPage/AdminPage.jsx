@@ -16,12 +16,10 @@ import { useState, useEffect } from 'react';
 
 const AdminPage = ({year, month, hostJson, hostLaravel}) => {
 
-  console.log(hostLaravel)
   const {token, logout, getData, getUser} = AuthUser();
   const result = GetData(hostJson, `/consumers`);
   const reading = GetData(hostJson, `/reading`);
   const date = new Date('1644883200' * 1000)
-  console.log(date.getMonth())
   const brand = ["Nature Spring", "Sunrise"];
   const usage_type = ["Residential","Commercial"];
   const civil_status = ["Single", "Married"];
@@ -82,6 +80,7 @@ const AdminPage = ({year, month, hostJson, hostLaravel}) => {
           year={year}
           result={result} 
           reading={reading}
+          hostLaravel={hostLaravel}
           />}></Route> 
 
           <Route path="/systemMaintenance" element={<SystemMaintenance

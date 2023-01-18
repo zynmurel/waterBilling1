@@ -10,7 +10,7 @@ export default function ComboBox({width, label, options, isPending, error, dataS
   // res && res.map((r) => {
   //   allbarangay.push(r.barangay)
   // } )
-  console.log(label)
+  //console.log(label)
   let renderInput =label
   if(isPending){
     renderInput ="Loading..."

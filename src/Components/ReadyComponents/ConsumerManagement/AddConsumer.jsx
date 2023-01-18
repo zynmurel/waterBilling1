@@ -1,4 +1,4 @@
-import {  Box, Button, Snackbar, Select, InputLabel, MenuItem, FormControl  } from "@mui/material";
+import {  Box, Button, Snackbar, Select, InputLabel, MenuItem, FormControl, Alert  } from "@mui/material";
 import { Container } from "@mui/system";
 import PersonalInfo from "./PersonalInfo";
 import WaterInfo from "./WaterInfo";
@@ -28,7 +28,12 @@ const AddConsumer = ({
     conIsPending, 
     conError, 
     reload, 
-    setReload
+    setReload,
+
+    alert,
+    alertText,
+    alertType,
+    handleAlertClose,
 }) => {
     const sampleDate = new Date()
     const birthdate = new Date(consumerInfo.birthday * 1000)
@@ -222,7 +227,6 @@ const AddConsumer = ({
                 barangay: consumerBarangay,
                 purok:consumerPurok
             }
-                setButtonPending(true)
                 if(!dataIsOn){
                     const headers = { 
                         'Content-type' : 'application/json',
@@ -238,7 +242,11 @@ const AddConsumer = ({
                             setAlertText("Consumer Added!")
                             setAlertType("success")})
                           .catch(error => {
-                            console.error('There was an error!', error);
+                            console.error('There was an error!', error)
+                            setAlert(true)
+                            setAlertText(error.response.data.message)
+                            console.log(error.response.data.message)
+                            setAlertType("error")
                         });
                       
                     
@@ -307,7 +315,7 @@ const AddConsumer = ({
         }
     }
     return ( 
-        <Container style={style.container}>
+        <Container style={style.container} >
             <form autoComplete="off" noValidate style={style.form} onSubmit={handleSubmit}>
 
         {dataIsOn && 
@@ -452,7 +460,14 @@ const AddConsumer = ({
 
                 </Box>
                 </Box>
-
+                <Snackbar open={alert} autoHideDuration={6000} onClose={handleAlertClose} className={'snackbarPopup'}>
+                    <Alert
+                    onClose={handleAlertClose}  
+                    severity={alertType} sx={{ width: '100%' }}
+                    >
+                    {alertText}
+                    </Alert>
+                </Snackbar>
             </form>
         </Container>
      );

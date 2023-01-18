@@ -27,7 +27,7 @@ const ConsumerPopup = ({title, children, consumerPopUp, maxWidth, setConsumerPop
     }
   }
   return ( 
-    <Dialog open={consumerPopUp} maxWidth={maxWidth} fullWidth>
+    <Dialog open={consumerPopUp} maxWidth={maxWidth} fullWidth className="dialogConsumer">
 
       <DialogTitle style={styles.dialogTitle}>
         <Typography gutterBottom fontWeight={"bold"} fontSize={40} style={styles.typography}>

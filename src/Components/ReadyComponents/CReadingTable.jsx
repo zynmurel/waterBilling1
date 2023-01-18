@@ -8,15 +8,16 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useEffect } from 'react';
+import GetData from '../../Hook/SampleData'
 import { Box, CircularProgress } from '@mui/material';
 
 const columns = [
   { id: 'Year', label: 'Year', minWidth: 60 ,    align: 'center',},
   { id: 'Month', label: 'Month', minWidth: 70 ,     align: 'center',},
   {
-    id: 'total_reading',
-    label: 'Total Reading',
-    minWidth: 90,
+    id: 'bill',
+    label: 'Bill',
+    minWidth: 50,
     align: 'center',
   },
   {
@@ -26,16 +27,16 @@ const columns = [
     align: 'center',
   },
   {
-    id: 'bill',
-    label: 'Bill',
-    minWidth: 50,
+    id: 'totalBill',
+    label: 'Total Bill',
+    minWidth: 90,
     align: 'center',
   }
 ];
 
-export default function ReadingTable({month, newrb , scale, height, conIsPending, conError, readings}) {
-
-console.log(readings)
+export default function ReadingTable({month, scale, height, conIsPending, conError, readings, hostLaravel}) {
+ const readingBillingRecords = GetData(hostLaravel, `/api/readingsBillingsPayments/1`);
+ const newrb = readingBillingRecords.data ? readingBillingRecords.data.newReading :{};
   return (
     <Paper sx={{ width: 450, overflow: 'hidden', transform:`scale(${scale})`}}>
 
@@ -68,10 +69,10 @@ console.log(readings)
             </TableRow>
           </TableHead>
           <TableBody>
-          {newrb && newrb
+           {readingBillingRecords.data  && newrb
               .map((row, index) => {
                 const service_period = row.service_period.split("-")
-                console.log(service_period)
+                //console.log(service_period)
 
                 return (
                   <TableRow  role="checkbox" tabIndex={-1} key={row.reading_id} style={!row.date_paid?{}:{backgroundColor:"rgb(132, 240, 139)", height:10}}>
@@ -82,12 +83,12 @@ console.log(readings)
                         value = service_period[0]
                       } else if (column.id === "Month"){
                         value = service_period[1]
-                      } else if (column.id === "total_reading"){
-                        value = row.total_reading
+                      } else if (column.id === "totalBill"){
+                        value = `₱${row.bill+row.penalty}`
                       } else if (column.id === "bill"){
-                        value = row.bill
+                        value = `₱${row.bill}`
                       } else if (column.id === "penalty"){
-                        value = row.penalty
+                        value = `₱${row.penalty}`
                       } 
 
                       return (
@@ -98,7 +99,7 @@ console.log(readings)
                     })}
                   </TableRow>
                 );
-              })}
+              })} 
           </TableBody>
         </Table>
               {newrb.length === 0 && <Box style={{height:height-50, color:"gray", display:"flex", justifyContent:"center", alignItems:"center"}}><h3>No Billing Record</h3></Box>}

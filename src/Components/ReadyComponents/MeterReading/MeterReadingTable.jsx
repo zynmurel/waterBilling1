@@ -9,20 +9,24 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import GetData from '../../../Hook/SampleData'
 
 
 export default function MeterReadingTable({
   page, 
   setPage, 
-  readingData,
   setConsumerInfo, 
   setConsumerPopup,
   conIsPending, 
   conError,
   newCon,
-  columns
+  hostLaravel
 }) {
+  const meterReadings = GetData(hostLaravel, `/api/meterReadings/1`);
+  const { data:meterReadingsData, isPending, error  } = meterReadings
+  console.log(meterReadingsData && meterReadingsData.newReading)
   const rowsPerPage = 10;
+  console.log(meterReadings)
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -31,6 +35,14 @@ export default function MeterReadingTable({
   const handleChangeRowsPerPage = (event) => {
     setPage(0);
   };
+
+  const columns = [
+    { id: 'consumer_id', label: 'Consumer ID', minWidth: 100, align:'left' },
+    { id: 'consumer_name', label: 'Consumer Name', minWidth: 150, align:'left' },
+    { id: 'prev_reading', label: 'Past Reading', minWidth: 80, align:'center' },
+    { id: 'present_reading', label: 'Current Reading', minWidth: 80, align:'center' },
+    { id: 'total_reading', label: 'Total Reading', minWidth: 80, align:'center' },
+];
 
   return (
     <Paper className='meterReadingTableContent'>
@@ -57,13 +69,16 @@ export default function MeterReadingTable({
             </TableRow>
           </TableHead>
           <TableBody>
-            {readingData && readingData
+            {meterReadingsData && meterReadingsData.newReading
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover tabIndex={-1} key={row.id} >
+                  <TableRow hover tabIndex={-1} key={row.reading_id} >
                     {columns.map((column) => {
-                      const value = row[column.id];
+                      let value = row[column.id];
+                      if(column.id==="total_reading"){
+                        value = row['present_reading']- row['prev_reading']
+                      }
                       return (
                         <TableCell key={column.id} align={column.align} onClick={()=>{ 
                             // setConsumerPopup(true); setConsumerInfo(row) 
@@ -78,19 +93,19 @@ export default function MeterReadingTable({
           </TableBody>
         </Table>
          {
-           conIsPending &&
+           isPending &&
           <Box sx={{ display: 'flex', height:520, justifyContent:"center", alignItems:"center",}}>
             <CircularProgress />
            </Box>
           }
           {
-            conError &&
+            error &&
            <Box sx={{ display: 'flex', height:520, justifyContent:"center", alignItems:"center" }}>
              <h1 style={{color:"rgb(255, 82, 82)"}}>{conError}</h1>
             </Box>
            }
           { 
-            !conIsPending && newCon && newCon.length === 0 && 
+            !isPending && meterReadings && meterReadingsData.newReading.length === 0 && 
             <Box sx={{ display: 'flex', height:520, justifyContent:"center", alignItems:"center",}}>
               <h1 style={{color:"gray"}}>No Consumer</h1>
             </Box>

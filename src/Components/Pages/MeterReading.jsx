@@ -33,7 +33,7 @@ const MeterReading = ({ month:allmonth, year:allyear, hostLaravel, hostJson}) =>
 
     //Autocomplete - Barangay
     const allbarangay = []
-    for (const key in brgyPrk) {
+    for (const key in brgyPrk) { 
       allbarangay.push(key)
     }
     let allpurok = barangay && brgyPrk ? brgyPrk[barangay].sort() : [];
@@ -42,13 +42,6 @@ const MeterReading = ({ month:allmonth, year:allyear, hostLaravel, hostJson}) =>
         return +p
     })
 
-      const columns = [
-        { id: 'consumerId', label: 'Consumer ID', minWidth: 100, align:'left' },
-        { id: 'name', label: 'Consumer Name', minWidth: 150, align:'left' },
-        { id: 'pastReading', label: 'Past Reading', minWidth: 80, align:'center' },
-        { id: 'currentReading', label: 'Current Reading', minWidth: 80, align:'center' },
-        { id: 'totalReading', label: 'Total Reading', minWidth: 80, align:'center' },
-    ];
 
     return ( 
         <div className="meterReading">
@@ -132,7 +125,7 @@ const MeterReading = ({ month:allmonth, year:allyear, hostLaravel, hostJson}) =>
               setPage={setPage}
               setConsumerPopup={setConsumerPopup}
               setConsumerInfo={setConsumerInfo}
-              columns={columns}
+              hostLaravel={hostLaravel}
               />
               </div>
             </div>

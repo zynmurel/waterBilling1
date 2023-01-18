@@ -5,10 +5,14 @@ import AutoComplete from '../ReadyComponents/CAutoComplete'
 import { useRef, useState } from 'react';
 import '../../Styles/PageStyles/reports.css'
 import ReactToPrint from 'react-to-print';
-const Reports = ({ month:allmonth, year:allyear, result, reading}) => {
+import GetData from '../../Hook/SampleData'
+
+const Reports = ({ month:allmonth, year:allyear, result, reading, hostLaravel}) => {
     let dateNow = new Date()
     const [month, setMonth] = useState(allmonth[dateNow.getMonth()]);
     const [year, setYear] = useState(dateNow.getFullYear().toString()); 
+    const reports = GetData(hostLaravel, `/api/reports/1`);
+    console.log(reports)
     const componentRef = useRef()
     const styles = {
         box1_1:{

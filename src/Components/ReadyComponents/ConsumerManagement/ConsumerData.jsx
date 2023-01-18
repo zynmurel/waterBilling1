@@ -1,14 +1,18 @@
 import { Box, Paper } from "@mui/material";
 import moment from "moment/moment";
 import ReadingTable from "../CReadingTable";
+import GetData from "../../../Hook/SampleData"
 
 const ConsumerData = ({
     consumerInfo, 
     month, 
     readings, 
     rbIsPending,
-    rbError
+    rbError,
+    hostLaravel
 }) => {
+ const readingBillingRecords = GetData(hostLaravel, `/api/readingsBillingsPayments/${+consumerInfo.consumer_id}`);
+ console.log(readingBillingRecords)
     const dateNow = new Date()
     const birthday = new Date(consumerInfo.birthday *1000)
     const age = () =>{
@@ -74,7 +78,6 @@ const ConsumerData = ({
     const newrb = readings? readings.filter((rb)=>{
         return rb.consumerId==consumerInfo.consumer_id
         }):""
-        console.log(consumerInfo.consumer_id)
     const sorter = (a, b) => {
         const ayear = new Date(a.date)
         const byear = new Date(b.date)
@@ -92,8 +95,8 @@ const ConsumerData = ({
     return Math.abs(age_dt.getUTCFullYear() - 1970);
 }
 
-console.log(calculate_age(new Date("1999/01/19")));
-console.log(`${birthday.getFullYear()}/${birthday.getMonth()+1}/${birthday.getDate()}`)
+//console.log(calculate_age(new Date("1999/01/19")));
+//console.log(`${birthday.getFullYear()}/${birthday.getMonth()+1}/${birthday.getDate()}`)
     readings && newrb.sort(sorter)
     return (  
         <Box style={styles.container}>
@@ -120,6 +123,7 @@ console.log(`${birthday.getFullYear()}/${birthday.getMonth()+1}/${birthday.getDa
                     <Box style={styles.box2_2_1}><p style={styles.p}>{consumerInfo.status === "Connected" ? "Connected":"Disconnected"}</p></Box>
                 </Box>
                 <ReadingTable 
+                hostLaravel={hostLaravel}
                 month={month}
                 newrb={newrb}
                 scale={.9}

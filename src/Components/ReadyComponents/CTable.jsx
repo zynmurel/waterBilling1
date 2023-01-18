@@ -24,7 +24,6 @@ export default function StickyHeadTable({
   rowPerPage
 }) {
   const rowsPerPage = rowPerPage;
-  console.log(conIsPending)
 
 
   const handleChangePage = (event, newPage) => {

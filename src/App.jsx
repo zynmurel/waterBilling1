@@ -18,7 +18,7 @@ function App() {
   }
 
   const datum = Date.parse(date)
-  console.log(date)
+  //console.log(date)
   const {getToken, getUser, hostLaravel} = AuthUser();
   const userDetails = getUser();
   //Dolores Wifi

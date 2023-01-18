@@ -15,11 +15,12 @@ const Inquire = ({month, hostLaravel, hostJson}) => {
     const componentRef = useRef()
     const { data:consumer, isPending, error  } = consumersData
 
-    const [ searchedConsumer, setSearchedConsumer ] = useState("")
-    const [ searchedConsumerId, setSearchedConsumerId ] = useState("")
-    const readingData = GetData(hostJson, `/reading?consumerId=${searchedConsumerId}`);
-    console.log(searchedConsumerId)
-    const {data:readings, isPending:readingIsPending, error:readingError, reload, setReload}= readingData;
+    const [ searchedConsumer, setSearchedConsumer ] = useState({})
+
+    const readingBillingRecords =  GetData(hostLaravel, `/api/inquire/${Object.keys(searchedConsumer).length!==0?searchedConsumer.user_id:1}`);
+    const { data:bill, isPending:billIsPending, error:billError , reload, setReload } = readingBillingRecords;
+    console.log(Object.keys(searchedConsumer).length!==0)
+
 
     const OPTIONS_LIMIT = 8;
     const filterOptions = createFilterOptions({
@@ -53,29 +54,28 @@ const Inquire = ({month, hostLaravel, hostJson}) => {
             alignItems:"center",
             justifyContent:"center",
             flex:5,
-            width:800,
-            height:700,
+            width:450,
             color:"rgb(75, 75, 75)",
-            margin:"0 20px 20px 20px"
+            margin:"0 20px 20px 20px",
+            backgroundColor:'white'
         },
         box3:{
             display:"flex",
             flexDirection:"column",
             alignItems:"center",
             justifyContent:"flex-start",
-            height:800,
             width:800,
             padding:"25px 15px"
         },
         box3_1:{
             display:"flex",
-            flexDirection:"row",
+            flexDirection:"column",
             alignItems:"flex-start",
             justifyContent:"space-between",
-            width:650,
+            width:350,
         },
         box3_2:{
-            width:650,
+            width:350,
         },
         box3_3:{
             padding:5,
@@ -107,9 +107,13 @@ const Inquire = ({month, hostLaravel, hostJson}) => {
             color:"#989898",
             fontSize:20
         },
+        herror:{
+            color:"red",
+            fontSize:20
+        },
         h11:{
             margin:0,
-            fontSize:40,
+            fontSize:25,
             color:"rgb(12,20,52)",
         },
         box3text:{
@@ -126,25 +130,6 @@ const Inquire = ({month, hostLaravel, hostJson}) => {
         return  ayear.getMonth() - byear.getMonth() ;
         };
     };
-    readings && readings.sort(sorter)
-
-    //filter readings - only searched && paid
-    const newrb = readings? readings.filter((rb)=>{
-        console.log(rb.paid)
-        return rb.consumerId==searchedConsumerId && rb.date_paid === ""
-        }):""
-
-    //array of bills
-    //add all bill from "arrayOfBill"
-    let arrayOfBill = [] 
-    readings && readings.forEach(bill => {
-        if(bill.date_paid ==="") {
-            arrayOfBill.push(bill.bill)}
-    })
-
-    const sum = arrayOfBill.reduce((accumulator, value) => {
-         return accumulator + value;
-    }, 0);
 
     return ( 
             <Box className="inquire" sx={{...styles.inquire}}>
@@ -162,7 +147,7 @@ const Inquire = ({month, hostLaravel, hostJson}) => {
                                     options={consumer ? consumer: []}
                                     filterOptions={filterOptions}                      
                                     sx={{ width: 400 }}
-                                    onChange={(event , val)=>{ setSearchedConsumer(val); setSearchedConsumerId(val? val.consumer_id:""); setReload(reload ? false:true)}}
+                                    onChange={(event, val)=>{ setSearchedConsumer(val?val:{}); setReload(reload?false:true) }}
                                     renderInput={(params) => 
                                     <TextField
                                     {...params} 
@@ -181,39 +166,55 @@ const Inquire = ({month, hostLaravel, hostJson}) => {
                             </Box>
                         </Box>
                     </Box>
-                    <Card style={styles.box2} ref={componentRef}>
-                        {searchedConsumer ? 
+                    <Box style={styles.box2} ref={componentRef}>
+                        {Object.keys(searchedConsumer).length!==0 && bill!==null && !billIsPending &&
                         <Box style={styles.box3}>
                             <Box style={styles.box3_1}>
-                                <h1 style={styles.h11}>{searchedConsumer.consumer_id}</h1>
-                                <Box style={styles.box3_1_1}><p>{searchedConsumer.status==='Connected'? "Connected":"Disconnected"}</p></Box>
+                                <h1 style={{ fontSize:23, margin:"0 auto 20px auto", fontFamily:"'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif" }}>BALILIHAN WATER BILLING</h1>
+                                <h1 style={styles.h11}>{bill.newReading.consumer_id}</h1>
                             </Box>
                             <Box style={styles.box3_2}>
-                                <h2 style={styles.box3text}>{`${searchedConsumer.first_name} ${searchedConsumer.middle_name} ${searchedConsumer.last_name}`}</h2>
-                                <p style={{marginLeft:"1px",...styles.box3text}}>{`${searchedConsumer.barangay}, Purok ${searchedConsumer.purok}`}</p>
-                                <strong style={{marginLeft:"1px",...styles.box3text}}>{searchedConsumer.usage_type}</strong>
+                                <h2 style={{ ...styles.box3text, margin:0 }}>{`${bill.newReading.consumer_name}`}</h2>
+                                <p style={{marginLeft:"1px",...styles.box3text}}>{`${bill.newReading.barangay}, Purok ${bill.newReading.purok}`}</p>
+                                <p style={{marginLeft:"1px",...styles.box3text}}><strong >{bill.newReading.usage_type}</strong></p>
+                                <p style={{marginLeft:"1px",...styles.box3text}}><strong >{bill.newReading.service_period}</strong></p>
+                                <div style={{ margin:"15px 0" }}>
+                                <p style={{marginLeft:"1px",...styles.box3text}}><strong >Reading: </strong></p>
+                                <p style={{marginLeft:"1px",...styles.box3text}}>Previous:{bill.newReading.prev_reading}</p>
+                                <p style={{marginLeft:"1px",...styles.box3text}}>Present:{bill.newReading.present_reading}</p>
+                                <p style={{marginLeft:"1px",...styles.box3text}}>Total:{bill.newReading.present_reading - bill.newReading.prev_reading}</p>
+                                </div>
+
+                                <div style={{ margin:"15px 0" }}>
+                                <p style={{marginLeft:"1px",...styles.box3text}}><strong >Billing: </strong></p>
+                                <p style={{marginLeft:"1px",...styles.box3text}}>Remaining Bill: ₱{bill.newReading.prev_bill}</p>
+                                <p style={{marginLeft:"1px",...styles.box3text}}>Present Bill: ₱{bill.newReading.present_bill}</p>
+                                <p style={{marginLeft:"1px",...styles.box3text}}>Penalty: ₱{bill.newReading.penalty}</p>
+                                </div>
+                                <div style={{ margin:"20px 0", display:'flex', alignItems:'center', flexDirection:'column' }}>
+                                <p style={{marginLeft:"1px",...styles.box3text, textAlign:"center", width:150, margin:0}}><strong >{`₱${bill.newReading.prev_bill+bill.newReading.present_bill+bill.newReading.penalty}`}</strong></p>
+                                <p style={{marginLeft:"1px",...styles.box3text, borderTop:"solid black", width:150, textAlign:"center", padding:5}}><strong >Total Bill </strong></p>
+                                </div>
                             </Box>
-                            <Box style={{ ...styles.box3_3_3 }}>
-                                <Box>Maui</Box>
-                                <Box style={styles.box3_3}>
-                                    <h3 style={{ marginTop:0, marginBottom:5 }}>Billings last 5 months</h3>
-                                    <ReadingTable 
-                                    readingIsPending={readingIsPending} 
-                                    readingError={readingError}
-                                    month={month}
-                                    newrb={newrb}
-                                    readings={readings}
-                                    scale={1}
-                                    height={230}
-                                    />
-                                </Box>
-                            </Box>
-                        </Box>:
+                        </Box>}
+                        { Object.keys(searchedConsumer).length===0 &&
                         <Box>
                             <h1 style={styles.h1}>SEARCH CONSUMER</h1>
+                        </Box>}
+                        {
+                            billIsPending && Object.keys(searchedConsumer).length!==0 && 
+                            <Box>
+                            <h1 style={styles.h1}>LOADING...</h1>
                         </Box>
                         }
-                    </Card>
+                        {
+                            billError && 
+                            <Box>
+                            <h1 style={styles.herror}>Something went wrong...</h1>
+                        </Box>
+                        }
+                        
+                    </Box>
            
                 </Box>
             </Box>

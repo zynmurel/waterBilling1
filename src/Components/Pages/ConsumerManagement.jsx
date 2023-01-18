@@ -43,7 +43,7 @@ const ConsumerManagement = ({
   const {data:readings, isPending:rbIsPending, error:rbError}= readingData
   const {data:consumer, isPending:conIsPending, error:conError, reload, setReload}= consumersData
   const {data:brgyPrk, isPending:bpIsPending, error:bpError}= brgyPrkData
-  console.log(brgyPrk)
+  //console.log(brgyPrk)
 
 
 
@@ -179,6 +179,11 @@ const ConsumerManagement = ({
                setAlert={setAlert}
                setAlertText={setAlertText}
                setAlertType={setAlertType}
+
+               alert={alert}
+               alertText={alertText}
+               alertType={alertType}
+               handleAlertClose={handleAlertClose}
                />
            </AddPopup>
 
@@ -191,6 +196,7 @@ const ConsumerManagement = ({
             setConsumerInfo={setConsumerInfo}
             >
               <ConsumerData 
+               hostLaravel={hostLaravel}
               setConsumerPopup={setConsumerPopup}
               consumerInfo={consumerInfo}
               month={month}
@@ -202,7 +208,7 @@ const ConsumerManagement = ({
           </ConsumerPopUp>
 
 
-          <Snackbar open={alert} autoHideDuration={6000} onClose={handleAlertClose}>
+          <Snackbar open={alert} autoHideDuration={6000} onClose={handleAlertClose} className={'snackbarPopup'}>
                     <Alert
                     onClose={handleAlertClose}  
                     severity={alertType} sx={{ width: '100%' }}

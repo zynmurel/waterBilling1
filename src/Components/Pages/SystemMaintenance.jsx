@@ -27,7 +27,8 @@ const SystemMaintenance = ({hostLaravel, hostJson}) => {
                 <Paper style={styles.paper}>   
                     {active==='utilities' && <Utilities
                     hostJson={hostJson}/>}
-                    {active==='accounts' && <Accounts/>}
+                    {active==='accounts' && <Accounts
+                    hostLaravel={hostLaravel}/>}
                 </Paper>
             </Box>
         </Box>
