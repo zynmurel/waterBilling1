@@ -245,7 +245,6 @@ const AddConsumer = ({
                             console.error('There was an error!', error)
                             setAlert(true)
                             setAlertText(error.response.data.message)
-                            console.log(error.response.data.message)
                             setAlertType("error")
                         });
                       

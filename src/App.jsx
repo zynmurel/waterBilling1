@@ -25,7 +25,7 @@ function App() {
   //const hostJson = 'http://192.168.254.174:8001';
 
   //Selwin Wifi
-  const hostJson = 'http://192.168.254.175:8001';
+  const hostJson = 'http://192.168.0.115:8001';
 
   //return <ReaderPage/>
   //  return <AdminPage

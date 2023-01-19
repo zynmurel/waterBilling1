@@ -1,8 +1,9 @@
 import { Alert, Box, Button, Snackbar, TextField } from "@mui/material"
 import { useState } from "react";
 import axios from "axios";
+import GetData from '../../../Hook/SampleData'
 
-const UpdateUserChildren = ({
+const UpdatePasswordChildren = ({
     setUserUpdate, 
     userUpdate, 
     hostLaravel, 
@@ -14,19 +15,18 @@ const UpdateUserChildren = ({
     setAlertType,
     alertText,
     setAlertText,
-    handleAlertClose,
-    openPasswordPopup,
-    setOpenPasswordPopup,
-    setOpenEmailPopup
+    handleAlertClose
 }) => {
-    const [newEmail, setNewEmail] = useState(userUpdate.email)
+    const userData = GetData(hostLaravel, `/api/consumer/${userUpdate.user_id}`);
+    const [newPassword, setNewPassword] = useState("")
+    const [passwordErr , setPasswordErr] = useState(false)
     const handleSubmit = () => {
         const headers = { 
             'Content-type' : 'application/json',
             'Accept' : 'application/json',
           };
           const data = {
-            email:newEmail
+            email:newPassword
           }
           axios.put(`${hostLaravel}/api/user/${userUpdate.user_id}`, data, { headers })
               .then(response => {
@@ -47,26 +47,22 @@ const UpdateUserChildren = ({
         <Box>
             <TextField 
             id="outlined-basic" 
-            label="Edit Email" 
-            variant="outlined" 
+            label="Input New Password" 
+            variant="standard" 
             type="text"
-            placeholder="ex: example@gmail.com"
+            placeholder="ex: password123"
             onChange={(e) =>{
                 const val = e.target.value
-                setNewEmail(val);
-                console.log(val.includes('@gmail.com'))
+                setNewPassword(val);
+                setPasswordErr(false)
             }}
-            style={{ width:350, margin:"10px 20px 20px 20px"}}
-            value={newEmail}
-            error={newEmail.includes('@gmail.com')?false:true }
+            style={{ width:250, margin:"0px 20px 20px 20px"}}
+            value={newPassword}
+            error={passwordErr}
+            disabled={userData.data === null ? true:false}
             required
             />
             <Box style={{ display:'flex', flexDirection:'row', justifyContent:'space-between', alignItems:'center' }}>
-            <Button variant="text"
-            onClick={()=>{
-                setOpenEmailPopup(false);
-                setOpenPasswordPopup(true);
-            }}>Change Password?</Button>
             <Box>                   
             <Button 
             variant="contained" 
@@ -81,9 +77,11 @@ const UpdateUserChildren = ({
             style={{backgroundColor:'#0f5e9c', flex:1, marginRight:10}}
             type="submit"
             onClick={()=>{
-                handleSubmit()
+                if(newPassword.length<8){
+                setPasswordErr(true)
+                }else{
+                handleSubmit()}
             }}
-            disabled={newEmail.includes('@gmail.com')?false:true}
             >Submit</Button>
             </Box>
             </Box>
@@ -100,4 +98,4 @@ const UpdateUserChildren = ({
      );
 }
  
-export default UpdateUserChildren;
+export default UpdatePasswordChildren;

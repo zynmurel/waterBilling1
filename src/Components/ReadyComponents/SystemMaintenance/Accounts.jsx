@@ -3,10 +3,22 @@ import GetData from '../../../Hook/SampleData';
 import { TiEdit } from "react-icons/ti";
 import UpdateUser from "./UpdateUserPopUp";
 import { useState } from "react";
-import { Button } from "@mui/material";
+import { Button, Skeleton } from "@mui/material";
 import UpdateUserChildren from "./UpdateUserChildren";
+import UpdatePassword from "./UpdatePasswordPopup";
+import UpdatePasswordChildren from "./UpdatePasswordChildren";
 
-const Accounts = ({hostLaravel}) => {
+const Accounts = ({
+    hostLaravel,
+
+    alert,
+    setAlert,
+    alertType,
+    setAlertType,
+    alertText,
+    setAlertText,
+    handleAlertClose
+}) => {
     const styles = {
         content:{
             padding:"0 20px",
@@ -67,6 +79,10 @@ const Accounts = ({hostLaravel}) => {
     console.log(userUpdate)
   const usersData = GetData(`${hostLaravel}/api`, '/user');
   const {data:users, isPending, error, reload, setReload}= usersData
+
+  const [openPasswordPopup, setOpenPasswordPopup] = useState(false)
+  const [openEmailPopup, setOpenEmailPopup] = useState(false)
+
   console.log(usersData && usersData)
     return ( 
         <Box style={styles.content}>
@@ -77,7 +93,7 @@ const Accounts = ({hostLaravel}) => {
             <Box style={{ width:"100%" }}>
                     <Box style={styles.boxOfUser}>
                         <h2 style={styles.h2User}>ADMIN</h2>
-                        { usersData && usersData.data && 
+                        { usersData && usersData.data && !isPending &&
 
                         usersData.data.admin.map((admn)=>(
                             <Box style={ styles.boxUser } key={admn.user_id}>
@@ -85,17 +101,22 @@ const Accounts = ({hostLaravel}) => {
                             <Box style={styles.userBox2}><p style={styles.pUser}>{admn.email}</p></Box>
                             <TiEdit style={styles.userEditIcon} className={'updateIcon'}
                             onClick={()=>{
+                                setOpenPasswordPopup(false)
+                                setOpenEmailPopup(true)
                                 setUserUpdate(admn)
                             }}/>
                             </Box>
                         ))
+                        }
+                        { isPending &&
+                            <Skeleton className="skeleton2" variant="rounded" height={40} width={500} style={{ margin:"10px 0 10px 0" }} />
                         }
                     </Box>
 
 
                     <Box style={styles.boxOfUser}>
                         <h2 style={styles.h2User}>CASHIER</h2>
-                        { usersData && usersData.data && 
+                        { usersData && usersData.data && !isPending &&
 
                         usersData.data.cashier.map((cashr)=>(
                             <Box style={ styles.boxUser } key={cashr.user_id}>
@@ -103,16 +124,21 @@ const Accounts = ({hostLaravel}) => {
                             <Box style={styles.userBox2}><p style={styles.pUser}>{cashr.email}</p></Box>
                             <TiEdit style={styles.userEditIcon} className={'updateIcon'}
                             onClick={()=>{
+                                setOpenPasswordPopup(false)
+                                setOpenEmailPopup(true)
                                 setUserUpdate(cashr)
                             }}/>
                             </Box>
                         ))
                         }
+                        { isPending &&
+                            <Skeleton className="skeleton2" variant="rounded" height={40} width={500} style={{ margin:"10px 0 10px 0" }} />
+                        }
                     </Box>
 
                     <Box style={styles.boxOfUser}>
                         <h2 style={styles.h2User}>READER/S</h2>
-                        { usersData && usersData.data && 
+                        { usersData && usersData.data && !isPending &&
 
                         usersData.data.reader.map((rdr)=>(
                             <Box style={ styles.boxUser } key={rdr.user_id}>
@@ -120,22 +146,64 @@ const Accounts = ({hostLaravel}) => {
                             <Box style={styles.userBox2}><p style={styles.pUser}>{rdr.email}</p></Box>
                             <TiEdit style={styles.userEditIcon} className={'updateIcon'}
                             onClick={()=>{
+                                setOpenPasswordPopup(false)
+                                setOpenEmailPopup(true)
                                 setUserUpdate(rdr)
                             }}/>
                             </Box>
                         ))
                         }
+                        { isPending &&
+                            <Box>
+
+                            <Skeleton className="skeleton2" variant="rounded" height={40} width={500} style={{ margin:"10px 0 10px 0" }} />
+                            <Skeleton className="skeleton2" variant="rounded" height={40} width={500} style={{ margin:"10px 0 10px 0" }} />
+                            <Skeleton className="skeleton2" variant="rounded" height={40} width={500} style={{ margin:"10px 0 10px 0" }} />
+                            </Box>
+                        }
                     </Box>
                     <UpdateUser
                     userUpdate={userUpdate}
-                    setUserUpdate={setUserUpdate}>
+                    setUserUpdate={setUserUpdate}
+                    openEmailPopup={openEmailPopup}
+                    setOpenEmailPopup={setOpenEmailPopup}>
                         <UpdateUserChildren
+                        alert={alert}
+                        setAlert={setAlert}
+                        alertType={alertType}
+                        setAlertType={setAlertType}
+                        alertText={alertText}
+                        setAlertText={setAlertText}
+                        handleAlertClose={handleAlertClose}
+                        openPasswordPopup={openPasswordPopup}
+                        setOpenPasswordPopup={setOpenPasswordPopup}
+                        openEmailPopup={openEmailPopup}
+                        setOpenEmailPopup={setOpenEmailPopup}
                         reload={reload}
                         setReload={setReload}
                         hostLaravel={hostLaravel}
                         userUpdate={userUpdate}
                         setUserUpdate={setUserUpdate}/>
                     </UpdateUser>
+                    <UpdatePassword
+                    userUpdate={userUpdate}
+                    setUserUpdate={setUserUpdate}
+                    openPasswordPopup={openPasswordPopup}
+                    setOpenEmailPopup={setOpenEmailPopup}>
+                        <UpdatePasswordChildren
+                        hostLaravel={hostLaravel}
+                        alert={alert}
+                        setAlert={setAlert}
+                        alertType={alertType}
+                        setAlertType={setAlertType}
+                        alertText={alertText}
+                        setAlertText={setAlertText}
+                        handleAlertClose={handleAlertClose}
+                        reload={reload}
+                        setReload={setReload}
+                        userUpdate={userUpdate}
+                        setUserUpdate={setUserUpdate}/>
+                    </UpdatePassword>
             </Box>
         
         </Box>
