@@ -8,6 +8,7 @@ const UpdateUserChildren = ({
     hostLaravel, 
     reload, 
     setReload,
+    openPopup,
     alert,
     setAlert,
     alertType,
@@ -45,6 +46,12 @@ const UpdateUserChildren = ({
     }
     return ( 
         <Box>
+        { Object.keys(userUpdate).length!==0 &&
+            <div>
+                <p style={{ margin:0, fontSize:15 }}>{`User Type : ${userUpdate.user_type}`}</p>
+                <p style={{ margin:0, fontSize:15 }}>{`User ID : ${userUpdate.user_id}`}</p>
+            </div>
+        }
             <TextField 
             id="outlined-basic" 
             label="Edit Email" 
@@ -56,7 +63,7 @@ const UpdateUserChildren = ({
                 setNewEmail(val);
                 console.log(val.includes('@gmail.com'))
             }}
-            style={{ width:350, margin:"10px 20px 20px 20px"}}
+            style={{ width:350, margin:"30px 20px 20px 20px"}}
             value={newEmail}
             error={newEmail.includes('@gmail.com')?false:true }
             required

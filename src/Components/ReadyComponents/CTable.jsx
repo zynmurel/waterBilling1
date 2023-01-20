@@ -59,7 +59,7 @@ export default function StickyHeadTable({
             </TableRow>
           </TableHead>
           <TableBody>
-            {newCon && newCon
+            {newCon && !conIsPending && newCon
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (

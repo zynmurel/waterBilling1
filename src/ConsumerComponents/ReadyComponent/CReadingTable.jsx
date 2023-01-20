@@ -11,7 +11,6 @@ import { useEffect } from 'react';
 import { Box, CircularProgress } from '@mui/material';
 
 const columns = [
-  { id: 'Year', label: 'Year', minWidth: 60 ,    align: 'center',},
   { id: 'Month', label: 'Month', minWidth: 70 ,     align: 'center',},
   {
     id: 'total_reading',
@@ -20,8 +19,14 @@ const columns = [
     align: 'center',
   },
   {
-    id: 'bill',
-    label: 'Bill',
+    id: 'total_bill',
+    label: 'Total Bill',
+    minWidth: 70,
+    align: 'center',
+  },
+  {
+    id: 'payment',
+    label: 'Payment',
     minWidth: 70,
     align: 'center',
   }

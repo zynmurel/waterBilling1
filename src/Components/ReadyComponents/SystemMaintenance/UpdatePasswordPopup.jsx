@@ -9,7 +9,7 @@ const UpdatePassword = ({children, setUserUpdate, userUpdate, openPasswordPopup}
   return ( 
     <Dialog open={openPasswordPopup && openPopUp} maxWidth={"md"} >
       <DialogTitle style={{ paddingBottom:0 }}>
-        <Typography gutterBottom style={{ fontSize:20, fontWeight:'bold' }}>
+        <Typography gutterBottom style={{ fontSize:20, fontWeight:'bold', margin:0 }}>
             {`Update ${openPasswordPopup ? userUpdate.user_type: ""}'s Password`}
         </Typography>
       </DialogTitle>

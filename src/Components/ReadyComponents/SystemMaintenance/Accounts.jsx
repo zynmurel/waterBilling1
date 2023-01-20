@@ -27,17 +27,16 @@ const Accounts = ({
             alignItems:'center',
         },
         h2:{
-            marginTop:0
+            marginTop:20
         },
         box:{
             display:'flex',
             flexDirection:'column',
             alignItems:'center',
-            backgroundColor:'rgb(250, 250, 250)',
+            backgroundColor:'rgb(240, 240, 240)',
             padding:20,
             width:540,
-            height:515,
-            marginTop:20,
+            height:455,
             borderRadius:5,
             overflow:'auto',
         },
@@ -54,7 +53,7 @@ const Accounts = ({
              borderRadius:5,
         },
         pUser:{
-            fontSize:18,
+            fontSize:15,
             margin:0
         },
         boxOfUser:{
@@ -72,7 +71,7 @@ const Accounts = ({
             borderRadius:5,
         },
         userBox2:{
-            width:350
+            width:360
         }
     }
     const [userUpdate, setUserUpdate] = useState({})
@@ -86,8 +85,8 @@ const Accounts = ({
   console.log(usersData && usersData)
     return ( 
         <Box style={styles.content}>
-        <Box style={styles.box}>
         <h2 style={styles.h2}>MANAGE ACCOUNT</h2>
+        <Box style={styles.box}>
         
            
             <Box style={{ width:"100%" }}>
@@ -109,7 +108,7 @@ const Accounts = ({
                         ))
                         }
                         { isPending &&
-                            <Skeleton className="skeleton2" variant="rounded" height={40} width={500} style={{ margin:"10px 0 10px 0" }} />
+                            <Skeleton className="skeleton2" variant="rounded" height={40} width={"100%"} style={{ margin:"10px 0 10px 0" }} />
                         }
                     </Box>
 
@@ -132,7 +131,7 @@ const Accounts = ({
                         ))
                         }
                         { isPending &&
-                            <Skeleton className="skeleton2" variant="rounded" height={40} width={500} style={{ margin:"10px 0 10px 0" }} />
+                            <Skeleton className="skeleton2" variant="rounded" height={40} width={"100%"} style={{ margin:"10px 0 10px 0" }} />
                         }
                     </Box>
 
@@ -156,9 +155,9 @@ const Accounts = ({
                         { isPending &&
                             <Box>
 
-                            <Skeleton className="skeleton2" variant="rounded" height={40} width={500} style={{ margin:"10px 0 10px 0" }} />
-                            <Skeleton className="skeleton2" variant="rounded" height={40} width={500} style={{ margin:"10px 0 10px 0" }} />
-                            <Skeleton className="skeleton2" variant="rounded" height={40} width={500} style={{ margin:"10px 0 10px 0" }} />
+                            <Skeleton className="skeleton2" variant="rounded" height={40} width={"100%"} style={{ margin:"10px 0 10px 0" }} />
+                            <Skeleton className="skeleton2" variant="rounded" height={40} width={"100%"} style={{ margin:"10px 0 10px 0" }} />
+                            <Skeleton className="skeleton2" variant="rounded" height={40} width={"100%"} style={{ margin:"10px 0 10px 0" }} />
                             </Box>
                         }
                     </Box>

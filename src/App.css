@@ -13,14 +13,17 @@
 }
 .updateIcon:hover{
   background-color: rgb(255, 166, 0);
-  transform: scale(1.02);
+  transform: scale(1.08);
+  box-shadow: 0px 0px 4px black;
 }
 .updateIcon{
   background-color: rgb(255, 191, 72);
-  font-size: 30px;
+  font-size: 25px;
   border-radius: 5px;
-  margin-right: 20px;
+  margin-right: 10px;
   cursor: pointer;
+  transition: .2s;
+  box-shadow: 0px 0px 2px black;
 }
 body{
   align-items: center;

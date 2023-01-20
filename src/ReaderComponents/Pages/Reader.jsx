@@ -2,7 +2,6 @@ import '../../Styles/PageStyles/consumermanagement.css'
 import '../../Styles/PageStyles/home.css'
 import '../../App.css'
 import axios from "axios"
-import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
 import { NumericFormat } from 'react-number-format';
 import ReadingTable from '../../ReaderComponents/ReadyComponents/ReadingTable'
 import AutoComplete from '../../Components/ReadyComponents/CAutoComplete'
@@ -24,6 +23,10 @@ const Reader = ({
   hostJson,
   hostLaravel,
   reading,
+  barangay,
+  purok,
+  setBarangay,
+  setPurok
 }) => {
 
   //Date to Timestamp Format
@@ -48,7 +51,6 @@ const Reader = ({
 
 
   const {data:pastReading, isPending:pastReadingIsPending, error:pastReadingError, reload, setReload}= readingInfo;
-  console.log(pastReading)
       //date sorter
     const sorter = (a, b) => {
         const ayear = new Date(a.date)
@@ -59,8 +61,6 @@ const Reader = ({
         return  byear.getMonth() - ayear.getMonth() ;
         };
     };
-  const [purok, setPurok] = useState(7);
-  const [barangay, setBarangay] = useState("");
   const [name, setName] = useState("");
 
   const [alert, setAlert] = useState(false)
@@ -119,18 +119,6 @@ const Reader = ({
 
     //Submit Reading function
     const submitReading = () => {
-    //   http.post('/reading', {
-    //     reader_id:1,
-    //         consumer_id:3,
-    //         service_period_id:12,
-    //         previous_reading:0,
-    //         present_reading:12,
-    //         reading_date:1642118400
-    // }).then((res)=>{
-    //     console.log(res.message)
-    //   }).catch((err)=>{
-    //       console.log(err)
-    //   })
 
     const reading = {
               reader_id: reader.user_id,

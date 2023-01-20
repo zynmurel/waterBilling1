@@ -28,7 +28,6 @@ const SystemMaintenance = ({hostLaravel, hostJson}) => {
         paper:{
             width:600,
             height:600,
-            overflow:'auto',
             backgroundColor:'white',
         }
     }
@@ -40,7 +39,9 @@ const SystemMaintenance = ({hostLaravel, hostJson}) => {
                     {active==='utilities' && 
                     <Utilities
                     hostJson={hostJson}/>}
-                    {active==='accounts' && <Accounts
+                    
+                    {active==='accounts' && 
+                    <Accounts
                     alert={alert}
                     setAlert={setAlert}
                     alertType={alertType}

@@ -332,7 +332,7 @@ const AddConsumer = ({
             >
               <MenuItem value={"Connected"}>Connected</MenuItem>
               <MenuItem value={"Disconnected"}>Disconnected</MenuItem>
-              <MenuItem value={"Archive"}>Archive</MenuItem>
+              {consumerInfo.status==="Disconnected" && <MenuItem value={"Archive"}>Archive</MenuItem>}
             </Select>
           </FormControl>}
                     <PersonalInfo

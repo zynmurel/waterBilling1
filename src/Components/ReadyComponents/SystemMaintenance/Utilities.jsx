@@ -33,25 +33,24 @@ const Utilities = ({children, hostJson}) => {
             alignItems:'center',
         },
         h2:{
-            marginTop:0
+            marginTop:20
         },
         box:{
             display:'flex',
             flexDirection:'column',
             alignItems:'center',
-            backgroundColor:'rgb(250, 250, 250)',
+            backgroundColor:'rgb(240, 240, 240)',
             padding:20,
             width:540,
-            height:515,
-            marginTop:20,
+            height:455,
             borderRadius:5,
             overflow:'auto',
         },
     }
     return ( 
         <Box style={styles.content}>
+        <h2 style={styles.h2}>SYSTEM UTILITIES</h2>
             <Box style={styles.box}>
-            <h2 style={styles.h2}>SYSTEM UTILITIES</h2>
                 {
                 consumersData.data && 
                 <BasicTable

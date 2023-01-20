@@ -7,10 +7,14 @@ import Reader from '../ReaderComponents/Pages/Reader'
 import NotFound from '../Components/Pages/NotFound';
 import AuthUser from '../Hook/AuthUser';
 import MeterReading from '../Components/Pages/MeterReading'
+import { useState } from 'react';
 
 
 const Cashier = ({year, month, hostJson, hostLaravel}) => {
   const {token, logout, getUser} = AuthUser();
+
+  const [purok, setPurok] = useState(7);
+  const [barangay, setBarangay] = useState("");
 
   const logoutUser = () => {
     if(token != undefined){
@@ -35,6 +39,10 @@ const Cashier = ({year, month, hostJson, hostLaravel}) => {
 
           <Route path="/reading" element={
           <Reader
+          barangay={barangay}
+          purok={purok}
+          setBarangay={setBarangay}
+          setPurok={setPurok}
           hostJson={hostJson}
           hostLaravel={hostLaravel}
           month={month}
@@ -42,6 +50,10 @@ const Cashier = ({year, month, hostJson, hostLaravel}) => {
 
           <Route path="/meterReading" element={
           <MeterReading
+          barangay={barangay}
+          purok={purok}
+          setBarangay={setBarangay}
+          setPurok={setPurok}
           month={month}
           year={year}
           hostJson={hostJson}

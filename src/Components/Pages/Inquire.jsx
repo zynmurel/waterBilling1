@@ -19,14 +19,19 @@ const Inquire = ({month, hostLaravel, hostJson}) => {
 
     const readingBillingRecords =  GetData(hostLaravel, `/api/inquire/${Object.keys(searchedConsumer).length!==0?searchedConsumer.user_id:1}`);
     const { data:bill, isPending:billIsPending, error:billError , reload, setReload } = readingBillingRecords;
-    console.log(Object.keys(searchedConsumer).length!==0)
 
+    const isBill = Object.keys(searchedConsumer).length!==0 && bill.billing.billing ? Object.keys(bill.billing.billing).length!==0:false
+    const isReading = Object.keys(searchedConsumer).length!==0 && bill.billing.payment? Object.keys(bill.billing.payment).length!==0:false
+    const shortCutBill = isBill && bill.billing.billing[0]
+    const shortCutRead = isBill && bill.billing.reading
+    const shortCutPay = isBill && bill.billing.payment[0]
 
     const OPTIONS_LIMIT = 8;
     const filterOptions = createFilterOptions({
         limit: OPTIONS_LIMIT
       });
       
+    const totalBilling = ((isBill ? shortCutBill.previous_bill - shortCutBill.previous_payment:0))+(isBill ? shortCutBill.present_bill:0)+(isBill ? shortCutBill.penalty:0)
 
     const styles = {
         inquire:{
@@ -171,28 +176,28 @@ const Inquire = ({month, hostLaravel, hostJson}) => {
                         <Box style={styles.box3}>
                             <Box style={styles.box3_1}>
                                 <h1 style={{ fontSize:23, margin:"0 auto 20px auto", fontFamily:"'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif" }}>BALILIHAN WATER BILLING</h1>
-                                <h1 style={styles.h11}>{bill.newReading.consumer_id}</h1>
+                                <h1 style={styles.h11}>{bill.billing.consumer_id}</h1>
                             </Box>
                             <Box style={styles.box3_2}>
-                                <h2 style={{ ...styles.box3text, margin:0 }}>{`${bill.newReading.consumer_name}`}</h2>
-                                <p style={{marginLeft:"1px",...styles.box3text}}>{`${bill.newReading.barangay}, Purok ${bill.newReading.purok}`}</p>
-                                <p style={{marginLeft:"1px",...styles.box3text}}><strong >{bill.newReading.usage_type}</strong></p>
-                                <p style={{marginLeft:"1px",...styles.box3text}}><strong >{bill.newReading.service_period}</strong></p>
+                                <h2 style={{ ...styles.box3text, margin:0 }}>{`${bill.billing.consumer_name}`}</h2>
+                                <p style={{marginLeft:"1px",...styles.box3text}}>{`${bill.billing.barangay}, Purok ${bill.newReading.purok}`}</p>
+                                <p style={{marginLeft:"1px",...styles.box3text}}><strong >{bill.billing.usage_type}</strong></p>
+                                <p style={{marginLeft:"1px",...styles.box3text}}><strong >{bill.billing.service_period}</strong></p>
                                 <div style={{ margin:"15px 0" }}>
                                 <p style={{marginLeft:"1px",...styles.box3text}}><strong >Reading: </strong></p>
-                                <p style={{marginLeft:"1px",...styles.box3text}}>Previous:{bill.newReading.prev_reading}</p>
-                                <p style={{marginLeft:"1px",...styles.box3text}}>Present:{bill.newReading.present_reading}</p>
-                                <p style={{marginLeft:"1px",...styles.box3text}}>Total:{bill.newReading.present_reading - bill.newReading.prev_reading}</p>
+                                <p style={{marginLeft:"1px",...styles.box3text}}>Previous:{ bill.billing.reading ? bill.billing.reading.previous_reading: " none"}</p>
+                                <p style={{marginLeft:"1px",...styles.box3text}}>Present:{ bill.billing.reading ? bill.billing.reading.present_reading:" none"}</p>
+                                <p style={{marginLeft:"1px",...styles.box3text}}>Total:{ bill.billing.reading ? (bill.billing.reading.present_reading - bill.billing.reading.previous_reading):" none" }</p>
                                 </div>
 
                                 <div style={{ margin:"15px 0" }}>
                                 <p style={{marginLeft:"1px",...styles.box3text}}><strong >Billing: </strong></p>
-                                <p style={{marginLeft:"1px",...styles.box3text}}>Remaining Bill: ₱{bill.newReading.prev_bill}</p>
-                                <p style={{marginLeft:"1px",...styles.box3text}}>Present Bill: ₱{bill.newReading.present_bill}</p>
-                                <p style={{marginLeft:"1px",...styles.box3text}}>Penalty: ₱{bill.newReading.penalty}</p>
+                                <p style={{marginLeft:"1px",...styles.box3text}}>Remaining Bill: ₱{isBill ? (shortCutBill.previous_bill - shortCutBill.previous_payment):0}</p>
+                                <p style={{marginLeft:"1px",...styles.box3text}}>Present Bill: ₱{isBill ? shortCutBill.present_bill:0}</p>
+                                <p style={{marginLeft:"1px",...styles.box3text}}>Penalty: ₱{isBill ? shortCutBill.penalty:0}</p>
                                 </div>
                                 <div style={{ margin:"20px 0", display:'flex', alignItems:'center', flexDirection:'column' }}>
-                                <p style={{marginLeft:"1px",...styles.box3text, textAlign:"center", width:150, margin:0}}><strong >{`₱${bill.newReading.prev_bill+bill.newReading.present_bill+bill.newReading.penalty}`}</strong></p>
+                                <p style={{marginLeft:"1px",...styles.box3text, textAlign:"center", width:150, margin:0}}><strong >{`₱${totalBilling}`}</strong></p>
                                 <p style={{marginLeft:"1px",...styles.box3text, borderTop:"solid black", width:150, textAlign:"center", padding:5}}><strong >Total Bill </strong></p>
                                 </div>
                             </Box>

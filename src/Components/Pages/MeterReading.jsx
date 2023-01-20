@@ -14,16 +14,17 @@ import MeterReadingTable from '../ReadyComponents/MeterReading/MeterReadingTable
 import AuthUser from '../../Hook/AuthUser';
 import GetData from '../../Hook/SampleData';
 
-const MeterReading = ({ month:allmonth, year:allyear, hostLaravel, hostJson}) => {
+const MeterReading = ({ month:allmonth, year:allyear, hostLaravel, hostJson,barangay, purok, setBarangay, setPurok}) => {
     const [page, setPage] = useState(0);
     const [consumerPopUp, setConsumerPopup] = useState(false)
-    const [purok, setPurok] = useState(7);
-    const [barangay, setBarangay] = useState("");
     const [name, setName] = useState("");
     const [consumerInfo, setConsumerInfo] = useState({})
     let dateNow = new Date()
     const [month, setMonth] = useState(allmonth[dateNow.getMonth()]);
     const [year, setYear] = useState(dateNow.getFullYear().toString()); 
+
+  const meterReadings = GetData(hostLaravel, `/api/showByServicePeriod/${month && month.slice(0,3)}/${year}`);
+  const { data:meterReadingsData, isPending:MRisPending, error:MRerror, reload, setReload  } = meterReadings
 
     //getBarangay & Purok
     const {http} = AuthUser();
@@ -49,9 +50,11 @@ const MeterReading = ({ month:allmonth, year:allyear, hostLaravel, hostJson}) =>
             <div className="searchBarMR">
             <div className="searchBar">
 
-
               <div className="searchAddBar1">
-                <AutoComplete  
+
+                <AutoComplete
+                reload={reload}
+                setReload={setReload}  
                 width={"100%"} 
                 label={'Year'} 
                 dataSetter={setYear}
@@ -63,6 +66,8 @@ const MeterReading = ({ month:allmonth, year:allyear, hostLaravel, hostJson}) =>
                 /> 
                 
                 <AutoComplete  
+                reload={reload}
+                setReload={setReload} 
                 width={"100%"} 
                 label={'Month'} 
                 dataSetter={setMonth}
@@ -121,11 +126,16 @@ const MeterReading = ({ month:allmonth, year:allyear, hostLaravel, hostJson}) =>
 
               <div className="meterReadingTable">
               <MeterReadingTable
+              meterReadingsData={meterReadingsData}
+              MRerror={MRerror}
+              MRisPending={MRisPending}
               page={page}
               setPage={setPage}
               setConsumerPopup={setConsumerPopup}
               setConsumerInfo={setConsumerInfo}
               hostLaravel={hostLaravel}
+              month={month}
+              year={year}
               />
               </div>
             </div>

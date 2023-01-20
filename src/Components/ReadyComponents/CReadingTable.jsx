@@ -15,7 +15,7 @@ const columns = [
   { id: 'Year', label: 'Year', minWidth: 60 ,    align: 'center',},
   { id: 'Month', label: 'Month', minWidth: 70 ,     align: 'center',},
   {
-    id: 'bill',
+    id: 'present_bill',
     label: 'Bill',
     minWidth: 50,
     align: 'center',
@@ -34,9 +34,8 @@ const columns = [
   }
 ];
 
-export default function ReadingTable({month, scale, height, conIsPending, conError, readings, hostLaravel}) {
- const readingBillingRecords = GetData(hostLaravel, `/api/readingsBillingsPayments/1`);
- const newrb = readingBillingRecords.data ? readingBillingRecords.data.newReading :{};
+export default function ReadingTable({month, scale, height, conIsPending, conError, readings, hostLaravel, readingBillingRecords}) {
+ const newrb = readingBillingRecords.data ? readingBillingRecords.data.billing :{};
   return (
     <Paper sx={{ width: 450, overflow: 'hidden', transform:`scale(${scale})`}}>
 
@@ -84,9 +83,9 @@ export default function ReadingTable({month, scale, height, conIsPending, conErr
                       } else if (column.id === "Month"){
                         value = service_period[1]
                       } else if (column.id === "totalBill"){
-                        value = `₱${row.bill+row.penalty}`
-                      } else if (column.id === "bill"){
-                        value = `₱${row.bill}`
+                        value = `₱${row.present_bill+row.penalty}`
+                      } else if (column.id === "present_bill"){
+                        value = `₱${row.present_bill}`
                       } else if (column.id === "penalty"){
                         value = `₱${row.penalty}`
                       } 

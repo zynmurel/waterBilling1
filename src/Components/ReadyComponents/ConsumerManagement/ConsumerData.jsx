@@ -11,7 +11,7 @@ const ConsumerData = ({
     rbError,
     hostLaravel
 }) => {
- const readingBillingRecords = GetData(hostLaravel, `/api/readingsBillingsPayments/${+consumerInfo.consumer_id}`);
+ const readingBillingRecords = GetData(hostLaravel, `/api/billing/${+consumerInfo.consumer_id}`);
  console.log(readingBillingRecords)
     const dateNow = new Date()
     const birthday = new Date(consumerInfo.birthday *1000)
@@ -123,6 +123,7 @@ const ConsumerData = ({
                     <Box style={styles.box2_2_1}><p style={styles.p}>{consumerInfo.status === "Connected" ? "Connected":"Disconnected"}</p></Box>
                 </Box>
                 <ReadingTable 
+                readingBillingRecords={readingBillingRecords}
                 hostLaravel={hostLaravel}
                 month={month}
                 newrb={newrb}

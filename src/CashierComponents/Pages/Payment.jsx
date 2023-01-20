@@ -99,7 +99,7 @@ const Payment = ({month, hostJson, hostLaravel}) => {
         text1:{
             fontSize:60, 
             margin:0, 
-            marginTop:"-15px",
+            marginTop:"0px",
             color:"rgb(12,20,52)",
             margin:" 10px 0 10px 0",
         },

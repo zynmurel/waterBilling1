@@ -13,8 +13,8 @@ const UpdateUser = ({
   const openPopUp =  Object.keys(userUpdate).length!==0
   return ( 
     <Dialog open={openPopUp && openEmailPopup} maxWidth={"md"} >
-      <DialogTitle>
-        <Typography gutterBottom style={{ fontSize:20, fontWeight:'bold' }}>
+      <DialogTitle style={{ paddingBottom:0 }}>
+        <Typography gutterBottom style={{ fontSize:20, fontWeight:'bold', margin:0 }}>
             {`Update ${openPopUp ? userUpdate.user_type: ""}'s Email`}
         </Typography>
       </DialogTitle>
