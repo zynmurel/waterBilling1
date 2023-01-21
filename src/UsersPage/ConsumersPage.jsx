@@ -13,6 +13,8 @@ const Consumer = ({hostJson, hostLaravel, year, month}) => {
     //sample consumer
   const consumersData = GetData(hostLaravel, `/api/consumer/${getUser().user_id}`);
   const consumersBillings = GetData(hostJson, `/reading`);
+  const billingsPaymentsReadings =  GetData(hostLaravel, `/api/showReadBillPayConsumer/${getUser().user_id}`);
+  console.log(billingsPaymentsReadings.data && billingsPaymentsReadings.data)
 
     const { data:consumer, isPending:consumerIsPending, error:consumerError } = consumersData;
     console.log(consumer && consumer)
@@ -80,6 +82,7 @@ const Consumer = ({hostJson, hostLaravel, year, month}) => {
           </Box>
           }
           <BillingPage
+          billingsPaymentsReadings={billingsPaymentsReadings}
             consumersBillings={consumersBillings}
             year={year}
             month={month}

@@ -55,7 +55,7 @@ const MeterReading = ({ month:allmonth, year:allyear, hostLaravel, hostJson,bara
                 <AutoComplete
                 reload={reload}
                 setReload={setReload}  
-                width={"100%"} 
+                width={120} 
                 label={'Year'} 
                 dataSetter={setYear}
                 buttonDisabler={setPurok}
@@ -68,7 +68,7 @@ const MeterReading = ({ month:allmonth, year:allyear, hostLaravel, hostJson,bara
                 <AutoComplete  
                 reload={reload}
                 setReload={setReload} 
-                width={"100%"} 
+                width={150} 
                 label={'Month'} 
                 dataSetter={setMonth}
                 buttonDisabler={setPurok}
@@ -92,7 +92,7 @@ const MeterReading = ({ month:allmonth, year:allyear, hostLaravel, hostJson,bara
                   ),
                 }}
                 variant="outlined" 
-                style={{width:400}}
+                style={{width:300}}
                 onChange={(e)=>{setName(e.target.value); setPage(0)}}
                 />
                 </div>
@@ -100,7 +100,7 @@ const MeterReading = ({ month:allmonth, year:allyear, hostLaravel, hostJson,bara
               <div className="searchAddBar3">
 
               <AutoComplete  
-                width={220} 
+                width={200} 
                 label={'Barangay'} 
                 dataSetter={setBarangay}
                 buttonDisabler={setPurok}

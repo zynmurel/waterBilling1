@@ -9,6 +9,7 @@ import UpdatePassword from "./UpdatePasswordPopup";
 import UpdatePasswordChildren from "./UpdatePasswordChildren";
 
 const Accounts = ({
+    users, isPending, error, reload, setReload, usersData,
     hostLaravel,
 
     alert,
@@ -52,6 +53,14 @@ const Accounts = ({
              margin:"10px 0",
              borderRadius:5,
         },
+        userBox1:{
+            padding:"10px 20px",
+            backgroundColor:'rgb(26, 30, 65)',
+            borderRadius:5,
+        },
+        userBox2:{
+            width:360
+        },
         pUser:{
             fontSize:15,
             margin:0
@@ -76,8 +85,6 @@ const Accounts = ({
     }
     const [userUpdate, setUserUpdate] = useState({})
     console.log(userUpdate)
-  const usersData = GetData(`${hostLaravel}/api`, '/user');
-  const {data:users, isPending, error, reload, setReload}= usersData
 
   const [openPasswordPopup, setOpenPasswordPopup] = useState(false)
   const [openEmailPopup, setOpenEmailPopup] = useState(false)
@@ -92,13 +99,13 @@ const Accounts = ({
             <Box style={{ width:"100%" }}>
                     <Box style={styles.boxOfUser}>
                         <h2 style={styles.h2User}>ADMIN</h2>
-                        { usersData && usersData.data && !isPending &&
+                        { usersData && users && !isPending &&
 
                         usersData.data.admin.map((admn)=>(
                             <Box style={ styles.boxUser } key={admn.user_id}>
                             <Box style={styles.userBox1}><p style={styles.pUser}>Email</p></Box>
                             <Box style={styles.userBox2}><p style={styles.pUser}>{admn.email}</p></Box>
-                            <TiEdit style={styles.userEditIcon} className={'updateIcon'}
+                            <TiEdit className={'updateIcon'}
                             onClick={()=>{
                                 setOpenPasswordPopup(false)
                                 setOpenEmailPopup(true)
@@ -115,13 +122,13 @@ const Accounts = ({
 
                     <Box style={styles.boxOfUser}>
                         <h2 style={styles.h2User}>CASHIER</h2>
-                        { usersData && usersData.data && !isPending &&
+                        { usersData && users && !isPending &&
 
                         usersData.data.cashier.map((cashr)=>(
                             <Box style={ styles.boxUser } key={cashr.user_id}>
                             <Box style={styles.userBox1}><p style={styles.pUser}>Email</p></Box>
                             <Box style={styles.userBox2}><p style={styles.pUser}>{cashr.email}</p></Box>
-                            <TiEdit style={styles.userEditIcon} className={'updateIcon'}
+                            <TiEdit className={'updateIcon'}
                             onClick={()=>{
                                 setOpenPasswordPopup(false)
                                 setOpenEmailPopup(true)
@@ -137,13 +144,13 @@ const Accounts = ({
 
                     <Box style={styles.boxOfUser}>
                         <h2 style={styles.h2User}>READER/S</h2>
-                        { usersData && usersData.data && !isPending &&
+                        { usersData && users && !isPending &&
 
                         usersData.data.reader.map((rdr)=>(
                             <Box style={ styles.boxUser } key={rdr.user_id}>
                             <Box style={styles.userBox1}><p style={styles.pUser}>Email</p></Box>
                             <Box style={styles.userBox2}><p style={styles.pUser}>{rdr.email}</p></Box>
-                            <TiEdit style={styles.userEditIcon} className={'updateIcon'}
+                            <TiEdit  className={'updateIcon'}
                             onClick={()=>{
                                 setOpenPasswordPopup(false)
                                 setOpenEmailPopup(true)

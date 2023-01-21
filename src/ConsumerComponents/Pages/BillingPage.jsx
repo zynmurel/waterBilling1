@@ -3,14 +3,12 @@ import { useState } from "react";
 import Select from '../ReadyComponent/Select'
 import ReadingTable from "../ReadyComponent/CReadingTable";
 
-const BillingPage = ({ month, consumersData, year, consumersBillings }) => {
+const BillingPage = ({ month, consumersData, year, consumersBillings, billingsPaymentsReadings }) => {
     let datenow = new Date();
     const [selectedYear, setSelectedYear] = useState(datenow.getFullYear());
     const [selectedBilling, setSelectedBilling] = useState({})
-    console.log(selectedBilling)
     const { data:consumers, isPending:consumerIsPending, error:consumerError } = consumersData;
-    const { data:billings, isPending:billingIsPending, error:billingError } = consumersBillings;
-
+    const { data:billings, isPending:billingIsPending, error:billingError } = billingsPaymentsReadings;
     const styles = {
         billings:{
         },
@@ -22,15 +20,14 @@ const BillingPage = ({ month, consumersData, year, consumersBillings }) => {
         }
     }
     const sorter = (a, b) => {
-        const ayear = new Date(a.date)
-        const byear = new Date(b.date)
+        const ayear = new Date(a.created_at)
+        const byear = new Date(b.created_at)
         if(byear.getFullYear() !== ayear.getFullYear()){
         return   byear.getFullYear() - ayear.getFullYear();
         }else{
         return  byear.getMonth() - ayear.getMonth() ;
         };
     };
-    billings && billings.sort(sorter)
     return ( 
         <Box className={'billingContainer'}>
             <Box style={styles.billingYear} className={'billingYear'}>
@@ -43,9 +40,10 @@ const BillingPage = ({ month, consumersData, year, consumersBillings }) => {
             </Box>
             <Box style={styles.table}>
             <ReadingTable 
+                selectedYear={selectedYear}
                 setSelectedBilling={setSelectedBilling}
                 month={month}
-                newrb={billings}
+                newrb={billings && billings.billing}
                 scale={.9}
                 height={420}
                 rbIsPending={billingIsPending}
@@ -55,13 +53,31 @@ const BillingPage = ({ month, consumersData, year, consumersBillings }) => {
             <Dialog open={JSON.stringify(selectedBilling)!=="{}"} maxWidth={'xs'} fullWidth className="dialog">
                 <DialogTitle style={{margin:0,  textAlign:"left",paddingBottom:1}}>
                 <Typography gutterBottom fontWeight={"bold"} fontSize={30} style={{margin:"0 auto", borderBottom:"1px solid gray"}}>
-                    Billing Computation
+                    Billing Information
                 </Typography>
                 </DialogTitle>
 
                     <DialogContent style={{ display:'flex', justifyContent:'center', flexDirection:'column' }}>
                         {JSON.stringify(selectedBilling)!=="{}" &&
-                        <h1>{selectedBilling.reading_id}</h1>
+                        <div>
+                        <h2 style={{ margin:"5px 0 0 0"}}>{`Billing ID : ${selectedBilling.billing_id}`}</h2>
+                        <h3 style={{ margin:0 }}>{`${selectedBilling.service_period}`}</h3>
+                        <h3 style={{ marginBottom:0 }}>Reading: </h3>
+                        <p style={{ margin:0 }}>{`Previous : ${selectedBilling.reading.previous_reading} cu m`}</p>
+                        <p style={{ margin:0 }}>{`Present : ${selectedBilling.reading.present_reading} cu m`}</p>
+                        <p style={{ margin:0 }}>{`Total : ${selectedBilling.reading.present_reading - selectedBilling.reading.previous_reading} cu m`}</p>
+
+                        <h3 style={{ marginBottom:0 }}>Billing: </h3>
+                        <p style={{ margin:0 }}>{`Remaining : ₱ ${selectedBilling.previous_bill - selectedBilling.previous_payment}`}</p>
+                        <p style={{ margin:0 }}>{`Present : ₱ ${selectedBilling.present_bill}`}</p>
+                        <p style={{ margin:0 }}>{`Penalty : ₱ ${selectedBilling.penalty}`}</p>
+                        <p style={{ margin:0 }}>{`Total : ₱ ${(selectedBilling.previous_bill - selectedBilling.previous_payment)+selectedBilling.present_bill+selectedBilling.penalty}`}</p>
+
+                        <h3 style={{ marginBottom:0 }}>Payment: </h3>
+                        <p style={{ margin:0 }}>{`Due Date : ${selectedBilling.due_date}`}</p>
+                        {selectedBilling.payment.date_paid ? <p style={{ margin:0 }}>{`Date Paid : ${selectedBilling.payment.date_paid}`}</p>: <p style={{ margin:0 }}>{`Not Paid`}</p> }
+                        <p style={{ margin:0 }}>{`Amount Paid : ₱ ${selectedBilling.penalty}`}</p>
+                        </div>
                         }
                       
                         <div style={{ display:'flex', justifyContent:'end' }}>

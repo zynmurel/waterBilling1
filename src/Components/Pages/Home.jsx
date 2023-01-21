@@ -1,19 +1,14 @@
 import { Box, Card, Typography } from '@mui/material';
+import GetData from '../../Hook/SampleData'
 import '../../Styles/PageStyles/home.css'
-const Home = ({result,}) => {
-    const { data:consumer, isPending, error } = result
-    
-    let disconnectedCon = consumer ? consumer.filter((con)=>
-        con.connected === false
-    ):[]
-    console.log(disconnectedCon)
-    
-    let delinquentCon = consumer ? consumer.filter((con)=>
-        con.delinquent === true
-    ):[]
-    console.log(delinquentCon)
-    
+const Home = ({ hostLaravel, month}) => {
+    const dateNow = new Date();
+    const consumerReports = GetData(hostLaravel, 'api/consumerReport' );
+    const collectionReports = GetData(hostLaravel, `api/collectionReports/${dateNow.getFullYear()}/${month[dateNow.getMonth()].slice(0,3)}` );
 
+    const { data:collection , isPending:collectionPending, error:collectionError } = collectionReports
+    const { data:consumer , isPending:consumerPending, error:consumerError } = consumerReports
+    console.log(consumer && consumer.consumerReport)
     const styles = {
         home:{
             color:"grey"
@@ -86,9 +81,9 @@ const Home = ({result,}) => {
                                 Consumer/s:
                             </Typography>
                             <Typography gutterBottom fontWeight={"bold"} fontSize={styles.boxFont.fontSize} sx={{color:styles.boxFont.color}}>
-                                {consumer && consumer.length}
-                                {isPending && <span style={styles.isPending}>...</span>}
-                                {error && <span style={styles.error}>err</span>}
+                                {consumer&& !consumerPending && consumer.consumerReport.totalConsumers}
+                                {consumerPending && <span style={styles.isPending}>...</span>}
+                                {consumerError && <span style={styles.error}>err</span>}
                             </Typography>
                         </Box>
                         <Box style={styles.box2_1}>
@@ -96,9 +91,9 @@ const Home = ({result,}) => {
                                 Delinquent Consumer/s:
                             </Typography>
                             <Typography gutterBottom fontWeight={"bold"} fontSize={styles.boxFont.fontSize} sx={{color:styles.boxFont.color}}>
-                                {consumer && delinquentCon.length}
-                                {isPending && <span style={styles.isPending}>...</span>}
-                                {error && <span style={styles.error}>err</span>}
+                                {consumer&& !consumerPending && consumer.consumerReport.totalDelinquent}
+                                {consumerPending && <span style={styles.isPending}>...</span>}
+                                {consumerError && <span style={styles.error}>err</span>}
                             </Typography>
                         </Box>
                         <Box style={styles.box2_1}>
@@ -106,19 +101,19 @@ const Home = ({result,}) => {
                                 Disconnected Consumer/s:
                             </Typography>
                             <Typography gutterBottom fontWeight={"bold"} fontSize={styles.boxFont.fontSize} sx={{color:styles.boxFont.color}}>
-                                {consumer && disconnectedCon.length}
-                                {isPending && <span style={styles.isPending}>...</span>}
-                                {error && <span style={styles.error}>err</span>}
+                                {consumer&& !consumerPending && consumer.consumerReport.totalDisconnected}
+                                {consumerPending && <span style={styles.isPending}>...</span>}
+                                {consumerError && <span style={styles.error}>err</span>}
                             </Typography>
                         </Box>
                         <Box style={styles.box2_1}>
                             <Typography gutterBottom fontWeight={"bold"} fontSize={styles.boxFont.fontSize}>
-                                Collection in September:
+                                Collection in {month[dateNow.getMonth()]}:
                             </Typography>
                             <Typography gutterBottom fontWeight={"bold"} fontSize={styles.boxFont.fontSize} sx={{color:styles.boxFont.color}}>
-                                {consumer && "P20000"}
-                                {isPending && <span style={styles.isPending}>...</span>}
-                                {error && <span style={styles.error}>err</span>}
+                                {collection&& !collectionPending ?`₱ ${collection.collectionReport.totalCollection }`:''}
+                                {collectionPending && <span style={styles.isPending}>...</span>}
+                                {collectionError && <span style={styles.error}>err</span>}
                             </Typography>
                         </Box>
                     </Card>

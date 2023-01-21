@@ -56,6 +56,7 @@ body{
   justify-content: center;
   align-items: center;
   margin-bottom: 10px;
+  width: 900px;
 }
 .searchAddBar1{
   display: flex;
@@ -71,12 +72,13 @@ body{
   justify-content: center;
   gap: 5px 5px;
   margin:5px ;
-  width: 350px;
+  width: 280px;
 } 
 .searchAddBar3{
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
   gap: 5px 5px;
   margin:5px ;
   width: 350px;

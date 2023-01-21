@@ -44,6 +44,8 @@ const AdminPage = ({year, month, hostJson, hostLaravel}) => {
         <Routes>  
           <Route path="/home" element={
           <Home
+          month={month}
+          hostLaravel={hostLaravel}
           result={result} 
           />}></Route>
 

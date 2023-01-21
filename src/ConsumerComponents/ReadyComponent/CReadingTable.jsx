@@ -13,27 +13,37 @@ import { Box, CircularProgress } from '@mui/material';
 const columns = [
   { id: 'Month', label: 'Month', minWidth: 70 ,     align: 'center',},
   {
-    id: 'total_reading',
-    label: 'Total Reading',
+    id: 'remaining',
+    label: 'Remaining',
     minWidth: 80,
     align: 'center',
   },
   {
-    id: 'total_bill',
-    label: 'Total Bill',
+    id: 'bill',
+    label: 'Bill',
     minWidth: 70,
     align: 'center',
   },
   {
-    id: 'payment',
-    label: 'Payment',
+    id: 'penalty',
+    label: 'Penalty',
+    minWidth: 80,
+    align: 'center',
+  },
+  {
+    id: 'total',
+    label: 'Total',
     minWidth: 70,
     align: 'center',
   }
 ];
 
-export default function ReadingTable({month, newrb , scale, height, rbIsPending, rbError, readings, setSelectedBilling}) {
-
+export default function ReadingTable({month, newrb , scale, height, rbIsPending, rbError, readings, setSelectedBilling, selectedYear}) {
+  newrb = newrb && newrb.filter((n)=> {
+    return (  
+      n.service_period.split("-")[0] == selectedYear
+    )
+  })
   return (
     <div className={'tablePaper'}>
       <Paper sx={{ width: 600, overflow: 'hidden', transform:`scale(${scale})`}}>
@@ -71,25 +81,26 @@ export default function ReadingTable({month, newrb , scale, height, rbIsPending,
     {newrb && newrb
         .map((row, index) => {
           const service_period = row.service_period.split("-")
-
+          console.log(typeof row.payment.amount_paid === "number")
           return (
-            <TableRow  role="checkbox" tabIndex={-1} key={row.reading_id} style={!row.date_paid?{height:60, cursor:'pointer'}:{backgroundColor:"rgb(132, 240, 139)", height:60, cursor:'pointer'}}>
+            <TableRow  role="checkbox" tabIndex={-1} key={row.billing_id} style={ typeof row.payment.amount_paid!=="number" ?{height:60, cursor:'pointer'}:{backgroundColor:"rgb(132, 240, 139)", height:60, cursor:'pointer'}}>
               {columns.map((column) => {
-                
+                let align = "center"
                 let value = "";
-                if (column.id === "Year"){
-                  value = service_period[0]
+                if (column.id === "remaining"){
+                  value = `₱${row.previous_bill - row.previous_payment}`
                 } else if (column.id === "Month"){
                   value = service_period[1]
-                } else if (column.id === "total_reading"){
-                  value = row.total_reading
+                } else if (column.id === "total"){
+                  value = `₱${(row.previous_bill - row.previous_payment) + row.penalty + row.present_bill}`
                 } else if (column.id === "bill"){
-                  value = row.bill
+                  value = `₱${row.present_bill}`
                 } else if (column.id === "penalty"){
-                  value = row.penalty
+                  value = `₱${row.penalty}`
                 } 
+                (column.id !== "Month") ? align = "left" : align = "center"
                 return (
-                  <TableCell key={column.id} align={column.align} style={{padding:10 , fontSize:24}} onClick={()=> setSelectedBilling(row)}>
+                  <TableCell key={column.id} align={align} style={{padding:10 , fontSize:24}} onClick={()=> setSelectedBilling(row)}>
                      {value}
                   </TableCell>
                 );

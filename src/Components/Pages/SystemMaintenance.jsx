@@ -5,7 +5,13 @@ import Utilities from "../ReadyComponents/SystemMaintenance/Utilities";
 import Accounts from "../ReadyComponents/SystemMaintenance/Accounts";
 import NavBar from '../ReadyComponents/SystemMaintenance/SMNavBar';
 import { Alert, Paper, Snackbar } from '@mui/material';
-const SystemMaintenance = ({hostLaravel, hostJson}) => {  
+import GetData from '../../Hook/SampleData'
+const SystemMaintenance = ({hostLaravel}) => {  
+  const usersData = GetData(`${hostLaravel}/api`, '/user');
+  const {data:users, isPending, error, reload, setReload}= usersData
+
+  const settings = GetData(hostLaravel, 'api/settings');
+  const { data:setting, isPending:settingPending, error:settingError, reload:settingReload, setReload:settingSetReload} =settings
 
     const [alert, setAlert] = useState(false)
     const [alertType, setAlertType] = useState("warning")
@@ -30,7 +36,7 @@ const SystemMaintenance = ({hostLaravel, hostJson}) => {
             height:600,
             backgroundColor:'white',
         }
-    }
+     }
     return (
         <Box className="systemMaintenance">
             <Box style={styles.content}>
@@ -38,10 +44,22 @@ const SystemMaintenance = ({hostLaravel, hostJson}) => {
                 <Paper style={styles.paper}>   
                     {active==='utilities' && 
                     <Utilities
-                    hostJson={hostJson}/>}
+                    setting={setting}
+                    settingPending={settingPending} 
+                    settingError={settingError}
+                    settingReload={settingReload}
+                    settingSetReload={settingSetReload}
+                    settings={settings}
+                    hostLaravel={hostLaravel}/>}
                     
                     {active==='accounts' && 
                     <Accounts
+                    usersData={usersData}
+                    users={users}
+                    isPending={isPending}
+                    error={error}
+                    reload={reload}
+                    setReload={setReload}
                     alert={alert}
                     setAlert={setAlert}
                     alertType={alertType}

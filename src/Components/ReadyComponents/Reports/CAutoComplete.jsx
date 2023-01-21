@@ -2,7 +2,7 @@ import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
-export default function ComboBox({width, label, options, isPending, error, dataSetter, pageSetter, buttonDisabler, autoComHeight, firstData, reload, setReload}) {
+export default function ComboBox({width, label, options, isPending, error, dataSetter, buttonDisabler, autoComHeight, firstData, reload, setReload}) {
 
   let renderInput =label
   if(isPending){
@@ -23,7 +23,7 @@ export default function ComboBox({width, label, options, isPending, error, dataS
       id="combo-box-demo"
       options={options? options : []}
       sx={{ width: width, margin:"0 2px 0 2px" }}
-      onChange={(event , val)=>{ dataSetter(val); pageSetter(0); setReload(reload? false:true) }}
+      onChange={(event , val)=>{ dataSetter(val);  setReload(reload? false:true) }}
       renderInput={(params) => <TextField {...params} label={renderInput} />}
     />
   );

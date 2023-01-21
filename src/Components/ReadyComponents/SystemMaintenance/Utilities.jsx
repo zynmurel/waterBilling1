@@ -1,30 +1,19 @@
-import { Box, Button, Dialog, DialogTitle, DialogContent, Typography } from "@mui/material";
+import { Box, Button, Dialog, DialogTitle, DialogContent, Typography, Skeleton } from "@mui/material";
 import PopupContent from "./DialogContent";
 import BasicTable from "./UtilitiesList";
+import { TiEdit } from "react-icons/ti";
 import { useState } from "react";
 import GetData from '../../../Hook/SampleData';
 
-const Utilities = ({children, hostJson}) => {
-    const consumersData = GetData(hostJson, '/CubicRate');
-    console.log(consumersData.data && consumersData.data.find( item => item.id === "Residential1to5").value)
-    const getUtitlity = (id) => {
-        return consumersData.data && consumersData.data.find( item => item.id === id).value
-    }
-    const res1to5 = getUtitlity("Residential1to5")
-    const res6to10 = getUtitlity("Residential6to10")
-    const res11to20 = getUtitlity("Residential11to20")
-    const res21to50 = getUtitlity("Residential21to50")
-    const res51up = getUtitlity("Residential51up")
-
-    const com1to5 = getUtitlity("Commercial1to5")
-    const com6to10 = getUtitlity("Commercial6to10")
-    const com11to20 = getUtitlity("Commercial11to20")
-    const com21to50 = getUtitlity("Commercial21to50")
-    const com51up = getUtitlity("Commercial51up")
-
-    const penalty = getUtitlity("penalty")
-    const dueday = getUtitlity("dueday")
-    const [update, setUpdate] = useState("")
+const Utilities = ({ 
+    setting,
+    settingPending,
+    settingError,
+    settingReload,
+    settingSetReload,
+    settings,
+}) => {
+    console.log(setting && setting.collectionReport[0])
     const styles = {
         content:{
             padding:"0 20px",
@@ -46,62 +35,73 @@ const Utilities = ({children, hostJson}) => {
             borderRadius:5,
             overflow:'auto',
         },
+        userBox1:{
+            padding:"10px 20px",
+            backgroundColor:'rgb(26, 30, 65)',
+            borderRadius:5,
+        },
+        userBox2:{
+            width:360,
+            padding:"0 15px"
+        },
+        pUser:{
+            fontSize:15,
+            margin:0
+        },
+        boxUser:{
+            display:'flex',
+             alignItems:'center', 
+             justifyContent:'space-between',
+             color:'white',
+             backgroundColor:'rgb(81, 84, 111)',
+             margin:"10px 0",
+             borderRadius:5,
+        },
+        boxOfUser:{
+            backgroundColor:'rgb(208, 211, 236)',
+            padding:"15px 20px",
+            borderRadius:15,
+            marginBottom:10
+        },
+        h2User:{
+            margin:0,
+        },
     }
     return ( 
         <Box style={styles.content}>
         <h2 style={styles.h2}>SYSTEM UTILITIES</h2>
             <Box style={styles.box}>
-                {
-                consumersData.data && 
-                <BasicTable
-                    setUpdate={setUpdate}
+                <Box style={{ width:"100%" }}>
+                    <Box style={styles.boxOfUser}>
+                    <h2 style={styles.h2User}>DUE DATE</h2>
+                        { settings && setting && !settingPending &&
 
-                    res1to5={res1to5}
-                    res6to10={res6to10}
-                    res11to20={res11to20}
-                    res21to50={res21to50}
-                    res51up={res51up}
+                            <Box style={ styles.boxUser } key={setting.collectionReport[0].setting_key}>
+                                <Box style={styles.userBox1}><p style={styles.pUser}>Day</p></Box>
+                                <Box style={styles.userBox2}><p style={styles.pUser}>{`Day ${setting.collectionReport[0].setting_value} of the month`}</p></Box>
+                                <TiEdit className={'updateIcon'}
+                                onClick={()=>{
+                                }}/>
+                            </Box>
+                        }
+                        { settingPending &&
+                            <Skeleton className="skeleton2" variant="rounded" height={40} width={"100%"} style={{ margin:"10px 0 10px 0" }} />
+                        }
+                    </Box>
 
-                    com1to5={com1to5} 
-                    com6to10={com6to10} 
-                    com11to20={com11to20}
-                    com21to50={com21to50} 
-                    com51up={com51up}
-
-                    penalty={penalty}
-                    dueday={dueday}
-                    />
-                }
-                <Dialog open={update?true:false} maxWidth={'xs'} fullWidth>
+                <Dialog open={false} maxWidth={'xs'} fullWidth>
                 <DialogTitle style={{margin:0,  textAlign:"left"}}>
                     <Typography gutterBottom fontWeight={"bold"} fontSize={30} style={{margin:"0 auto", borderBottom:"1px solid gray"}}>
-                        {update}
+                        "hehe"
                     </Typography>
                     </DialogTitle>
 
                     <DialogContent >
                             <PopupContent
-                            res1to5={res1to5} 
-                            res6to10={res6to10} 
-                            res11to20={res11to20}
-                            res21to50={res21to50} 
-                            res51up={res51up}
-
-                            com1to5={com1to5} 
-                            com6to10={com6to10} 
-                            com11to20={com11to20}
-                            com21to50={com21to50} 
-                            com51up={com51up}
-
-                            penalty={penalty}
-
-                            dueday={dueday}
-
-                            update={update}
-                            setUpdate={setUpdate}
                             />
                     </DialogContent>
                 </Dialog>
+            </Box>
             </Box>
         </Box>
      );
