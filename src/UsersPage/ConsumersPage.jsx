@@ -12,7 +12,6 @@ const Consumer = ({hostJson, hostLaravel, year, month}) => {
 
     //sample consumer
   const consumersData = GetData(hostLaravel, `/api/consumer/${getUser().user_id}`);
-  const consumersBillings = GetData(hostJson, `/reading`);
   const billingsPaymentsReadings =  GetData(hostLaravel, `/api/showReadBillPayConsumer/${getUser().user_id}`);
   console.log(billingsPaymentsReadings.data && billingsPaymentsReadings.data)
 
@@ -83,7 +82,6 @@ const Consumer = ({hostJson, hostLaravel, year, month}) => {
           }
           <BillingPage
           billingsPaymentsReadings={billingsPaymentsReadings}
-            consumersBillings={consumersBillings}
             year={year}
             month={month}
             consumersData={consumersData}

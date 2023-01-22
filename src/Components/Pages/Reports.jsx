@@ -29,7 +29,6 @@ const Reports = ({ month:allmonth, year:allyear, hostLaravel, consumerReports}) 
             display:"flex",
             flexDirection:"column",
             alignItems:"center",
-            justifyContent:"center",
             flex:5,
             width:600,
             height:700,
@@ -101,15 +100,55 @@ const Reports = ({ month:allmonth, year:allyear, hostLaravel, consumerReports}) 
                 />
             </Box>
             <Box style={styles.box2} ref={componentRef}>
-                
-                {report === "Collection Report" &&
+                    {console.log(collection===null)}
+            {report === "Collection Report" && collection!==null && !collectionPending && collection.collectionReport.totalBilling===0 &&
                 <Box>
-                    <h1 style={styles.h1}>No Collection Reports</h1>
+                   <h1 style ={{ ...styles.h1, marginTop:250, color:'gray'}}>No Collection Reports</h1>
                 </Box>
                 }
-                {report === "Consumer Report" &&
+                {report === "Collection Report" && collection!==null && collection.collectionReport.totalBilling!==0 && !collectionPending &&
                 <Box>
-                    <h1 style={styles.h1}>No Consumer Reports</h1>
+                    <h1 style={{ fontSize:23, margin:"0 auto 20px auto", fontFamily:"'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif", textAlign:'center',
+                    margin:"100px 0 20px 0", fontSize:45
+                 }}>BALILIHAN WATER BILLING</h1> 
+                 <h1 style={{ fontSize:23, margin:"0 auto 20px auto", fontFamily:"'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif", textAlign:'center',
+                 
+              }}>( {collection.collectionReport.service_period_id} )</h1>
+                    <Box style={{ fontFamily:"'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif",
+                                display:"flex", flexDirection:'column', justifyContent:'center', alignItems:'start', width:450, padding:"0 80px"
+                }}>
+                    <h2 style={{ margin:"10px 0" }}>TOTAL OF BILLINGS : {collection.collectionReport.totalBilling}</h2>
+                    <h2 style={{ margin:"10px 0" }}>TOTAL OF PAYMENTS : {collection.collectionReport.totalPayments}</h2>
+                    <h2 style={{ margin:"10px 0" }}>TOTAL COLLECTION : ₱ {collection.collectionReport.totalCollection}</h2>
+                    </Box>
+                </Box>
+                }
+                {report === "Collection Report" && collection!==null && collectionPending &&
+                <Box>
+                    <h1 style ={{ ...styles.h1, marginTop:250, color:'gray'}}>Loading ...</h1>
+                </Box>
+                }
+                {report === "Consumer Report" && collection!==null && collectionPending &&
+                <Box>
+                    <h1 style ={{ ...styles.h1, marginTop:250, color:'gray'}}>Loading ...</h1>
+                </Box>
+                }
+                {report === "Consumer Report" && collection!==null && !collectionPending &&
+                    <Box>
+                    <h1 style={{ fontSize:23, margin:"0 auto 20px auto", fontFamily:"'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif", textAlign:'center',
+                    margin:"100px 0 20px 0", fontSize:45
+                        }}>BALILIHAN WATER BILLING</h1> 
+                        <h1 style={{ fontSize:23, margin:"0 auto 20px auto", fontFamily:"'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif", textAlign:'center',
+                
+                        }}>( Balilihan, Bohol )</h1>
+                        <Box style={{ fontFamily:"'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif",
+                                display:"flex", flexDirection:'column', justifyContent:'center', alignItems:'start', width:450, padding:"0 80px"
+                        }}>
+                            {console.log(collection.consumers.original.consumerReport)}
+                    <h2 style={{ margin:"10px 0" }}>TOTAL OF CONSUMERS : {collection.consumers.original.consumerReport.totalConsumers}</h2>
+                    <h2 style={{ margin:"10px 0" }}>DELINQUENT/S : {collection.consumers.original.consumerReport.totalDelinquent}</h2>
+                    <h2 style={{ margin:"10px 0" }}>DISCONNECTED :  {collection.consumers.original.consumerReport.totalDisconnected}</h2>
+                    </Box>
                 </Box>
                 }
                 

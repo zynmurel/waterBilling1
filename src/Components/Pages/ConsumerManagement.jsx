@@ -41,7 +41,6 @@ const ConsumerManagement = ({
   const {data:consumer, isPending:conIsPending, error:conError, reload, setReload}= consumersData
   const {data:brgyPrk, isPending:bpIsPending, error:bpError}= brgyPrkData
   //console.log(brgyPrk)
-console.log(barangay)
 
 
   //StickyBar()

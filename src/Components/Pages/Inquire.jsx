@@ -23,13 +23,14 @@ const Inquire = ({ hostLaravel, consumersData}) => {
     const shortCutBill = isBill && bill.billing.billing[0]
     const shortCutRead = isBill && bill.billing.reading
     const shortCutPay = isBill && bill.billing.payment[0]
-
+    const toPay = ((isBill ? shortCutBill.previous_bill:0))+(isBill ? shortCutBill.present_bill:0)+(isBill ? shortCutBill.penalty:0)
+    const paid = shortCutBill.previous_payment;
+    const totalBilling = toPay - paid
     const OPTIONS_LIMIT = 8;
     const filterOptions = createFilterOptions({
         limit: OPTIONS_LIMIT
       });
       
-    const totalBilling = ((isBill ? shortCutBill.previous_bill - shortCutBill.previous_payment:0))+(isBill ? shortCutBill.present_bill:0)+(isBill ? shortCutBill.penalty:0)
 
     const styles = {
         inquire:{
@@ -44,6 +45,7 @@ const Inquire = ({ hostLaravel, consumersData}) => {
             display:"flex",
             flexDirection:"column",
             alignItems:"center",
+            mariginBottom:0
         },
         box1_1:{
             display:"flex",
@@ -178,7 +180,7 @@ const Inquire = ({ hostLaravel, consumersData}) => {
                             </Box>
                             <Box style={styles.box3_2}>
                                 <h2 style={{ ...styles.box3text, margin:0 }}>{`${bill.billing.consumer_name}`}</h2>
-                                <p style={{marginLeft:"1px",...styles.box3text}}>{`${bill.billing.barangay}, Purok ${bill.newReading.purok}`}</p>
+                                <p style={{marginLeft:"1px",...styles.box3text}}>{`${bill.billing.barangay}, Purok ${bill.billing.purok}`}</p>
                                 <p style={{marginLeft:"1px",...styles.box3text}}><strong >{bill.billing.usage_type}</strong></p>
                                 <p style={{marginLeft:"1px",...styles.box3text}}><strong >{bill.billing.service_period}</strong></p>
                                 <div style={{ margin:"15px 0" }}>
@@ -190,9 +192,14 @@ const Inquire = ({ hostLaravel, consumersData}) => {
 
                                 <div style={{ margin:"15px 0" }}>
                                 <p style={{marginLeft:"1px",...styles.box3text}}><strong >Billing: </strong></p>
-                                <p style={{marginLeft:"1px",...styles.box3text}}>Remaining Bill: ₱{isBill ? (shortCutBill.previous_bill - shortCutBill.previous_payment):0}</p>
+                                <p style={{marginLeft:"1px",...styles.box3text}}>Remaining Bill: ₱{isBill ? (shortCutBill.previous_bill):0}</p>
                                 <p style={{marginLeft:"1px",...styles.box3text}}>Present Bill: ₱{isBill ? shortCutBill.present_bill:0}</p>
                                 <p style={{marginLeft:"1px",...styles.box3text}}>Penalty: ₱{isBill ? shortCutBill.penalty:0}</p>
+                                </div>
+
+                                <div style={{ margin:"15px 0" }}>
+                                <p style={{marginLeft:"1px",...styles.box3text}}><strong >Payment: </strong>₱ {toPay}</p>
+                                <p style={{marginLeft:"1px",...styles.box3text}}><strong >Paid: </strong>₱ {paid}</p>
                                 </div>
                                 <div style={{ margin:"20px 0", display:'flex', alignItems:'center', flexDirection:'column' }}>
                                 <p style={{marginLeft:"1px",...styles.box3text, textAlign:"center", width:150, margin:0}}><strong >{`₱${totalBilling}`}</strong></p>

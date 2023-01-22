@@ -15,19 +15,19 @@ import GetData from '../../../Hook/SampleData'
 export default function MeterReadingTable({
   page, 
   setPage, 
-  setConsumerInfo, 
-  setConsumerPopup,
-  conIsPending, 
-  conError,
-  newCon,
-  hostLaravel,
-  month,
-  year,
   meterReadingsData,
   MRisPending,
-  MRerror
+  MRerror,
+  barangay,
+  purok,
+  name,
 }) {
-  console.log(meterReadingsData && meterReadingsData.newReading)
+
+  let consumers = meterReadingsData && meterReadingsData.newReading 
+
+  const bCon = consumers && barangay && purok? consumers.filter((c)=> c.barangay === barangay && (c.purok == purok || purok ==7)):consumers
+  const newCon = bCon? bCon.filter((c)=> `${c.consumer_name.toLowerCase()}`.includes(name.toLowerCase())||`${c.consumer_id}`.includes(name)) : bCon
+  console.log(consumers && bCon)
   const rowsPerPage = 10;
 
   const handleChangePage = (event, newPage) => {
@@ -72,7 +72,7 @@ console.log(meterReadingsData)
             </TableRow>
           </TableHead>
           <TableBody>
-            {!MRisPending && meterReadingsData && meterReadingsData.newReading
+            {!MRisPending && meterReadingsData && newCon 
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (

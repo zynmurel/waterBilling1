@@ -7,11 +7,11 @@ import Payment from '../CashierComponents/Pages/Payment'
 import NotFound from '../Components/Pages/NotFound';
 import AuthUser from '../Hook/AuthUser';
 import Reports from '../Components/Pages/Reports';
-
+import GetData from '../Hook/SampleData'
 
 const Cashier = ({hostJson, hostLaravel, year, month}) => {
   const {token, logout, getUser} = AuthUser();
-
+  const consumerReports = GetData(hostLaravel, 'api/consumerReport' );
   const logoutUser = () => {
     if(token != undefined){
       logout();
@@ -39,7 +39,9 @@ const Cashier = ({hostJson, hostLaravel, year, month}) => {
           <Route path="/reports" element={
           <Reports     
           month={month}
-          year={year}
+          consumerReports={consumerReports}
+          year={year} 
+          hostLaravel={hostLaravel}
           />}></Route> 
           
           <Route path="/help" element={<Help/>}></Route> 

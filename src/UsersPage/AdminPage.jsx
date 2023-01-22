@@ -16,7 +16,7 @@ const AdminPage = ({year, month, hostLaravel}) => {
 
   const {token, logout, getData, getUser} = AuthUser();
   const date = new Date('1644883200' * 1000)
-  const brand = ["Nature Spring", "Sunrise"];
+  const brand = ["Philippine Valve", "Sunrise", "Asahi"];
   const usage_type = ["Residential","Commercial"];
   const civil_status = ["Single", "Married"];
   const gender = ["Male", "Female"];
@@ -32,7 +32,6 @@ const AdminPage = ({year, month, hostLaravel}) => {
 
   //consumer management
   const consumersData = GetData(`${hostLaravel}/api`, '/consumer');
-
   //consumer management && meter readings
   const brgyPrkData = GetData(`${hostLaravel}/api`, '/brgyprk');
 

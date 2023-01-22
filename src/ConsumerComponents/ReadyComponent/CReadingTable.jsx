@@ -51,10 +51,10 @@ export default function ReadingTable({month, newrb , scale, height, rbIsPending,
 <TableContainer sx={{ maxHeight: height,minHeight: height }}>
   <Table stickyHeader aria-label="sticky table" sx={{
       "& .MuiTableRow-root:hover": {
-      backgroundColor: "rgb(255, 229, 169)"
+      backgroundColor: "rgb(255, 238, 197)"
       },
       "& .MuiTableRow-root":{
-          backgroundColor:"rgb(255, 229, 169)",
+          backgroundColor:"rgb(255, 238, 197)",
           color:"white"
       },
       "& .MuiTableCell-head":{
@@ -81,18 +81,18 @@ export default function ReadingTable({month, newrb , scale, height, rbIsPending,
     {newrb && newrb
         .map((row, index) => {
           const service_period = row.service_period.split("-")
-          console.log(typeof row.payment.amount_paid === "number")
+          console.log(row, index)
           return (
-            <TableRow  role="checkbox" tabIndex={-1} key={row.billing_id} style={ typeof row.payment.amount_paid!=="number" ?{height:60, cursor:'pointer'}:{backgroundColor:"rgb(132, 240, 139)", height:60, cursor:'pointer'}}>
+            <TableRow  role="checkbox" tabIndex={-1} key={row.billing_id} style={ (typeof row.payment.amount_paid!==0 && index ===0)?{height:60, cursor:'pointer'}:{backgroundColor:"rgb(194, 255, 198)", height:60, cursor:'pointer'}}>
               {columns.map((column) => {
                 let align = "center"
                 let value = "";
                 if (column.id === "remaining"){
-                  value = `₱${row.previous_bill - row.previous_payment}`
+                  value = `₱${row.previous_bill}`
                 } else if (column.id === "Month"){
                   value = service_period[1]
                 } else if (column.id === "total"){
-                  value = `₱${(row.previous_bill - row.previous_payment) + row.penalty + row.present_bill}`
+                  value = `₱${(row.previous_bill) + row.penalty + row.present_bill}`
                 } else if (column.id === "bill"){
                   value = `₱${row.present_bill}`
                 } else if (column.id === "penalty"){

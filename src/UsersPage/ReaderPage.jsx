@@ -22,8 +22,7 @@ const Cashier = ({year, month, hostJson, hostLaravel}) => {
   const brgyPrkData = GetData(`${hostLaravel}/api`, '/brgyprk');
 
   //inquire
-  const consumersData = GetData(`${hostLaravel}/api`, '/consumer');
-
+  const consumersData = GetData(`${hostLaravel}/api`, '/toReadConsumers');
   const logoutUser = () => {
     if(token != undefined){
       logout();

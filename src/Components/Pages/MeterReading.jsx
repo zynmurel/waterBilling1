@@ -122,6 +122,9 @@ const MeterReading = ({ month:allmonth, year:allyear, hostLaravel, hostJson, brg
 
               <div className="meterReadingTable">
               <MeterReadingTable
+              barangay={barangay}
+              purok={purok}
+              name={name}
               meterReadingsData={meterReadingsData}
               MRerror={MRerror}
               MRisPending={MRisPending}
