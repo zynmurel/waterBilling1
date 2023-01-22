@@ -75,7 +75,7 @@ export default function ReadingTable({month, scale, height, conIsPending, conErr
                 //console.log(service_period)
 
                 return (
-                  <TableRow  role="checkbox" tabIndex={-1} key={row.reading_id} style={!row.date_paid?{}:{backgroundColor:"rgb(132, 240, 139)", height:10}}>
+                  <TableRow  role="checkbox" tabIndex={-1} key={row.billing_id} style={!row.date_paid?{}:{backgroundColor:"rgb(132, 240, 139)", height:10}}>
                     {columns.map((column) => {
                       
                       let value = "";

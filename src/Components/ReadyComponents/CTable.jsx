@@ -25,6 +25,10 @@ export default function StickyHeadTable({
 }) {
   const rowsPerPage = rowPerPage;
 
+  const consumers = newCon && newCon.filter((con)=>(
+      con.user_type === "Consumer"
+  ))
+
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);

@@ -12,10 +12,11 @@ import { useEffect, useState } from 'react';
 import React from 'react';
 //import AddConsumer from '../ReadyComponents/ConsumerManagement/AddConsumer';
 //import ConsumerData from '../ReadyComponents/ConsumerManagement/ConsumerData';
-import { Box, Button, Dialog, DialogTitle, DialogContent, Typography, TextField, Snackbar, Alert, InputAdornment  } from '@mui/material';
+import { Box, Button, Dialog, DialogTitle, DialogContent, Typography, TextField, Snackbar, Alert, InputAdornment, Autocomplete  } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import GetData from '../../Hook/SampleData';
 import AuthUser from '../../Hook/AuthUser';
+import BillingPopup from '../ReadyComponents/BillingPopUp';
 
 
  
@@ -26,8 +27,10 @@ const Reader = ({
   barangay,
   purok,
   setBarangay,
-  setPurok
+  setPurok,
+  consumersData
 }) => {
+
 
   //Date to Timestamp Format
   const date = new Date()
@@ -35,7 +38,6 @@ const Reader = ({
 
   const { getUser } = AuthUser();
   const reader = getUser()
-   const consumersData = GetData(`${hostLaravel}/api`, '/consumer');
   const brgyPrkData = GetData(`${hostLaravel}/api`, '/brgyprk');
   
   const [page, setPage] = useState(0);
@@ -44,13 +46,12 @@ const Reader = ({
 
   const [consumerInfo, setConsumerInfo] = useState({})
 
-  const {data:consumer, isPending:conIsPending, error:conError}= consumersData
+  const {data, isPending:conIsPending, error:conError, reload, setReload}= consumersData
   const {data:brgyPrk, isPending:bpIsPending, error:bpError}= brgyPrkData
-  
-  const  readingInfo = GetData(hostJson, `/PastReadings${consumerInfo && '?id='}${consumerInfo && consumerInfo.consumer_id}`) 
 
-
-  const {data:pastReading, isPending:pastReadingIsPending, error:pastReadingError, reload, setReload}= readingInfo;
+  const consumer = consumersData.data && data.filter((con)=>(
+    con.service_period_id!=con.service_period_id_to_be
+  ))
       //date sorter
     const sorter = (a, b) => {
         const ayear = new Date(a.date)
@@ -101,10 +102,14 @@ const Reader = ({
     })
 
     allbarangay = allbarangay.sort()
+    console.log(consumer && consumer)
   
     //StickyTable
     const bCon = consumer && barangay && purok? consumer.filter((c)=> c.barangay === barangay && (c.purok === purok || purok ===7)):consumer
-    const newCon = bCon? bCon.filter((c)=> `${c.first_name.toLowerCase()} ${c.middle_name.toLowerCase()} ${c.last_name.toLowerCase()}`.includes(name.toLowerCase())||`${c.consumer_id}`.includes(name)) : bCon
+    let newCon = bCon? bCon.filter((c)=> `${c.first_name.toLowerCase()} ${c.middle_name.toLowerCase()} ${c.last_name.toLowerCase()}`.includes(name.toLowerCase())||`${c.consumer_id}`.includes(name)) : bCon
+    newCon = newCon && newCon.filter((con)=>(
+      con.service_period_id !== con.service_period_id_to_be
+    ))
     const columns = [
       { id: 'consumer_id', label: 'Consumer #', minWidth: 100 },
       { id: 'name', label: 'Name', minWidth: 130 },
@@ -116,28 +121,8 @@ const Reader = ({
         align: 'center',
       }
     ];
+    console.log(newCon)
 
-    //Submit Reading function
-    const submitReading = () => {
-
-    const reading = {
-              reader_id: reader.user_id,
-              consumer_id: consumerInfo.consumer_id,
-              service_period_id:12,
-              previous_reading:0,
-              present_reading: inputReading,
-              reading_date:datum/1000
-      };
-    const headers = { 
-      'Content-type' : 'application/json',
-      'Accept' : 'application/json',
-    };
-    axios.post(`${hostLaravel}/api/reading`, reading, { headers })
-        .then(response => console.log(response))
-        .catch(error => {
-          console.error('There was an error!', error);
-      });
-    }
      
 
     return ( 
@@ -163,20 +148,19 @@ const Reader = ({
            </div>
            
             <div className="searchAddBar2">
-              <AutoComplete  
-            width={'100%'} 
-            label={'Barangay'} 
-            dataSetter={setBarangay}
-            buttonDisabler={setPurok}
-            pageSetter={setPage}
-            autoComHeight={500}
-            options={allbarangay}
-            isPending={bpIsPending}
-            error={bpError}
+            <Autocomplete
+              value={barangay}
+              ListboxProps={{ style: { maxHeight: 500 }, position: "top-start" }}
+              disabled={bpError?true:false || bpIsPending}
+              id="combo-box-demo"
+              options={allbarangay? allbarangay : []}
+              sx={{ width: 300, margin:"0 2px 0 2px" }}
+              onChange={(event , val)=>{ setBarangay(val); setPage(0);  }}
+              renderInput={(params) => <TextField {...params} label={"Barangay"} />}
             />
             
             <SelectLabels 
-            minWidth={'100%'} 
+            minWidth={'30%'} 
             m={0} 
             label={'Purok'} 
             allpurok={allpurok}
@@ -203,8 +187,8 @@ const Reader = ({
            rowPerPage={8}
            />
            </div>
-           {readingInfo!==undefined && readingInfo.data && 
-           <Dialog open={popUp} maxWidth={'xs'} fullWidth className='readerDialog'>
+           {consumerInfo && 
+           <Dialog open={popUp} maxWidth={'xs'} className='readerDialog'>
                 <DialogTitle style={{margin:0,  textAlign:"left",paddingBottom:1}}>
                     <Typography gutterBottom fontWeight={"bold"} fontSize={30} style={{margin:"0 auto", borderBottom:"1px solid gray"}}>
                         {consumerInfo.consumer_id}
@@ -212,80 +196,21 @@ const Reader = ({
                     </DialogTitle>
 
                     <DialogContent style={{ display:'flex', justifyContent:'center', flexDirection:'column' }}>
-                    <Box>
-                    <h3 style={{ margin:0, marginTop:5 }}>{`${consumerInfo.first_name} ${consumerInfo.middle_name} ${consumerInfo.last_name}`}</h3>
-                    <p style={{ margin:0 }}>{`${consumerInfo.usage_type}`}</p>
-                    <p style={{ margin:0 }}>{`${consumerInfo.barangay}`}</p>
-                    <p style={{ margin:0 }}>{`Purok ${consumerInfo.purok}`}</p>
-                    <br />
-                    <h4 style={{ margin:0 }}>Past Reading:</h4> 
-
-                    {consumerInfo && pastReading.length!==0 && !pastReadingError && !pastReadingIsPending && 
-                    <Box style={{display:"flex", justifyContent:"left", alignItems:"left", flexDirection:"column"}}>
-                      <p style={styles.para}>{`Reading: ${pastReading[0].past_reading}`}</p>
-                      <p style={styles.para}>{`Month: ${pastReading[0].month}`}</p>
-                      <p style={styles.para}>{`Year: ${pastReading[0].year}`}</p> 
-                      </Box>
-                    }
-
-                    {pastReadingIsPending && 
-                    <Box style={{color:"gray", display:"flex", justifyContent:"left", alignItems:"center"}}>Loading...</Box>
-                    }
-
-                    {pastReadingError && <Box style={{color:"rgb(255, 82, 82)", display:"flex", justifyContent:"center", alignItems:"center"}}>
-                    <h3>Failed To Fetch Data</h3></Box>
-                    }
-
-                    {reading && !pastReadingError && !pastReading.past_reading && 
-                    <Box style={{color:"gray", display:"flex", justifyContent:"center", alignItems:"center"}}><h3>No Past Reading</h3></Box>
-                    }
-
-                    <NumericFormat
-                            label="Input new reading" 
-                            variant="outlined" 
-                            placeholder={`ex: ${pastReading.length!==0 && pastReading[0].past_reading+1}`} 
-                            allowNegative={false}
-                            value={inputReading}
-                            //disabled={}
-                            isAllowed={(values) => {
-                              const { value } = values;
-                              return value < 99999 && !value.includes(".");
-                            }}
-                            onChange={(e) =>{
-                                const val = e.target.value
-                                setInputReading(val)
-                            }}
-                            customInput={TextField}
-                            style={styles.textfield}
-                            disabled={(pastReading.length===0 || pastReadingIsPending || pastReadingError)?true:false}
-                            />
-
-                    { ( pastReading.length!==0 && inputReading>pastReading[0].past_reading?false:true && inputReading!==null && consumerInfo &&!pastReadingError && !pastReadingIsPending ) ?//inputReading!==null &&
-                    <Box style={{display:"flex", justifyContent:"center", alignItems:"center", color:"red", fontSize:12}}>{"Reading must not be equals or below  "+pastReading[0].past_reading}</Box>
-                    :<Box style={{display:"flex", justifyContent:"center", alignItems:"center", color:"gray", fontSize:12}}>{""}</Box>
-                    }
-                    
-                      
-                      <Box style={{  display:'flex', justifyContent:'end' }}>
-                      <Button
-                                variant="outlined"
-                                disabled={consumerInfo? false:true} 
-                                style={{height:40, width:100, fontSize:12, margin:5}}
-                                onClick={()=>{
-                                  setPopUp(false);
-                                  setInputReading(null);
-                                }}>
-                                Cancel
-                                </Button>
-                                
-                                <Button  
-                                variant="contained"
-                                disabled={( pastReadingIsPending || pastReadingError || pastReading.length === 0 || inputReading===null || inputReading.length===0)? true:false} 
-                                style={{height:40, width:120, fontSize:12, margin:5}}
-                                onClick={()=>submitReading()}
-                                >Submit</Button>
-                      </Box>
-                    </Box>
+                        <BillingPopup
+                        alert={alert}
+                        setAlert={setAlert}
+                        alertType={alertType}
+                        setAlertType={setAlertType}
+                        alertText={alertText}
+                        setAlertText={setAlertText}
+                        handleAlertClose={handleAlertClose}
+                        setPopUp={setPopUp}
+                        consumerInfo={consumerInfo}
+                        hostLaravel={hostLaravel}
+                        setConsumerInfo={setConsumerInfo}
+                        reload={reload}
+                        setReload={setReload}
+                        />
                     </DialogContent>
                 </Dialog>}
 

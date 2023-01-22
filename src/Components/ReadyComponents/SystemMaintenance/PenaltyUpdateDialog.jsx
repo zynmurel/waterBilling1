@@ -3,14 +3,8 @@ import { NumericFormat, PatternFormat } from 'react-number-format';
 import { Button } from '@mui/material';
 import { useState } from "react";
 import axios from "axios";
-const PopupContent = ({
+const PenaltyPopup = ({
     hostLaravel,
-    openCubicMeter,
-    setOpenCubicMeter,
-    cubicMeterData,
-    setCubicMeterData,
-    isCubicMeter,
-    cubic_rates,
     reload,
     setReload,
     alert,
@@ -19,11 +13,12 @@ const PopupContent = ({
     setAlertType,
     alertText,
     setAlertText,
-    handleAlertClose
+    handleAlertClose,
+    penaltyData,
+    setPenaltyData
 }) => {
-    console.log(cubicMeterData)
-    const rateSet = isCubicMeter && cubicMeterData.cr.cubic_rate!=0? cubicMeterData.cr.cubic_rate : cubicMeterData.cr.fixed_rate
-    const [rate, setRate] = useState(rateSet)
+    
+    const [penalty, setPenalty] = useState(penaltyData.setting_value)
     const styles={
         container:{
             display:'flex',
@@ -45,12 +40,12 @@ const PopupContent = ({
             'Accept' : 'application/json',
           };
           const data = {
-            setting_value:JSON.stringify(cubic_rates)
+            setting_value:penalty+""
           }
           axios.put(`${hostLaravel}/api/settingUpdate/${id}`, data, { headers })
               .then(response => {
                 console.log(response)
-                setCubicMeterData({})
+                setPenaltyData({})
                 setReload(reload? false:true)
                 setAlert(true)
                 setAlertText('Settings Updated!')
@@ -69,42 +64,36 @@ const PopupContent = ({
       variant="outlined" 
       value={value}
       allowNegative={false}
-      isAllowed={(values) => {           
+      isAllowed={(values) => {
         const { value } = values;
-        return value < 200 && !value.includes(".");
+        return value < 60 && !value.includes(".");
       }}
-      onChange={
-        (e)=> {
-            console.log(cubicMeterData.index)
-            cubicMeterData.index === "1" || cubicMeterData.index === "5" ? cubic_rates[cubicMeterData.index].fixed_rate= e.target.value:cubic_rates[cubicMeterData.index].cubic_rate= e.target.value
-            console.log(cubic_rates[cubicMeterData.index])
-            setValue(e.target.value)
-        }
-      }
+      onChange={(e)=>{
+        setPenalty(e.target.value)
+      }}
       customInput={TextField}
       style={ styles.input }
       />)
-      console.log(cubic_rates)
     
 
     return ( 
         <Box style={styles.container}>
-                {updateUtility("Update Cubic Rate", rate, setRate)}
+                {updateUtility("Update Penalty (%)", penalty, setPenalty)}
                 <Box>
                 <Button
                 variant="outlined"
                 style={{ ...styles.button, color:'rgb(12,20,52)', border:"solid 1px rgb(12,20,52)"}}
-                onClick={()=> {
-                    setOpenCubicMeter(false)
-                    setCubicMeterData({})
+                onClick={()=>{
+                    setPenaltyData({})
                 }}
                 >Cancel</Button>
                 
                 <Button
                 variant="contained"
                 style={{ ...styles.button,backgroundColor:'rgb(12,20,52)' }}
-                disabled={rate===""}
-                onClick={()=>handleSubmit(3)}
+                onClick={()=>{
+                    handleSubmit(2)
+                }}
                 >Submit</Button>
 
                 </Box>
@@ -120,4 +109,4 @@ const PopupContent = ({
     );
 }
  
-export default PopupContent;
+export default PenaltyPopup;

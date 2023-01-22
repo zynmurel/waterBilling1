@@ -28,6 +28,7 @@ const BillingPage = ({ month, consumersData, year, consumersBillings, billingsPa
         return  byear.getMonth() - ayear.getMonth() ;
         };
     };
+    console.log(billings)
     return ( 
         <Box className={'billingContainer'}>
             <Box style={styles.billingYear} className={'billingYear'}>
@@ -68,15 +69,16 @@ const BillingPage = ({ month, consumersData, year, consumersBillings, billingsPa
                         <p style={{ margin:0 }}>{`Total : ${selectedBilling.reading.present_reading - selectedBilling.reading.previous_reading} cu m`}</p>
 
                         <h3 style={{ marginBottom:0 }}>Billing: </h3>
-                        <p style={{ margin:0 }}>{`Remaining : ₱ ${selectedBilling.previous_bill - selectedBilling.previous_payment}`}</p>
+                        <p style={{ margin:0 }}>{`Remaining : ₱ ${selectedBilling.previous_bill}`}</p>
                         <p style={{ margin:0 }}>{`Present : ₱ ${selectedBilling.present_bill}`}</p>
                         <p style={{ margin:0 }}>{`Penalty : ₱ ${selectedBilling.penalty}`}</p>
-                        <p style={{ margin:0 }}>{`Total : ₱ ${(selectedBilling.previous_bill - selectedBilling.previous_payment)+selectedBilling.present_bill+selectedBilling.penalty}`}</p>
+                        <p style={{ margin:0 }}>{`Total : ₱ ${(selectedBilling.previous_bill)+selectedBilling.present_bill+selectedBilling.penalty}`}</p>
 
                         <h3 style={{ marginBottom:0 }}>Payment: </h3>
                         <p style={{ margin:0 }}>{`Due Date : ${selectedBilling.due_date}`}</p>
                         {selectedBilling.payment.date_paid ? <p style={{ margin:0 }}>{`Date Paid : ${selectedBilling.payment.date_paid}`}</p>: <p style={{ margin:0 }}>{`Not Paid`}</p> }
-                        <p style={{ margin:0 }}>{`Amount Paid : ₱ ${selectedBilling.penalty}`}</p>
+                        <p style={{ margin:0 }}>{`Amount Paid : ₱ ${selectedBilling.previous_payment}`}</p>
+                        <p style={{ margin:0 }}>{`Balance : ₱ ${(selectedBilling.previous_bill)+selectedBilling.present_bill+selectedBilling.penalty - selectedBilling.previous_payment}`}</p>
                         </div>
                         }
                       

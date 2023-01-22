@@ -1,10 +1,7 @@
 import { Box, Card, Typography } from '@mui/material';
 import GetData from '../../Hook/SampleData'
 import '../../Styles/PageStyles/home.css'
-const Home = ({ hostLaravel, month}) => {
-    const dateNow = new Date();
-    const consumerReports = GetData(hostLaravel, 'api/consumerReport' );
-    const collectionReports = GetData(hostLaravel, `api/collectionReports/${dateNow.getFullYear()}/${month[dateNow.getMonth()].slice(0,3)}` );
+const Home = ({ hostLaravel, month, collectionReports, consumerReports, dateNow}) => {
 
     const { data:collection , isPending:collectionPending, error:collectionError } = collectionReports
     const { data:consumer , isPending:consumerPending, error:consumerError } = consumerReports

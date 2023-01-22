@@ -9,21 +9,39 @@ import SystemMaintenance from '../Components/Pages/SystemMaintenance';
 import Help from '../Components/Pages/Help';
 import Reports from '../Components/Pages/Reports';
 import NotFound from '../Components/Pages/NotFound';
-import useFetch from '../Hook/useFetch';
 import AuthUser from '../Hook/AuthUser';
 import GetData from '../Hook/SampleData'
-import { useState, useEffect } from 'react';
 
-const AdminPage = ({year, month, hostJson, hostLaravel}) => {
+const AdminPage = ({year, month, hostLaravel}) => {
 
   const {token, logout, getData, getUser} = AuthUser();
-  const result = GetData(hostJson, `/consumers`);
-  const reading = GetData(hostJson, `/reading`);
   const date = new Date('1644883200' * 1000)
   const brand = ["Nature Spring", "Sunrise"];
   const usage_type = ["Residential","Commercial"];
   const civil_status = ["Single", "Married"];
   const gender = ["Male", "Female"];
+
+  const dateNow = new Date();
+  //REQUESTS
+
+  //home && reports
+  const consumerReports = GetData(hostLaravel, 'api/consumerReport' );
+
+  //home
+  const collectionReports = GetData(hostLaravel, `api/collectionReports/${dateNow.getFullYear()}/${month[dateNow.getMonth()].slice(0,3)}` );
+
+  //consumer management
+  const consumersData = GetData(`${hostLaravel}/api`, '/consumer');
+
+  //consumer management && meter readings
+  const brgyPrkData = GetData(`${hostLaravel}/api`, '/brgyprk');
+
+  //inquire
+  const consumersDataChange = GetData(`${hostLaravel}/api`, '/consumer');
+
+  //system maintenance
+  const usersData = GetData(`${hostLaravel}/api`, '/user');
+  const settings = GetData(hostLaravel, 'api/settings');
 
   const logoutUser = () => {
     if(token != undefined){
@@ -44,14 +62,17 @@ const AdminPage = ({year, month, hostJson, hostLaravel}) => {
         <Routes>  
           <Route path="/home" element={
           <Home
+          dateNow={dateNow}
+          consumerReports={consumerReports}
+          collectionReports={collectionReports}
           month={month}
           hostLaravel={hostLaravel}
-          result={result} 
           />}></Route>
 
           <Route path="/consumerManagement" element={
           <ConsumerManagement 
-          hostJson={hostJson}
+          consumersData={consumersData}
+          brgyPrkData={brgyPrkData}
           hostLaravel={hostLaravel}
           brand={brand}
           gender={gender}
@@ -61,33 +82,30 @@ const AdminPage = ({year, month, hostJson, hostLaravel}) => {
            />}></Route> 
 
           <Route path="/inquire" element={<Inquire
-          hostJson={hostJson}
           hostLaravel={hostLaravel}
-          result={result} 
-          month={month}
-          reading={reading}
+          consumersData={consumersDataChange}
           />}></Route> 
 
           <Route path="/meterReading" element={
           <MeterReading
           month={month}
           year={year}
-          hostJson={hostJson}
           hostLaravel={hostLaravel}
+          brgyPrkData={brgyPrkData}
           />}></Route> 
 
           <Route path="/reports" element={
-          <Reports     
+          <Reports 
+          consumerReports={consumerReports}    
           month={month}
           year={year}
-          result={result} 
-          reading={reading}
           hostLaravel={hostLaravel}
           />}></Route> 
 
           <Route path="/systemMaintenance" element={<SystemMaintenance
-          hostJson={hostJson}
-          hostLaravel={hostLaravel}/>}></Route> 
+          hostLaravel={hostLaravel}
+          usersData={usersData}
+          settings={settings}/>}></Route> 
 
           <Route path="/help" element={<Help/>}></Route> 
 

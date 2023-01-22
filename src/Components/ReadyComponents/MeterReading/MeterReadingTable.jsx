@@ -122,7 +122,7 @@ console.log(meterReadingsData)
         }}
         component="div"
         rowsPerPageOptions={[]}
-        count={newCon? newCon.length:0}
+        count={!MRisPending && meterReadingsData ? meterReadingsData.newReading.length:0}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

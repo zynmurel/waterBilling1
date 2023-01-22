@@ -1,20 +1,15 @@
 import '../../Styles/PageStyles/meterreading.css'
 import AutoComplete from '../ReadyComponents/CAutoComplete'
 import SelectLabels from '../ReadyComponents/CSelectLabel';
-import AddPopup from '../ReadyComponents/ConsumerManagement/AddNewPopUp';
-import ConsumerPopUp from '../ReadyComponents/ConsumerManagement/ConsumerPopUp'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import React from 'react';
-import AddConsumer from '../ReadyComponents/ConsumerManagement/AddConsumer';
-import ConsumerData from '../ReadyComponents/ConsumerManagement/ConsumerData';
-import { Button, TextField, Snackbar, Alert, InputAdornment } from '@mui/material';
-import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
+import {  TextField, InputAdornment, Autocomplete } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import MeterReadingTable from '../ReadyComponents/MeterReading/MeterReadingTable';
 import AuthUser from '../../Hook/AuthUser';
 import GetData from '../../Hook/SampleData';
 
-const MeterReading = ({ month:allmonth, year:allyear, hostLaravel, hostJson,barangay, purok, setBarangay, setPurok}) => {
+const MeterReading = ({ month:allmonth, year:allyear, hostLaravel, hostJson, brgyPrkData}) => {
     const [page, setPage] = useState(0);
     const [consumerPopUp, setConsumerPopup] = useState(false)
     const [name, setName] = useState("");
@@ -22,6 +17,8 @@ const MeterReading = ({ month:allmonth, year:allyear, hostLaravel, hostJson,bara
     let dateNow = new Date()
     const [month, setMonth] = useState(allmonth[dateNow.getMonth()]);
     const [year, setYear] = useState(dateNow.getFullYear().toString()); 
+    const [barangay, setBarangay] = useState("")
+    const [purok, setPurok] = useState(7)
 
   const meterReadings = GetData(hostLaravel, `/api/showByServicePeriod/${month && month.slice(0,3)}/${year}`);
   const { data:meterReadingsData, isPending:MRisPending, error:MRerror, reload, setReload  } = meterReadings
@@ -29,7 +26,6 @@ const MeterReading = ({ month:allmonth, year:allyear, hostLaravel, hostJson,bara
     //getBarangay & Purok
     const {http} = AuthUser();
 
-    const brgyPrkData = GetData(`${hostLaravel}/api`, '/brgyprk');
     const {data:brgyPrk, isPending:bpIsPending, error:bpError}= brgyPrkData
 
     //Autocomplete - Barangay
@@ -98,18 +94,18 @@ const MeterReading = ({ month:allmonth, year:allyear, hostLaravel, hostJson,bara
                 </div>
 
               <div className="searchAddBar3">
-
-              <AutoComplete  
-                width={200} 
-                label={'Barangay'} 
-                dataSetter={setBarangay}
-                buttonDisabler={setPurok}
-                pageSetter={setPage}
-                autoComHeight={500}
+                <Autocomplete
+                value={barangay}
+                onChange={(event, newValue) => {
+                  setBarangay(newValue);
+                  setPage(0);
+                  setPurok(7);
+                }}
+                id="controllable-states-demo"
                 options={allbarangay}
-                isPending={bpIsPending}
-                error={bpError}
-                />    
+                sx={{ width: 300, margin:"0 2px 0 2px" }}
+                renderInput={(params) => <TextField {...params} label={"Barangay"} />}
+              /> 
 
                   <SelectLabels 
                   minWidth={80} 

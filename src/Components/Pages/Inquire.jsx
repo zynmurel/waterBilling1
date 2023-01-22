@@ -8,13 +8,11 @@ import useEffect from '../../Hook/useFetch';
 import ReactToPrint from 'react-to-print'
 import GetData from '../../Hook/SampleData'
 
-const Inquire = ({month, hostLaravel, hostJson}) => {
+const Inquire = ({ hostLaravel, consumersData}) => {
 
-    const consumersData = GetData(`${hostLaravel}/api`, '/consumer');
-    //const readingData = GetData('http://127.0.0.1:8000/api', '/reading');
     const componentRef = useRef()
     const { data:consumer, isPending, error  } = consumersData
-
+ 
     const [ searchedConsumer, setSearchedConsumer ] = useState({})
 
     const readingBillingRecords =  GetData(hostLaravel, `/api/inquire/${Object.keys(searchedConsumer).length!==0?searchedConsumer.user_id:1}`);

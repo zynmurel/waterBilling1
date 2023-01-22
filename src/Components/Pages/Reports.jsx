@@ -8,13 +8,12 @@ import ReactToPrint from 'react-to-print';
 import GetData from '../../Hook/SampleData'
 import SelectLabels from '../ReadyComponents/CSelectLabel';
 
-const Reports = ({ month:allmonth, year:allyear, result, reading, hostLaravel}) => {
+const Reports = ({ month:allmonth, year:allyear, hostLaravel, consumerReports}) => {
     let dateNow = new Date()
     const [month, setMonth] = useState(allmonth[dateNow.getMonth()]);
     const [year, setYear] = useState(dateNow.getFullYear().toString()); 
     const reportType = ["Collection Report", "Consumer Report"];
     const [report, setReport] = useState(reportType[0]);
-    const consumerReports = GetData(hostLaravel, 'api/consumerReport' );
     const collectionReports = GetData(hostLaravel, `api/collectionReports/${year}/${month.slice(0,3)}` );
     const { data:collection, isPending:collectionPending, error:collectionError, reload, setReload} = collectionReports
     console.log(collectionReports && collectionReports)

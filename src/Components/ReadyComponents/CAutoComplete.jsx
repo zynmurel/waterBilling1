@@ -16,7 +16,6 @@ export default function ComboBox({width, label, options, isPending, error, dataS
     <Autocomplete
     disableClearable={true}
       clearOnEscape={false}
-      disablePortal
       value={firstData}
       ListboxProps={{ style: { maxHeight: autoComHeight }, position: "top-start" }}
       disabled={error?true:false || isPending}

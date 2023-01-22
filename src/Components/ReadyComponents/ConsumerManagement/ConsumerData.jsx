@@ -1,14 +1,11 @@
 import { Box, Paper } from "@mui/material";
 import moment from "moment/moment";
-import ReadingTable from "../CReadingTable";
+import ReadingTable from "../CReadingConsumer";
 import GetData from "../../../Hook/SampleData"
 
 const ConsumerData = ({
     consumerInfo, 
     month, 
-    readings, 
-    rbIsPending,
-    rbError,
     hostLaravel
 }) => {
  const readingBillingRecords = GetData(hostLaravel, `/api/billing/${+consumerInfo.consumer_id}`);
@@ -75,9 +72,7 @@ const ConsumerData = ({
             justifyContent:"center"
         }
     }
-    const newrb = readings? readings.filter((rb)=>{
-        return rb.consumerId==consumerInfo.consumer_id
-        }):""
+
     const sorter = (a, b) => {
         const ayear = new Date(a.date)
         const byear = new Date(b.date)
@@ -94,10 +89,6 @@ const ConsumerData = ({
   
     return Math.abs(age_dt.getUTCFullYear() - 1970);
 }
-
-//console.log(calculate_age(new Date("1999/01/19")));
-//console.log(`${birthday.getFullYear()}/${birthday.getMonth()+1}/${birthday.getDate()}`)
-    readings && newrb.sort(sorter)
     return (  
         <Box style={styles.container}>
             <Box style={styles.subcontainer1}>
@@ -126,11 +117,8 @@ const ConsumerData = ({
                 readingBillingRecords={readingBillingRecords}
                 hostLaravel={hostLaravel}
                 month={month}
-                newrb={newrb}
                 scale={.9}
                 height={400}
-                rbIsPending={rbIsPending}
-                rbError={rbError}
                 />
             </Paper>
         </Box>

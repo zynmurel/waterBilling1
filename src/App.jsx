@@ -33,7 +33,6 @@ function App() {
     return <AdminPage  
     year={year}
     month={month} 
-    hostJson={hostJson}
     hostLaravel={hostLaravel}/>
   }
   else if(userDetails && userDetails.user_type == 'Cashier'){

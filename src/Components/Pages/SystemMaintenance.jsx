@@ -6,11 +6,9 @@ import Accounts from "../ReadyComponents/SystemMaintenance/Accounts";
 import NavBar from '../ReadyComponents/SystemMaintenance/SMNavBar';
 import { Alert, Paper, Snackbar } from '@mui/material';
 import GetData from '../../Hook/SampleData'
-const SystemMaintenance = ({hostLaravel}) => {  
-  const usersData = GetData(`${hostLaravel}/api`, '/user');
+const SystemMaintenance = ({usersData, settings, hostLaravel}) => {  
   const {data:users, isPending, error, reload, setReload}= usersData
 
-  const settings = GetData(hostLaravel, 'api/settings');
   const { data:setting, isPending:settingPending, error:settingError, reload:settingReload, setReload:settingSetReload} =settings
 
     const [alert, setAlert] = useState(false)
@@ -50,7 +48,14 @@ const SystemMaintenance = ({hostLaravel}) => {
                     settingReload={settingReload}
                     settingSetReload={settingSetReload}
                     settings={settings}
-                    hostLaravel={hostLaravel}/>}
+                    hostLaravel={hostLaravel}
+                    alert={alert}
+                    setAlert={setAlert}
+                    alertType={alertType}
+                    setAlertType={setAlertType}
+                    alertText={alertText}
+                    setAlertText={setAlertText}
+                    handleAlertClose={handleAlertClose}/>}
                     
                     {active==='accounts' && 
                     <Accounts

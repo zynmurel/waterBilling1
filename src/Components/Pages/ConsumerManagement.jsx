@@ -2,7 +2,7 @@ import '../../Styles/PageStyles/consumermanagement.css'
 import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
 // import Table from '../ReadyComponents/CTable';
 import StickyHeadTable from '../ReadyComponents/CTable'
-import AutoComplete from '../ReadyComponents/CAutoComplete'
+import AutoComplete from '../ReadyComponents/CAutoCompleteBP'
 import SelectLabels from '../ReadyComponents/CSelectLabel';
 import AddPopup from '../ReadyComponents/ConsumerManagement/AddNewPopUp';
 import ConsumerPopUp from '../ReadyComponents/ConsumerManagement/ConsumerPopUp'
@@ -18,16 +18,14 @@ import GetData from '../../Hook/SampleData';
 
 const ConsumerManagement = ({
   hostLaravel,
-  hostJson,
   gender, 
   civil_status, 
   usage_type, 
   brand, 
   month, 
+  consumersData,
+  brgyPrkData
 }) => {
-  const consumersData = GetData(`${hostLaravel}/api`, '/consumer');
-  const brgyPrkData = GetData(`${hostLaravel}/api`, '/brgyprk');
-  const readingData = GetData(hostJson, '/reading')
   const [page, setPage] = useState(0);
   const [openPopup, setOpenPopup] = useState(false)
   const [consumerPopUp, setConsumerPopup] = useState(false)
@@ -40,11 +38,10 @@ const ConsumerManagement = ({
   const [alertType, setAlertType] = useState("warning")
   const [alertText, setAlertText] = useState("")
 
-  const {data:readings, isPending:rbIsPending, error:rbError}= readingData
   const {data:consumer, isPending:conIsPending, error:conError, reload, setReload}= consumersData
   const {data:brgyPrk, isPending:bpIsPending, error:bpError}= brgyPrkData
   //console.log(brgyPrk)
-
+console.log(barangay)
 
 
   //StickyBar()
@@ -68,7 +65,6 @@ const ConsumerManagement = ({
     })
 
     allbarangay = allbarangay.sort()
-  
     //StickyTable
     const bCon = consumer && barangay && purok? consumer.filter((c)=> c.barangay === barangay && (c.purok == purok || purok ==7)):consumer
     const newCon = bCon? bCon.filter((c)=> `${c.first_name.toLowerCase()} ${c.middle_name && c.middle_name.toLowerCase()} ${c.last_name.toLowerCase()}`.includes(name.toLowerCase())||`${c.consumer_id}`.includes(name)) : bCon
@@ -106,6 +102,7 @@ const ConsumerManagement = ({
 
             <AutoComplete  
             width={300} 
+            data={barangay}
             label={'Barangay'} 
             dataSetter={setBarangay}
             buttonDisabler={setPurok}
@@ -200,9 +197,6 @@ const ConsumerManagement = ({
               setConsumerPopup={setConsumerPopup}
               consumerInfo={consumerInfo}
               month={month}
-              readings={readings}
-              rbIsPending={rbIsPending}
-              rbError={rbError}
               />
 
           </ConsumerPopUp>

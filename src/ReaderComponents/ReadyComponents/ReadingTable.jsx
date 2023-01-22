@@ -62,7 +62,7 @@ export default function StickyHeadTable({
             </TableRow>
           </TableHead>
           <TableBody>
-            {newCon && newCon
+            {newCon && !conIsPending && newCon
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
@@ -74,7 +74,6 @@ export default function StickyHeadTable({
                         onClick={()=>{ 
                           setPopUp(true); 
                           setConsumerInfo(row); 
-                          setReload(reload? false:true);
                           }}>
                           {column.id === "name"? `${row.first_name} ${row.middle_name? row.middle_name[0]+".":""} ${row.last_name}` :value}
                         </TableCell>

@@ -36,7 +36,8 @@ const UpdateUserChildren = ({
                 setReload(reload? false:true)
                 setAlert(true)
                 setAlertText('Email Updated!')
-                setAlertType("success")})
+                setAlertType("success")
+            })
               .catch(error => {
                 console.error('There was an error!', error);
                 setAlert(true)

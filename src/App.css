@@ -65,6 +65,7 @@ body{
   gap: 5px 5px;
   margin:5px ;
   width: 350px;
+  color:rgb(188, 188, 188)
 } 
 .searchAddBar2{
   display: flex;
