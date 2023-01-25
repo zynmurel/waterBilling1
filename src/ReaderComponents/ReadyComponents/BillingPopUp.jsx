@@ -163,7 +163,7 @@ const BillingPopup = ({
                             //disabled={}
                             isAllowed={(values) => {
                                 const { value } = values;
-                                return value < 99999 && !value.includes(".");
+                                return value < 9999 && !value.includes(".");
                             }}
                             onChange={(e) =>{
                                 const val = e.target.value
@@ -190,7 +190,7 @@ const BillingPopup = ({
                                 
                                 <Button  
                                 variant="contained"
-                                style={ billingAndReading.data ===null ?{height:40, width:120, fontSize:12, margin:5, backgroundColor:'rgb(188, 188, 188)'}:{height:40, width:120, fontSize:12, margin:5,backgroundColor:'rgb(12,20,52)'}}
+                                style={ billingAndReading.data ===null || (billingAndReading.data.read!==null && billingAndReading.data.read.present_reading>=readingInput) ?{height:40, width:120, fontSize:12, margin:5, backgroundColor:'rgb(188, 188, 188)'}:{height:40, width:120, fontSize:12, margin:5,backgroundColor:'rgb(12,20,52)'}}
                                 disabled={ billingAndReading.data ===null || (billingAndReading.data.read!==null && billingAndReading.data.read.present_reading>=readingInput) }
                                 onClick={()=>{
                                     handleSubmit()

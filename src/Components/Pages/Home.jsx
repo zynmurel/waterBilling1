@@ -6,6 +6,9 @@ const Home = ({ hostLaravel, month, collectionReports, consumerReports, dateNow}
     const { data:collection , isPending:collectionPending, error:collectionError } = collectionReports
     const { data:consumer , isPending:consumerPending, error:consumerError } = consumerReports
     console.log(consumer && consumer.consumerReport)
+    var makeDate = new Date();
+    const prev = new Date(makeDate.getFullYear(), makeDate.getMonth()-1)
+    console.log(prev)
     const styles = {
         home:{
             color:"grey"
@@ -105,7 +108,7 @@ const Home = ({ hostLaravel, month, collectionReports, consumerReports, dateNow}
                         </Box>
                         <Box style={styles.box2_1}>
                             <Typography gutterBottom fontWeight={"bold"} fontSize={styles.boxFont.fontSize}>
-                                Collection in {month[dateNow.getMonth()]}:
+                                Collection ( {month[prev.getMonth()].slice(0,3)} {prev.getFullYear()} ):
                             </Typography>
                             <Typography gutterBottom fontWeight={"bold"} fontSize={styles.boxFont.fontSize} sx={{color:styles.boxFont.color}}>
                                 {collection&& !collectionPending ?`₱ ${collection.collectionReport.totalCollection }`:''}

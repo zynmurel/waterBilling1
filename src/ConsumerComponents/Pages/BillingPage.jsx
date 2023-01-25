@@ -62,6 +62,7 @@ const BillingPage = ({ month, consumersData, year, billingsPaymentsReadings }) =
                         {console.log(selectedBilling)}
                         {JSON.stringify(selectedBilling)!=="{}" &&
                         <div>
+                            {console.log(selectedBilling.payment.amount_paid===undefined)}
                         <h2 style={{ margin:"5px 0 0 0"}}>{`Billing ID : ${selectedBilling.billing_id}`}</h2>
                         <h3 style={{ margin:0 }}>{`${selectedBilling.service_period}`}</h3>
                         <h3 style={{ marginBottom:0 }}>Reading: </h3>
@@ -78,7 +79,7 @@ const BillingPage = ({ month, consumersData, year, billingsPaymentsReadings }) =
                         <h3 style={{ marginBottom:0 }}>Payment: </h3>
                         <p style={{ margin:0 }}>{`Due Date : ${selectedBilling.due_date}`}</p>
                         {selectedBilling.payment.date_paid ? <p style={{ margin:0 }}>{`Date Paid : ${selectedBilling.payment? selectedBilling.payment.date_paid:0}`}</p>: <p style={{ margin:0 }}>{`Not Paid`}</p> }
-                        <p style={{ margin:0 }}>{`Amount Paid : ₱ ${selectedBilling.payment.amount_paid}`}</p>
+                        <p style={{ margin:0 }}>{`Amount Paid : ₱ ${selectedBilling.payment.amount_paid!==undefined?selectedBilling.payment.amount_paid:0}`}</p>
                         <p style={{ margin:0 }}>{`Balance : ₱ ${(selectedBilling.previous_bill)+selectedBilling.present_bill+selectedBilling.penalty - (selectedBilling.payment.amount_paid?selectedBilling.payment.amount_paid:0)}`}</p>
                         </div>
                         }

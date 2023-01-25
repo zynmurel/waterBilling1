@@ -118,6 +118,7 @@ const Login = () => {
         <div style={styles.parent} className={'parent'}>
       <Box
       className={'content'}
+      style={{ boxShadow:'0px 0px 5px 0px black', backgroundColor:'white' }}
       >
         
         <Box className='logodiv' style={styles.logodiv}>

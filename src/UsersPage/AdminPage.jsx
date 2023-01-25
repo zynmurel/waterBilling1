@@ -22,13 +22,17 @@ const AdminPage = ({year, month, hostLaravel}) => {
   const gender = ["Male", "Female"];
 
   const dateNow = new Date();
+  var makeDate = new Date();
+  const prev = new Date(makeDate.getFullYear(), makeDate.getMonth()-1)
+  console.log(prev)
   //REQUESTS
 
   //home && reports
   const consumerReports = GetData(hostLaravel, 'api/consumerReport' );
 
   //home
-  const collectionReports = GetData(hostLaravel, `api/collectionReports/${dateNow.getFullYear()}/${month[dateNow.getMonth()].slice(0,3)}` );
+  const collectionReports = GetData(hostLaravel, `api/collectionReports/${prev.getFullYear()}/${month[prev.getMonth()].slice(0,3)}` );
+  console.log(`${prev.getFullYear()}/${month[prev.getMonth()]}`)
 
   //consumer management
   const consumersData = GetData(`${hostLaravel}/api`, '/consumer');

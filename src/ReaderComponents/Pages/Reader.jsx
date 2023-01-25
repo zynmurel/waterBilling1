@@ -105,7 +105,7 @@ const Reader = ({
     console.log(consumer && consumer)
   
     //StickyTable
-    const bCon = consumer && barangay && purok? consumer.filter((c)=> c.barangay === barangay && (c.purok === purok || purok ===7)):consumer
+    const bCon = consumer && barangay && purok? consumer.filter((c)=> c.barangay === barangay && (c.purok == purok || purok ==7)):consumer
     let newCon = bCon? bCon.filter((c)=> `${c.first_name.toLowerCase()} ${c.middle_name.toLowerCase()} ${c.last_name.toLowerCase()}`.includes(name.toLowerCase())||`${c.consumer_id}`.includes(name)) : bCon
     newCon = newCon && newCon.filter((con)=>(
       con.service_period_id !== con.service_period_id_to_be

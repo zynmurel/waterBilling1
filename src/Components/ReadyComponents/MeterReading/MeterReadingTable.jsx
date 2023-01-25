@@ -25,7 +25,8 @@ export default function MeterReadingTable({
 
   let consumers = meterReadingsData && meterReadingsData.newReading 
 
-  const bCon = consumers && barangay && purok? consumers.filter((c)=> c.barangay === barangay && (c.purok == purok || purok ==7)):consumers
+  console.log(consumers)
+  const bCon = consumers && barangay && purok? consumers.filter((c)=> c.barangay === barangay && (c.purok == purok+"" || purok ==7)):consumers
   const newCon = bCon? bCon.filter((c)=> `${c.consumer_name.toLowerCase()}`.includes(name.toLowerCase())||`${c.consumer_id}`.includes(name)) : bCon
   console.log(consumers && bCon)
   const rowsPerPage = 10;
