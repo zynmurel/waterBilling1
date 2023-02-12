@@ -26,7 +26,7 @@ const BillingPopup = ({
     const {data, isPending, error} = billingAndReading 
 
     const date = new Date()
-    var dateString = `${date.getFullYear()}-${date.getMonth()+1}-${data!==null && data.due_date} 12:00:00`;
+    var dateString = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()} 12:00:00`;
     const {getUser} = AuthUser()
     const [readingInput, setReadingInput] = useState(0);
     console.log(billingAndReading.data == null)
@@ -45,7 +45,7 @@ const BillingPopup = ({
         const totalReading = (readingInput - (data.read!==null?data.read.present_reading:0))
         const timestamp = moment(dateString).unix();
         const datenowtimestamp = moment(date).unix();
-        console.log(datenowtimestamp)
+        console.log(dateString)
         if(consumerInfo.usage_type.toLowerCase()==="residential"){
             if(totalReading <=data.cubic_rates[0].max_cubic){
 

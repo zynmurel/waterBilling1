@@ -25,6 +25,8 @@
     "react-scripts": "^5.0.1",
     "react-to-print": "^2.14.10",
     "styled-components": "^5.3.6",
+    "tesseract.js": "^4.0.2",
+    "text-from-image": "^1.1.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

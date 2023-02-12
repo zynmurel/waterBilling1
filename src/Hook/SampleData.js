@@ -17,7 +17,7 @@ const useFetch = (baseUrl, url)=> {
             'Authorization' : `Bearer ${token}`
         }
     });
-
+ 
     useEffect(()=>{
       setIsPending(true)
         setTimeout(()=>{

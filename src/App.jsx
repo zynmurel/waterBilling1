@@ -22,7 +22,11 @@ function App() {
   const userDetails = getUser();
 
   //Selwin Wifi
-  const hostJson = 'http://192.168.0.104:8001';
+  const hostJson = 'http://192.168.1.20:8080';
+
+
+
+ 
 
   if(!getToken()){
     return (<Routes>
