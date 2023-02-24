@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import React from 'react';
 import AddConsumer from '../ReadyComponents/ConsumerManagement/AddConsumer';
 import ConsumerData from '../ReadyComponents/ConsumerManagement/ConsumerData';
-import { Button, TextField, Snackbar, Alert, InputAdornment } from '@mui/material';
+import { Button, TextField, Snackbar, Alert, InputAdornment, FormControl, Select, MenuItem } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import GetData from '../../Hook/SampleData';
 
@@ -27,6 +27,16 @@ const ConsumerManagement = ({
   brgyPrkData
 }) => {
   const [page, setPage] = useState(0);
+  const [consumerStatus, setConsumerStatus]=useState('Connected')
+  let statusColor = '#0ED000'
+  if(consumerStatus === 'Connected'){
+    statusColor = '#0ED000'
+  }else if(consumerStatus === 'Disconnected'){
+    statusColor = '#EC2626'
+  }else if(consumerStatus === 'Archive'){
+    statusColor = '#ECBE26'
+  }
+  const statusArr = ['Connected', 'Disconnected', 'Archive']
   const [openPopup, setOpenPopup] = useState(false)
   const [consumerPopUp, setConsumerPopup] = useState(false)
   const [consumerInfo, setConsumerInfo] = useState({})
@@ -65,14 +75,15 @@ const ConsumerManagement = ({
 
     allbarangay = allbarangay.sort()
     //StickyTable
-    const bCon = consumer && barangay && purok? consumer.filter((c)=> c.barangay === barangay && (c.purok == purok || purok ==7)):consumer
+    const byStatus = consumer && consumer.filter(c=> c.status === consumerStatus)
+    const bCon = consumer && barangay && purok? byStatus.filter((c)=> c.barangay === barangay && (c.purok == purok || purok ==7)):byStatus
     const newCon = bCon? bCon.filter((c)=> `${c.first_name.toLowerCase()} ${c.middle_name && c.middle_name.toLowerCase()} ${c.last_name.toLowerCase()}`.includes(name.toLowerCase())||`${c.consumer_id}`.includes(name)) : bCon
     const columns = [
       { id: 'consumer_id', label: 'Consumer #', minWidth: 120 },
       { id: 'name', label: 'Name', minWidth: 500 },
       { id: 'barangay', label: 'Barangay', minWidth: 200 },
       {
-        id: 'purok',
+        id: 'purok', 
         label: 'Purok',
         minWidth: 100,
         align: 'center',
@@ -84,6 +95,23 @@ const ConsumerManagement = ({
         <div className="consumerManagement">
            <div className="container">
            <div className="searchAddBar">
+ 
+           <FormControl sx={{ m: 0, minWidth: 150 }}>
+              <Select
+                style={{ backgroundColor:statusColor, color:'white', fontWeight:'bold' }}
+                labelId="demo-simple-select-helper-label"
+                id="demo-simple-select-helper"
+                value={consumerStatus}
+                onChange = {(e)=>{
+                  setConsumerStatus(e.target.value)
+                }}
+              >
+                {statusArr && statusArr.map((p)=>
+                  <MenuItem value={p} key={p}>{p}</MenuItem>
+                )}
+              </Select>
+            </FormControl>
+
             <TextField 
               id="outlined-basic" 
               label={"Search ID Number/Name" }
@@ -95,12 +123,12 @@ const ConsumerManagement = ({
                 ),
               }}
               variant="outlined" 
-              style={{width:450}}
+              style={{width:350}}
               onChange={(e)=>{setName(e.target.value); setPage(0)}}
               />
 
             <AutoComplete  
-            width={300} 
+            width={250} 
             data={barangay}
             label={'Barangay'} 
             dataSetter={setBarangay}

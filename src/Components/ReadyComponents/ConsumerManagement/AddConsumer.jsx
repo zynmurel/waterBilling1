@@ -4,6 +4,7 @@ import PersonalInfo from "./PersonalInfo";
 import WaterInfo from "./WaterInfo";
 import { useState } from "react";
 import axios from "axios"
+import dayjs from 'dayjs';
 
 const AddConsumer = ({
     hostLaravel,
@@ -42,9 +43,7 @@ const AddConsumer = ({
     const dataIsOn = Object.keys(consumerInfo).length!==0
 
     const [buttonPending, setButtonPending] = useState(true)
-    console.log(consumerInfo)
-    const [ consumerEmail, setConsumerEmail ] = useState(dataIsOn? consumerInfo.consumer_id:"")
-    const [ errConsumerEmail, setErrConsumerEmail ] = useState(false)
+    //console.log(consumerInfo)
     
     const [ consumerFirstName, setConsumerFirstName ] = useState(dataIsOn? consumerInfo.first_name:"")
     const [ errConsumerFirstName, setErrConsumerFirstName ] = useState(false)
@@ -100,6 +99,9 @@ const AddConsumer = ({
     const handleChange = (event) => {
         setStatus(event.target.value)
     }
+
+    console.log(dayjs(consumerBirthday).isAfter(dayjs().subtract(18, 'year')))
+    console.log(consumerBirthday.$y)
     const handleSubmit = (e) =>{
         setAlertType("warning")
         e.preventDefault()
@@ -120,10 +122,6 @@ const AddConsumer = ({
                 setErrConsumerLastName(true)
                 setAlert(true)
                 setAlertText("Please fill up consumer's Last name")
-            }else if(!consumerEmail){
-                setErrConsumerEmail(true)
-                setAlert(true)
-                setAlertText("Please fill up consumer's ID")
             }else if(consumerLastName.length<2){
                 setErrConsumerLastName(true)
                 setAlert(true)
@@ -132,7 +130,7 @@ const AddConsumer = ({
                 setErrConsumerBirthday(true)
                 setAlert(true)
                 setAlertText("Please fill up consumer's Age")
-            }else if(consumerBirthday<18){
+            }else if(dayjs(consumerBirthday).isAfter(dayjs().subtract(18, 'year'))){
                 setErrConsumerBirthday(true)
                 setAlert(true)
                 setAlertText("Consumer's Age must not be 18 below")
@@ -186,7 +184,6 @@ const AddConsumer = ({
                 setAlertText("Please fill up Registration Date")
             }
             if(
-                consumerEmail && !errConsumerEmail && 
                 consumerFirstName && !errConsumerFirstName &&
                 consumerLastName && !errConsumerLastName &&
                 consumerBirthday && !errConsumerBirthday &&
@@ -194,6 +191,7 @@ const AddConsumer = ({
                 !errConsumerPhone &&
                 consumerCivilStatus && !errConsumerCivilStatus &&
                 !errConsumerSpouse &&
+                 !errConsumerBirthday && !(dayjs(consumerBirthday).isAfter(dayjs().subtract(18, 'year'))) &&
                 consumerBarangay && !errConsumerBarangay &&
                 consumerPurok && !errConsumerPurok &&
                 consumerHousehold && !errConsumerHousehold &&
@@ -203,11 +201,19 @@ const AddConsumer = ({
                 consumerWaterType && !errConsumerWaterType &&
                 consumerWaterRegDate && !errConsumerWaterRegDate
             ){
+                const capitalizeWords = (str) => {
+                    return str
+                      .toLowerCase()
+                      .split(' ')
+                      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                      .join(' ');
+                  };
+                console.log('access')
                 const bdayDate = new Date(consumerBirthday)
                 const data = { 
-                first_name:consumerFirstName,
-                last_name:consumerLastName,
-                middle_name:consumerMiddleName,
+                first_name:capitalizeWords(consumerFirstName),
+                last_name:capitalizeWords(consumerLastName),
+                middle_name:capitalizeWords(consumerMiddleName),
                 gender:consumerGender,
                 birthday:`${bdayDate.getFullYear()}/${bdayDate.getMonth()+1}/${bdayDate.getDate()}`,
                 phone:consumerPhone,
@@ -218,7 +224,7 @@ const AddConsumer = ({
                 usage_type:consumerWaterType,
                 serial_no:consumerWaterSerial,
                 brand:consumerWaterBrand,
-                email:consumerEmail,
+                email:`CON00${consumerWaterSerial}`,
                 status:"Connected",
                 delinquent:0,
                 registered_at:`${registrationDate.getFullYear()}-${registrationDate.getMonth()+1}-${registrationDate.getDate()}`,
@@ -228,6 +234,7 @@ const AddConsumer = ({
                 purok:consumerPurok
             }
                 if(!dataIsOn){
+                    console.log('access')
                     const headers = { 
                         'Content-type' : 'application/json',
                         'Accept' : 'application/json',
@@ -245,15 +252,18 @@ const AddConsumer = ({
                             console.error('There was an error!', error)
                             setAlert(true)
                             setAlertText(error.response.data.message)
+                            if(error.response.data.message.includes("This Serial Number is already used")){
+                                setErrConsumerWaterSerial(true)
+                            }
                             setAlertType("error")
                         });
                       
                     
                 }else{
                     const sample = {
-                        first_name:consumerFirstName,
-                        last_name:consumerLastName,
-                        middle_name:consumerMiddleName,
+                        first_name:capitalizeWords(consumerFirstName),
+                        last_name:capitalizeWords(consumerLastName),
+                        middle_name:capitalizeWords(consumerMiddleName),
                         gender:consumerGender,
                         birthday:`${bdayDate.getFullYear()}/${bdayDate.getMonth()+1}/${bdayDate.getDate()}`,
                         phone:consumerPhone,
@@ -332,7 +342,7 @@ const AddConsumer = ({
             >
               <MenuItem value={"Connected"}>Connected</MenuItem>
               <MenuItem value={"Disconnected"}>Disconnected</MenuItem>
-              {consumerInfo.status==="Disconnected" && <MenuItem value={"Archive"}>Archive</MenuItem>}
+              <MenuItem value={"Archive"}>Archive</MenuItem>
             </Select>
           </FormControl>}
                     <PersonalInfo
@@ -346,11 +356,6 @@ const AddConsumer = ({
                     setButtonPending={setButtonPending}
 
                     setAlert={setAlert}
-                    
-                    consumerEmail={consumerEmail}
-                    setConsumerEmail={setConsumerEmail}
-                    errConsumerEmail={errConsumerEmail} 
-                    setErrConsumerEmail={setErrConsumerEmail}
 
                     consumerFirstName={consumerFirstName}
                     setConsumerFirstName={setConsumerFirstName}
@@ -411,6 +416,7 @@ const AddConsumer = ({
                     />
                 <Box style={{display:"flex", flexDirection:"column", flex:1}}>
                     <WaterInfo 
+                    dataIsOn={dataIsOn}
                     setButtonPending={setButtonPending}
                     style={style}
                     brand={brand}

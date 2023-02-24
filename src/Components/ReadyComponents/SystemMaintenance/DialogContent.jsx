@@ -75,9 +75,11 @@ const PopupContent = ({
       }}
       onChange={
         (e)=> {
-            console.log(cubicMeterData.index)
-            cubicMeterData.index === "1" || cubicMeterData.index === "5" ? cubic_rates[cubicMeterData.index].fixed_rate= e.target.value:cubic_rates[cubicMeterData.index].cubic_rate= e.target.value
+            console.log(cubic_rates)
+            cubicMeterData.cr.min_cubic==="1" ? cubic_rates[cubicMeterData.index].fixed_rate= e.target.value  :  cubic_rates[cubicMeterData.index].cubic_rate= e.target.value
             console.log(cubic_rates[cubicMeterData.index])
+            console.log(cubicMeterData.index === "1" || cubicMeterData.index === "5" ? true:false)
+            console.log(cubicMeterData.cr)
             setValue(e.target.value)
         }
       }

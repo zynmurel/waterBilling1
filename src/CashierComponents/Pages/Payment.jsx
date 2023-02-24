@@ -12,13 +12,14 @@ import { NumericFormat } from 'react-number-format';
 import axios from 'axios';
 import AuthUser from '../../Hook/AuthUser';
 
-const Payment = ({ hostLaravel}) => {
+const Payment = ({ hostLaravel, month}) => {
     const {getUser} = AuthUser();
+    const dateNow = new Date()
+    let total = {total_amount:0, total_penalty:0}
 
     var moment = require('moment');
     const date = new Date()
     const datenowtimestamp = moment(date).unix();
-    console.log(datenowtimestamp)
 
     const consumersData = GetData(`${hostLaravel}/api`, '/consumer');
     const componentRef = useRef()
@@ -26,16 +27,17 @@ const Payment = ({ hostLaravel}) => {
 
     const [ searchedConsumer, setSearchedConsumer ] = useState({})
 
-    const readingBillingRecords =  GetData(hostLaravel, `/api/inquire/${Object.keys(searchedConsumer).length!==0?searchedConsumer.user_id:1}`);
+    const readingBillingRecords =  GetData(hostLaravel, `/api/inquire/${Object.keys(searchedConsumer).length!==0?searchedConsumer.user_id:2}`);
     const { data:bill, isPending:billIsPending, error:billError , reload, setReload } = readingBillingRecords;
     const [popUp, setPopUp] = useState(false)
     const [confirmPopup, setConfirmPopup] = useState(false)
-
-    const isBill = Object.keys(searchedConsumer).length!==0 && bill.billing.billing ? Object.keys(bill.billing.billing).length!==0:false
-    const isReading = Object.keys(searchedConsumer).length!==0 && bill.billing.payment? Object.keys(bill.billing.payment).length!==0:false
-    const shortCutBill = isBill && bill.billing.billing[0]
-    const shortCutRead = isBill && bill.billing.reading
-    const shortCutPay = isBill && bill.billing.payment[0]
+    console.log(searchedConsumer)
+    
+    //const isBill = Object.keys(searchedConsumer).length!==0 && bill.billing.billing ? Object.keys(bill.billing.billing).length!==0:false
+    //const isReading = Object.keys(searchedConsumer).length!==0 && bill.billing.payment? Object.keys(bill.billing.payment).length!==0:false
+    //const shortCutBill = bill && bill.listofbill[0]
+    //const shortCutRead = isBill && bill.billing.reading
+    //const shortCutPay = isBill && bill.billing.payment[0]
 
     const [alert, setAlert] = useState(false)
     const [alertType, setAlertType] = useState("warning")
@@ -49,10 +51,8 @@ const Payment = ({ hostLaravel}) => {
         setAlert(false);
     }
     
-    const toPay = ((isBill ? shortCutBill.previous_bill:0))+(isBill ? shortCutBill.present_bill:0)+(isBill ? shortCutBill.penalty:0)
-    const paid = shortCutBill.previous_payment;
-    const totalBilling = toPay - paid
-    const [ payment, setPayment ] = useState(totalBilling)
+    //const toPay = ((isBill ? shortCutBill.previous_bill:0))+(isBill ? shortCutBill.present_bill:0)+(isBill ? shortCutBill.penalty:0)
+    const [ payment, setPayment ] = useState(0)
     const OPTIONS_LIMIT = 8;
     const filterOptions = createFilterOptions({
         limit: OPTIONS_LIMIT
@@ -67,7 +67,6 @@ const Payment = ({ hostLaravel}) => {
           const data = {
             cashier_id: getUser().user_id,
             consumer_id: id,
-            service_period_id: shortCutBill.service_period_id,
             date_paid: datenowtimestamp,
             amount_paid: payment
           }
@@ -91,6 +90,8 @@ const Payment = ({ hostLaravel}) => {
     }
       
 
+    const reversedbill = Object.keys(searchedConsumer).length!==0 && bill!==null && !billIsPending && bill.listofbill ? bill.listofbill.sort((a, b)=> a.billing_id - b.billing_id) : []
+    console.log(reversedbill)
     const styles = {
         inquire:{
             color:"grey"
@@ -116,11 +117,12 @@ const Payment = ({ hostLaravel}) => {
             display:"flex",
             flexDirection:"column",
             alignItems:"center",
-            flex:5,
-            width:450,
+            width:500,
             color:"rgb(75, 75, 75)",
             margin:"0 20px 20px 20px",
-            backgroundColor:'white'
+            backgroundColor:'white',
+            minHeight:400,
+            paddingBottom:40
         },
         box3:{
             display:"flex",
@@ -134,8 +136,9 @@ const Payment = ({ hostLaravel}) => {
             display:"flex",
             flexDirection:"column",
             alignItems:"flex-start",
-            justifyContent:"space-between",
-            width:350,
+            justifyContent:"center",
+            width:450,
+            flexDirection:'row'
         },
         box3_2:{
             width:350,
@@ -183,9 +186,49 @@ const Payment = ({ hostLaravel}) => {
         },
         billtextfield:{
             margin:'0 0 10px 0'
+        },
+        topTextInquire:{
+            justifyContent:'center',
+            alignItems:'center',
+        },
+        topTextInquire2:{
+            flexDirection:'row',
+            width:400,
+            marginTop:10
+        },
+        topofboxofreading:{
+            justifyContent:'center',
+            alignItems:'center',
+            flexDirection:'row',
+            borderStyle:'solid',
+            borderWidth:1,
+            borderColor:'black',
+            padding:8,
+            width:150
+        },
+        topofboxofreading2:{
+            justifyContent:'center',
+            alignItems:'center',
+            flexDirection:'row',
+            borderStyle:'solid',
+            borderWidth:1,
+            borderColor:'black',
+            padding:5,
+            width:80,
+            marginLeft:-1,
+            textAlign:'center'
+        },
+        containerofboxofreading:{
+            display:'flex',
+            flexDirection:'row'
+        },
+        readingrow1col1:{
+            borderStyle:'solid',
+            borderWidth:1,
+            borderColor:'black',
+            padding:5,
         }
     }
-
 
     return ( 
             <Box className="inquire" sx={{...styles.inquire}}>
@@ -212,9 +255,9 @@ const Payment = ({ hostLaravel}) => {
                                     />
                                     <Button  
                                     variant="contained"
-                                    style={{height:50, width:100, fontSize:15, marginLeft:5, color:'white', backgroundColor:(totalBilling ===0 || Object.keys(searchedConsumer).length===0)?'rgb(191, 191, 191)':'rgb(6, 185, 0)'}}
+                                    style={{height:50, width:100, fontSize:15, marginLeft:5, color:'white', backgroundColor:((bill && (bill.listofbill.length!==0 &&bill.listofbill[bill.listofbill.length-1].present_bill+bill.listofbill[bill.listofbill.length-1].previous_bill+bill.listofbill[bill.listofbill.length-1].penalty))+(bill &&( bill.bal===null?0:bill.bal)) ===0 || Object.keys(searchedConsumer).length===0)?'rgb(191, 191, 191)':'rgb(6, 185, 0)'}}
                                     onClick={()=>setPopUp(true)}
-                                    disabled={totalBilling ===0 || Object.keys(searchedConsumer).length===0 || billIsPending}
+                                    disabled={(bill && (bill.listofbill.length!==0 &&bill.listofbill[bill.listofbill.length-1].present_bill+bill.listofbill[bill.listofbill.length-1].previous_bill+bill.listofbill[bill.listofbill.length-1].penalty))+(bill &&( bill.bal===null?0:bill.bal)) ===0 || Object.keys(searchedConsumer).length===0 || billIsPending}
                                     >Pay</Button>
 
                                     <ReactToPrint
@@ -233,40 +276,88 @@ const Payment = ({ hostLaravel}) => {
                     {Object.keys(searchedConsumer).length!==0 && bill!==null && !billIsPending &&
                         <Box style={styles.box3}>
                             <Box style={styles.box3_1}>
-                                <h1 style={{ fontSize:23, margin:"0 auto 20px auto", fontFamily:"'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif" }}>BALILIHAN WATER BILLING</h1>
-                                <h1 style={styles.h11}>{bill.billing.consumer_id}</h1>
-                            </Box>
-                            <Box style={styles.box3_2}>
-                                {console.log(bill)}
-                                <h2 style={{ ...styles.box3text, margin:0 }}>{`${bill.billing.consumer_name}`}</h2>
-                                <p style={{marginLeft:"1px",...styles.box3text}}>{`${bill.billing.barangay}, Purok ${bill.billing.purok}`}</p>
-                                <p style={{marginLeft:"1px",...styles.box3text}}><strong >{bill.billing.usage_type}</strong></p>
-                                <p style={{marginLeft:"1px",...styles.box3text}}><strong >{bill.billing.service_period}</strong></p>
-
-                                <div style={{ margin:"15px 0" }}>
-                                <p style={{marginLeft:"1px",...styles.box3text}}><strong >Billing: </strong></p>
-                                <p style={{marginLeft:"1px",...styles.box3text}}>Remaining Bill: ₱{isBill ? (shortCutBill.previous_bill):0}</p>
-                                <p style={{marginLeft:"1px",...styles.box3text}}>Present Bill: ₱{isBill ? shortCutBill.present_bill:0}</p>
-                                <p style={{marginLeft:"1px",...styles.box3text}}>Penalty: ₱{isBill ? shortCutBill.penalty:0}</p>
-                                </div>
-
-                                <div style={{ margin:"15px 0" }}>
-                                <p style={{marginLeft:"1px",...styles.box3text}}><strong >Payment: </strong>₱ {toPay}</p>
-                                <p style={{marginLeft:"1px",...styles.box3text}}><strong >Paid: </strong>₱ {paid}</p>
-                                </div>
-                                <div style={{ margin:"20px 0", display:'flex', alignItems:'center', flexDirection:'column' }}>
-                                <p style={{marginLeft:"1px",...styles.box3text, textAlign:"center", width:150, margin:0}}><strong >{`₱${isNaN(totalBilling)?0:totalBilling}`}</strong></p>
-                                <p style={{marginLeft:"1px",...styles.box3text, borderTop:"solid black", width:150, textAlign:"center", padding:5}}><strong >Total Bill </strong></p>
+                                <img src='/balilihan-logo.png' alt='balilihanlogo' width={50} style={{marginLeft:-50, marginRight:20}}/>
+                                <div style={styles.topTextInquire}>
+                                <h1 style={{ fontSize:18, margin:"0 auto 0px auto",textAlign:'center', fontFamily:"'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif" }}>BALILIHAN WATERWORKS SYSTEM</h1>
+                                <h1 style={{ fontSize:18, margin:"0 auto 0px auto",textAlign:'center', fontFamily:"'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif" }}>LGU - BALILIHAN</h1>
                                 </div>
                             </Box>
+                            <Box style={styles.topTextInquire2}>
+                                <p style={{ margin:0 }}>WATER BILL &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;{` Date: `}<span style={{ textDecoration:'underline' }}>{`${month[dateNow.getMonth()]} ${dateNow.getDate()}, ${dateNow.getFullYear()}`}</span></p>
+                            </Box>
+                            <Box style={styles.topTextInquire2}>
+                                <p style={{ margin:2 }}>{`Consumer's ID: `}<span style={{ textDecoration:'underline' }}>{`${bill.billing.consumer_id}`}</span></p>
+                                <p style={{ margin:2 }}>{`Consumer's Name: `}<span style={{ textDecoration:'underline' }}>{`${bill.billing.consumer_name}`}</span></p>
+                                <p style={{ margin:2 }}>{`Barangay: `}<span style={{ textDecoration:'underline' }}>{`${bill.billing.barangay} - Purok ${bill.billing.purok}`}</span></p>
+                            </Box>
+                            
+                            
+                            <>
+                            <p style={{ width:420, marginBottom:2}}>FOR THE MONTH</p>
+                            <Box style={styles.containerofboxofreading}>
+                                <div style={styles.topofboxofreading}>
+                                        MONTH/YEAR
+                                </div>
+                                <div style={styles.topofboxofreading2}>
+                                        Cu. M
+                                </div>
+                                <div style={styles.topofboxofreading2}>
+                                        Amount
+                                </div>
+                                <div style={styles.topofboxofreading2}>
+                                        Penalty
+                                </div>
+                            </Box>
+                            </>
+                            
+                            {bill.listofbill.length!==0 && 
+                                reversedbill.map((lb, index)=>{
+                                return (
+                                    <Box style={styles.containerofboxofreading} key={lb.billing_id}>
+                                        <div style={{ ...styles.topofboxofreading, marginTop:-1 }}>
+                                               {index+1}.) {lb.service_period} 
+                                        </div>
+                                        <div style={{ ...styles.topofboxofreading2, marginTop:-1 }}>
+                                                {lb.total_cuM} cu. m
+                                        </div>
+                                        <div style={{ ...styles.topofboxofreading2, marginTop:-1 }}>
+                                        ₱ {lb.present_bill}
+                                        </div>
+                                        <div style={{ ...styles.topofboxofreading2, marginTop:-1 }}>
+                                        ₱ {lb.penalty}
+                                        </div>
+                                    </Box>
+                                )})
+                            }
+                            {
+                                bill.listofbill.length===0 && 
+                                <h1 style={{ margin:0 ,padding:"10px 50px", borderStyle:'solid', borderWidth:1, color:'#9F9F9F', width:340, textAlign:'center' }}>No Billing</h1>
+                            }
+                            {bill &&<p style={{ width:400, textAlign:'right', margin:10 }}>
+                               {` Balance : `}<span style={{ textDecoration:'underline' }}>{`_₱ ${bill.bal}_`}</span>
+                               
+                            </p>}
+                            
+                            {
+                                bill && 
+                                <>
+                                <p style={{ width:400, textAlign:'right', margin:0 }}>
+                                   {` Total Amount: `}<span style={{ textDecoration:'underline' }}>{`_₱ ${bill.listofbill.length!==0?(bill.listofbill[bill.listofbill.length-1].present_bill+bill.listofbill[bill.listofbill.length-1].previous_bill+bill.listofbill[bill.listofbill.length-1].penalty):0+bill.bal}_`}</span>
+                                   
+                                </p>
+                                <p style={{ width:400, textAlign:'left' }}>
+                                   {` ISSUED BY: `}<span >______________________</span>
+                                </p>
+                                </>
+                            }
                         </Box>}
                         { Object.keys(searchedConsumer).length===0 &&
-                        <Box marginTop={30}>
+                        <Box marginTop={25}>
                             <h1 style={styles.h1}>SEARCH CONSUMER</h1>
                         </Box>}
                         {
                             billIsPending && Object.keys(searchedConsumer).length!==0 && 
-                            <Box marginTop={30}>
+                            <Box marginTop={25}>
                             <h1 style={styles.h1}>LOADING...</h1>
                         </Box>
                         }
@@ -278,16 +369,17 @@ const Payment = ({ hostLaravel}) => {
                         }
                     </Box>
                     <Dialog open={popUp} maxWidth={'xs'} >
-                    <DialogTitle style={{margin:0,  textAlign:"left",paddingBottom:1}}>
-                        <Typography gutterBottom fontWeight={"bold"} fontSize={30} style={{margin:"0 auto", borderBottom:"1px solid gray"}}>
-                            Payment
+                    <DialogTitle style={{margin:0,  textAlign:"left",paddingBottom:1, width:'250px'}}>
+                        <Typography gutterBottom fontWeight={"bold"} fontSize={25} style={{margin:"0 auto", borderBottom:"1px solid gray"}}>
+                            Water Bill Payment
                         </Typography>
                         </DialogTitle>
 
-                        <DialogContent style={{ display:'flex', justifyContent:'center', flexDirection:'column', alignItems:'center' }}>
+                        <DialogContent style={{ display:'flex', justifyContent:'center', flexDirection:'column', alignItems:'center', width:'250px' }}>
                                     {searchedConsumer && 
                                     <PaymentInfo
-                                    totalBilling={totalBilling}
+                                    balance = {bill?bill.bal:0}
+                                    total={bill && bill.listofbill.length!==0?(bill.listofbill[bill.listofbill.length-1].present_bill+bill.listofbill[bill.listofbill.length-1].previous_bill+bill.listofbill[bill.listofbill.length-1].penalty):0+(bill &&( bill.bal===null?0:bill.bal))}
                                     searchedConsumer={searchedConsumer}
                                     bill={bill}
                                     isPending={isPending}
@@ -311,10 +403,10 @@ const Payment = ({ hostLaravel}) => {
                                             setPayment(val*1)
                                         }}
                                         customInput={TextField}
-                                        error={ totalBilling && totalBilling<payment? true:false }
+                                        error={ bill && ( bill.listofbill.length!==0?(bill.listofbill[bill.listofbill.length-1].present_bill+bill.listofbill[bill.listofbill.length-1].previous_bill+bill.listofbill[bill.listofbill.length-1].penalty):0+(bill?bill.bal:0))<payment? true:false }
                                         style={styles.billtextfield}
                                         />
-                                    <Box style={{  display:'flex', justifyContent:'end', width:400 }}>
+                                    <Box style={{  display:'flex', justifyContent:'end', width:260 }}>
                                     <Button
                                     variant="outlined"
                                     disabled={searchedConsumer? false:true} 
@@ -329,8 +421,8 @@ const Payment = ({ hostLaravel}) => {
                                     
                                     <Button  
                                     variant="contained"
-                                    disabled={searchedConsumer && payment>totalBilling? true:false} 
-                                    style={{height:40, width:100, fontSize:12, margin:2}}
+                                    disabled={bill && ( bill.listofbill.length!==0?(bill.listofbill[bill.listofbill.length-1].present_bill+bill.listofbill[bill.listofbill.length-1].previous_bill+bill.listofbill[bill.listofbill.length-1].penalty):0+(bill?bill.bal:0))<payment || payment===0? true:false} 
+                                    style={{height:40, width:100, fontSize:12, margin:2, backgroundColor:bill && ( bill.listofbill.length!==0?(bill.listofbill[bill.listofbill.length-1].present_bill+bill.listofbill[bill.listofbill.length-1].previous_bill+bill.listofbill[bill.listofbill.length-1].penalty):0+(bill?bill.bal:0))<payment || payment===0?'#9F9F9F':'rgb(12,20,52)'}}
                                     onClick={()=> setConfirmPopup(true)}
 
                                     >Pay</Button>
@@ -348,7 +440,8 @@ const Payment = ({ hostLaravel}) => {
                         <DialogContent style={{ display:'flex', justifyContent:'center', flexDirection:'column', alignItems:'center', width:300 }}>
                                     {searchedConsumer && 
                                     <Confirmation
-                                    totalBilling={totalBilling}
+                                    balance = {bill?bill.bal:0}
+                                    total={bill && bill.listofbill.length!==0?(bill.listofbill[bill.listofbill.length-1].present_bill+bill.listofbill[bill.listofbill.length-1].previous_bill+bill.listofbill[bill.listofbill.length-1].penalty):0+(bill &&( bill.bal===null?0:bill.bal))}
                                     searchedConsumer={searchedConsumer}
                                     payment = {payment}
                                     />
@@ -366,8 +459,8 @@ const Payment = ({ hostLaravel}) => {
                                     
                                     <Button  
                                     variant="contained"
-                                    disabled={searchedConsumer? false:true} 
-                                    style={{height:40, width:160, fontSize:12, margin:2}}
+                                    disabled={bill && bill.listofbill.length!==0 && searchedConsumer && (bill.listofbill[bill.listofbill.length-1].present_bill+bill.listofbill[bill.listofbill.length-1].previous_bill+bill.listofbill[bill.listofbill.length-1].penalty)<payment? true:false} 
+                                    style={{height:40, width:160, fontSize:12, margin:2, backgroundColor:bill && bill.listofbill.length!==0 && searchedConsumer && (bill.listofbill[bill.listofbill.length-1].present_bill+bill.listofbill[bill.listofbill.length-1].previous_bill+bill.listofbill[bill.listofbill.length-1].penalty)<payment?'#9F9F9F':'rgb(12,20,52)'}}
                                     onClick={()=>{
                                         setConfirmPopup(false)
                                         handleSubmit(+searchedConsumer.consumer_id);

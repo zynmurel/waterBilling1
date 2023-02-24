@@ -4,6 +4,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 const WaterInfo = ({
+    dataIsOn,
     setButtonPending,
     style,  
     usage_type, 
@@ -54,6 +55,7 @@ const WaterInfo = ({
                                 Usage Type
                                 </InputLabel>
                                 <Select
+                                disabled={dataIsOn?true:false}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 label="Usage Type"
@@ -82,6 +84,7 @@ const WaterInfo = ({
                                     Meter Brand
                                     </InputLabel>
                                     <Select
+                                disabled={dataIsOn?true:false}
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
                                     label="Meter Brand"
@@ -103,6 +106,7 @@ const WaterInfo = ({
                                 </FormControl>
 
                                 <TextField 
+                                disabled={dataIsOn?true:false}
                                 id="outlined-basic" 
                                 label="Serial No." 
                                 variant="outlined" 
@@ -123,6 +127,7 @@ const WaterInfo = ({
 
 
                                 <NumericFormat
+                                disabled={dataIsOn?true:false}
                                 label="First Reading" 
                                 variant="outlined" 
                                 placeholder="ex: 3412"
@@ -145,6 +150,7 @@ const WaterInfo = ({
                                 />
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker
+                                disabled={dataIsOn?true:false}
                                     label="Registration Date"
                                     value={consumerWaterRegDate}
                                     onChange={(newValue) => {

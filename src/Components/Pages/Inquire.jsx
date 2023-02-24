@@ -8,16 +8,19 @@ import useEffect from '../../Hook/useFetch';
 import ReactToPrint from 'react-to-print'
 import GetData from '../../Hook/SampleData'
 
-const Inquire = ({ hostLaravel, consumersData}) => {
+const Inquire = ({ hostLaravel, consumersData, month}) => {
+    const dateNow = new Date()
+    let total = {total_amount:0, total_penalty:0}
 
     const componentRef = useRef()
     const { data:consumer, isPending, error  } = consumersData
  
     const [ searchedConsumer, setSearchedConsumer ] = useState({})
 
-    const readingBillingRecords =  GetData(hostLaravel, `/api/inquire/${Object.keys(searchedConsumer).length!==0?searchedConsumer.user_id:1}`);
+    const readingBillingRecords =  GetData(hostLaravel, `/api/inquire/${Object.keys(searchedConsumer).length!==0?searchedConsumer.user_id:2}`);
     const { data:bill, isPending:billIsPending, error:billError , reload, setReload } = readingBillingRecords;
-
+    console.log(bill && bill)
+ 
     const isBill = Object.keys(searchedConsumer).length!==0 && bill.billing.billing ? Object.keys(bill.billing.billing).length!==0:false
     const isReading = Object.keys(searchedConsumer).length!==0 && bill.billing.payment? Object.keys(bill.billing.payment).length!==0:false
     const shortCutBill = isBill && bill.billing.billing[0]
@@ -57,12 +60,12 @@ const Inquire = ({ hostLaravel, consumersData}) => {
             display:"flex",
             flexDirection:"column",
             alignItems:"center",
-            justifyContent:"center",
-            flex:5,
-            width:450,
+            width:500,
             color:"rgb(75, 75, 75)",
             margin:"0 20px 20px 20px",
-            backgroundColor:'white'
+            backgroundColor:'white',
+            minHeight:400,
+            paddingBottom:40
         },
         box3:{
             display:"flex",
@@ -76,8 +79,9 @@ const Inquire = ({ hostLaravel, consumersData}) => {
             display:"flex",
             flexDirection:"column",
             alignItems:"flex-start",
-            justifyContent:"space-between",
-            width:350,
+            justifyContent:"center",
+            width:450,
+            flexDirection:'row'
         },
         box3_2:{
             width:350,
@@ -86,7 +90,6 @@ const Inquire = ({ hostLaravel, consumersData}) => {
             padding:5,
             overflow: "hidden",
             overflowY: "scroll",
-            height:300,
             marginTop:20
         },
         box3_3_3:{
@@ -110,7 +113,8 @@ const Inquire = ({ hostLaravel, consumersData}) => {
         },
         h1:{
             color:"#989898",
-            fontSize:20
+            fontSize:20,
+            marginTop:200
         },
         herror:{
             color:"red",
@@ -123,6 +127,47 @@ const Inquire = ({ hostLaravel, consumersData}) => {
         },
         box3text:{
             margin:"5px 0",
+        },
+        topTextInquire:{
+            justifyContent:'center',
+            alignItems:'center',
+        },
+        topTextInquire2:{
+            flexDirection:'row',
+            width:400,
+            marginTop:10
+        },
+        topofboxofreading:{
+            justifyContent:'center',
+            alignItems:'center',
+            flexDirection:'row',
+            borderStyle:'solid',
+            borderWidth:1,
+            borderColor:'black',
+            padding:8,
+            width:150
+        },
+        topofboxofreading2:{
+            justifyContent:'center',
+            alignItems:'center',
+            flexDirection:'row',
+            borderStyle:'solid',
+            borderWidth:1,
+            borderColor:'black',
+            padding:5,
+            width:80,
+            marginLeft:-1,
+            textAlign:'center'
+        },
+        containerofboxofreading:{
+            display:'flex',
+            flexDirection:'row'
+        },
+        readingrow1col1:{
+            borderStyle:'solid',
+            borderWidth:1,
+            borderColor:'black',
+            padding:5,
         }
     }
     //date sorter
@@ -135,6 +180,8 @@ const Inquire = ({ hostLaravel, consumersData}) => {
         return  ayear.getMonth() - byear.getMonth() ;
         };
     };
+    const reversedbill = Object.keys(searchedConsumer).length!==0 && bill!==null && !billIsPending && bill.listofbill ? bill.listofbill.sort((a, b)=> b.billing_id - a.billing_id) : []
+    console.log(reversedbill)
 
     return ( 
             <Box className="inquire" sx={{...styles.inquire}}>
@@ -172,40 +219,82 @@ const Inquire = ({ hostLaravel, consumersData}) => {
                         </Box>
                     </Box>
                     <Box style={styles.box2} ref={componentRef}>
-                        {Object.keys(searchedConsumer).length!==0 && bill!==null && !billIsPending &&
+                    {Object.keys(searchedConsumer).length!==0 && bill!==null && !billIsPending &&
                         <Box style={styles.box3}>
                             <Box style={styles.box3_1}>
-                                <h1 style={{ fontSize:23, margin:"0 auto 20px auto", fontFamily:"'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif" }}>BALILIHAN WATER BILLING</h1>
-                                <h1 style={styles.h11}>{bill.billing.consumer_id}</h1>
-                            </Box>
-                            <Box style={styles.box3_2}>
-                                <h2 style={{ ...styles.box3text, margin:0 }}>{`${bill.billing.consumer_name}`}</h2>
-                                <p style={{marginLeft:"1px",...styles.box3text}}>{`${bill.billing.barangay}, Purok ${bill.billing.purok}`}</p>
-                                <p style={{marginLeft:"1px",...styles.box3text}}><strong >{bill.billing.usage_type}</strong></p>
-                                <p style={{marginLeft:"1px",...styles.box3text}}><strong >{bill.billing.service_period}</strong></p>
-                                <div style={{ margin:"15px 0" }}>
-                                <p style={{marginLeft:"1px",...styles.box3text}}><strong >Reading: </strong></p>
-                                <p style={{marginLeft:"1px",...styles.box3text}}>Previous:{ bill.billing.reading ? bill.billing.reading.previous_reading: " none"}</p>
-                                <p style={{marginLeft:"1px",...styles.box3text}}>Present:{ bill.billing.reading ? bill.billing.reading.present_reading:" none"}</p>
-                                <p style={{marginLeft:"1px",...styles.box3text}}>Total:{ bill.billing.reading ? (bill.billing.reading.present_reading - bill.billing.reading.previous_reading):" none" }</p>
-                                </div>
-
-                                <div style={{ margin:"15px 0" }}>
-                                <p style={{marginLeft:"1px",...styles.box3text}}><strong >Billing: </strong></p>
-                                <p style={{marginLeft:"1px",...styles.box3text}}>Remaining Bill: ₱{isBill ? (shortCutBill.previous_bill):0}</p>
-                                <p style={{marginLeft:"1px",...styles.box3text}}>Present Bill: ₱{isBill ? shortCutBill.present_bill:0}</p>
-                                <p style={{marginLeft:"1px",...styles.box3text}}>Penalty: ₱{isBill ? shortCutBill.penalty:0}</p>
-                                </div>
-
-                                <div style={{ margin:"15px 0" }}>
-                                <p style={{marginLeft:"1px",...styles.box3text}}><strong >Payment: </strong>₱ {toPay}</p>
-                                <p style={{marginLeft:"1px",...styles.box3text}}><strong >Paid: </strong>₱ {paid}</p>
-                                </div>
-                                <div style={{ margin:"20px 0", display:'flex', alignItems:'center', flexDirection:'column' }}>
-                                <p style={{marginLeft:"1px",...styles.box3text, textAlign:"center", width:150, margin:0}}><strong >{`₱${totalBilling}`}</strong></p>
-                                <p style={{marginLeft:"1px",...styles.box3text, borderTop:"solid black", width:150, textAlign:"center", padding:5}}><strong >Total Bill </strong></p>
+                                <img src='/balilihan-logo.png' alt='balilihanlogo' width={50} style={{marginLeft:-50, marginRight:20}}/>
+                                <div style={styles.topTextInquire}>
+                                <h1 style={{ fontSize:18, margin:"0 auto 0px auto",textAlign:'center', fontFamily:"'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif" }}>BALILIHAN WATERWORKS SYSTEM</h1>
+                                <h1 style={{ fontSize:18, margin:"0 auto 0px auto",textAlign:'center', fontFamily:"'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif" }}>LGU - BALILIHAN</h1>
                                 </div>
                             </Box>
+                            <Box style={styles.topTextInquire2}>
+                                <p style={{ margin:0 }}>WATER BILL &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;{` Date: `}<span style={{ textDecoration:'underline' }}>{`${month[dateNow.getMonth()]} ${dateNow.getDate()}, ${dateNow.getFullYear()}`}</span></p>
+                            </Box>
+                            <Box style={styles.topTextInquire2}>
+                                <p style={{ margin:2 }}>{`Consumer's ID: `}<span style={{ textDecoration:'underline' }}>{`${bill.billing.consumer_id}`}</span></p>
+                                <p style={{ margin:2 }}>{`Consumer's Name: `}<span style={{ textDecoration:'underline' }}>{`${bill.billing.consumer_name}`}</span></p>
+                                <p style={{ margin:2 }}>{`Barangay: `}<span style={{ textDecoration:'underline' }}>{`${bill.billing.barangay} - Purok ${bill.billing.purok}`}</span></p>
+                            </Box>
+                            
+                            
+                            <>
+                            <p style={{ width:420, marginBottom:2}}>FOR THE MONTH</p>
+                            <Box style={styles.containerofboxofreading}>
+                                <div style={styles.topofboxofreading}>
+                                        MONTH/YEAR
+                                </div>
+                                <div style={styles.topofboxofreading2}>
+                                        Cu. M
+                                </div>
+                                <div style={styles.topofboxofreading2}>
+                                        Amount
+                                </div>
+                                <div style={styles.topofboxofreading2}>
+                                        Penalty
+                                </div>
+                            </Box>
+                            </>
+                            
+                            {bill.listofbill.length!==0 && 
+                                reversedbill.map((lb, index)=>{
+                                return (
+                                    <Box style={styles.containerofboxofreading} key={lb.billing_id}>
+                                        <div style={{ ...styles.topofboxofreading, marginTop:-1 }}>
+                                               {index+1}.) {lb.service_period} 
+                                        </div>
+                                        <div style={{ ...styles.topofboxofreading2, marginTop:-1 }}>
+                                                {lb.total_cuM} cu. m
+                                        </div>
+                                        <div style={{ ...styles.topofboxofreading2, marginTop:-1 }}>
+                                        ₱ {lb.present_bill}
+                                        </div>
+                                        <div style={{ ...styles.topofboxofreading2, marginTop:-1 }}>
+                                        ₱ {lb.penalty}
+                                        </div>
+                                    </Box>
+                                )})
+                            }
+                            {
+                                bill.listofbill.length===0 && 
+                                <h1 style={{ margin:0 ,padding:"10px 50px", borderStyle:'solid', borderWidth:1, color:'#9F9F9F', width:340, textAlign:'center' }}>No Billing</h1>
+                            }
+                            {bill &&<p style={{ width:400, textAlign:'right', margin:10 }}>
+                               {` Balance : `}<span style={{ textDecoration:'underline' }}>{`_₱ ${bill.bal}_`}</span>
+                               
+                            </p>} 
+                            {
+                                bill && 
+                                <>
+                                <p style={{ width:400, textAlign:'right', margin:0 }}>
+                                   {` Total Amount: `}<span style={{ textDecoration:'underline' }}>{`_₱ ${bill.listofbill.length!==0?(bill.listofbill[bill.listofbill.length-1].present_bill+bill.listofbill[bill.listofbill.length-1].previous_bill+bill.listofbill[bill.listofbill.length-1].penalty):0+bill.bal}_`}</span>
+                                   
+                                </p>
+                                <p style={{ width:400, textAlign:'left' }}>
+                                   {` ISSUED BY: `}<span >______________________</span>
+                                </p>
+                                </>
+                            }
                         </Box>}
                         { Object.keys(searchedConsumer).length===0 &&
                         <Box>

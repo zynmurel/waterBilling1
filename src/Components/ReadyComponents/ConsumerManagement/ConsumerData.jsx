@@ -8,6 +8,14 @@ const ConsumerData = ({
     month, 
     hostLaravel
 }) => {
+    let statusColor = '#0ED000'
+    if(consumerInfo.status === 'Connected'){
+      statusColor = '#0ED000'
+    }else if(consumerInfo.status === 'Disconnected'){
+      statusColor = '#EC2626'
+    }else if(consumerInfo.status === 'Archive'){
+      statusColor = '#ECBE26'
+    }
  const readingBillingRecords = GetData(hostLaravel, `/api/billing/${+consumerInfo.consumer_id}`);
  console.log(readingBillingRecords)
     const dateNow = new Date()
@@ -58,7 +66,7 @@ const ConsumerData = ({
         },
         box2_2_1:{
             padding:"0 15px",
-            backgroundColor: consumerInfo && consumerInfo.status==="Connected"?"rgb(156, 218, 32)":"rgb(242, 54, 54)",
+            backgroundColor: statusColor,
             color:"white",
             borderRadius:"2px",
             height:40,
@@ -93,6 +101,7 @@ const ConsumerData = ({
         <Box style={styles.container}>
             <Box style={styles.subcontainer1}>
                 <h2 style={{margin:"10px 0", color:"rgba(35,43,75,255)"}}><strong>{`${consumerInfo.first_name} ${consumerInfo.middle_name} ${consumerInfo.last_name}`.toLocaleUpperCase()}</strong> </h2>
+                <p style={styles.textStyle}><strong>USERNAME: <span style={styles.strong}>{`${consumerInfo.user_name}`}</span></strong></p>
                 <p style={styles.textStyle}><strong>GENDER: <span style={styles.strong}>{`${consumerInfo.gender}`}</span></strong></p>
                 <p style={styles.textStyle}><strong>BIRTHDAY: <span style={styles.strong}>{`${month[birthday.getMonth()]} ${birthday.getDate()}, ${birthday.getFullYear()}`}</span></strong></p>
                 <p style={styles.textStyle}><strong>AGE: <span style={styles.strong}>{calculate_age(new Date(`${birthday.getFullYear()}/${birthday.getMonth()+1}/${birthday.getDate()}`))}</span></strong></p>
@@ -111,7 +120,7 @@ const ConsumerData = ({
             <Paper style={styles.subcontainer2}>
                 <Box style={styles.subcontainer2_2}>
                     <Box style={styles.box2_2_2}><h2 style={{margin:0}}>Billing Records</h2></Box>
-                    <Box style={styles.box2_2_1}><p style={styles.p}>{consumerInfo.status === "Connected" ? "Connected":"Disconnected"}</p></Box>
+                    <Box style={styles.box2_2_1}><p style={styles.p}>{consumerInfo.status}</p></Box>
                 </Box>
                 <ReadingTable 
                 readingBillingRecords={readingBillingRecords}

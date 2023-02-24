@@ -87,6 +87,7 @@ const AdminPage = ({year, month, hostLaravel}) => {
           <Route path="/inquire" element={<Inquire
           hostLaravel={hostLaravel}
           consumersData={consumersDataChange}
+          month={month}
           />}></Route> 
 
           <Route path="/meterReading" element={

@@ -66,7 +66,7 @@ const UpdateUserChildren = ({
             }}
             style={{ width:350, margin:"30px 20px 20px 20px"}}
             value={newEmail}
-            error={newEmail.includes('@gmail.com')?false:true }
+            error={newEmail.length<8 }
             required
             />
             <Box style={{ display:'flex', flexDirection:'row', justifyContent:'space-between', alignItems:'center' }}>
@@ -91,7 +91,7 @@ const UpdateUserChildren = ({
             onClick={()=>{
                 handleSubmit()
             }}
-            disabled={newEmail.includes('@gmail.com')?false:true}
+            disabled={newEmail.length<8 }
             >Submit</Button>
             </Box>
             </Box>

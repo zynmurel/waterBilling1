@@ -29,7 +29,7 @@ const BillingPopup = ({
     var dateString = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()} 12:00:00`;
     const {getUser} = AuthUser()
     const [readingInput, setReadingInput] = useState(0);
-    console.log(billingAndReading.data == null)
+    console.log(billingAndReading.data)
     const styles = {
     para:{
         margin:0

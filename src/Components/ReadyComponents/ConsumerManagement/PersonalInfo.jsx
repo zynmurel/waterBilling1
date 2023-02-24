@@ -12,11 +12,6 @@ const PersonalInfo = ({
     gender, 
     civil_status,
 
-    consumerEmail, 
-    setConsumerEmail,
-    errConsumerEmail,
-    setErrConsumerEmail,
-
     consumerFirstName, 
     setConsumerFirstName, 
     errConsumerFirstName, 
@@ -218,7 +213,7 @@ const PersonalInfo = ({
                         <Box style={{display:"flex", flexDirection:"column", flex:1}}>
 
 
-                        {!dataIsOn && <TextField 
+                        {/* {!dataIsOn && <TextField 
                             id="outlined-basic" 
                             label="Email" 
                             variant="outlined" 
@@ -236,7 +231,7 @@ const PersonalInfo = ({
                             required
                             error={errConsumerEmail}
                             disabled={dataIsOn}
-                            />}
+                            />} */}
                             <FormControl 
                             style={style.textfield}
                             error={errConsumerCivilStatus}>
