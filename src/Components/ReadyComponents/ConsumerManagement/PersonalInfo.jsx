@@ -331,6 +331,7 @@ const PersonalInfo = ({
                             </FormControl>
 
                             <NumericFormat
+                            disabled={dataIsOn?true:false}
                             label="Household Number" 
                             variant="outlined" 
                             placeholder="ex: 1234"
@@ -339,7 +340,7 @@ const PersonalInfo = ({
                             required
                             isAllowed={(values) => {
                               const { value } = values;
-                              return value < 10000 && !value.includes(".");
+                              return value < 999999999 && !value.includes(".");
                             }}
                             onChange={(e) =>{
                                 const val = e.target.value

@@ -35,13 +35,13 @@ const UpdateUserChildren = ({
                 setUserUpdate({})
                 setReload(reload? false:true)
                 setAlert(true)
-                setAlertText('Email Updated!')
+                setAlertText('Username Updated!')
                 setAlertType("success")
             })
               .catch(error => {
                 console.error('There was an error!', error);
                 setAlert(true)
-                setAlertText(error.response.data.message)
+                setAlertText(error.response.data.message==="The email has already been taken."?"This username has already been taken.":error.response.data.message)
                 setAlertType("error")
             });
     }
@@ -58,11 +58,10 @@ const UpdateUserChildren = ({
             label="Edit Email" 
             variant="outlined" 
             type="text"
-            placeholder="ex: example@gmail.com"
+            placeholder="ex: user_sample123"
             onChange={(e) =>{
                 const val = e.target.value
                 setNewEmail(val);
-                console.log(val.includes('@gmail.com'))
             }}
             style={{ width:350, margin:"30px 20px 20px 20px"}}
             value={newEmail}

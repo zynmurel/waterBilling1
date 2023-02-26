@@ -23,7 +23,7 @@ const ConsumerManagement = ({
   usage_type, 
   brand, 
   month, 
-  consumersData,
+  consumersData, 
   brgyPrkData
 }) => {
   const [page, setPage] = useState(0);

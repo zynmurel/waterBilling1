@@ -17,6 +17,8 @@ const Cashier = ({hostJson, hostLaravel, year, month}) => {
       logout();
     }
   }
+  //consumer management && meter readings
+  const brgyPrkData = GetData(`${hostLaravel}/api`, '/brgyprk');
   const userType = getUser().user_type;
     return ( 
         <div className="cashierpage" >
@@ -39,9 +41,9 @@ const Cashier = ({hostJson, hostLaravel, year, month}) => {
           <Route path="/reports" element={
           <Reports     
           month={month}
-          consumerReports={consumerReports}
           year={year} 
           hostLaravel={hostLaravel}
+          brgyPrkData={brgyPrkData}
           />}></Route> 
           
           <Route path="/help" element={<Help/>}></Route> 

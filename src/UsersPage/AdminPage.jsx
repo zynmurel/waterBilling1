@@ -99,11 +99,11 @@ const AdminPage = ({year, month, hostLaravel}) => {
           />}></Route> 
 
           <Route path="/reports" element={
-          <Reports 
-          consumerReports={consumerReports}    
-          month={month}
+          <Reports   
+          month={month} 
           year={year}
           hostLaravel={hostLaravel}
+          brgyPrkData={brgyPrkData}
           />}></Route> 
 
           <Route path="/systemMaintenance" element={<SystemMaintenance

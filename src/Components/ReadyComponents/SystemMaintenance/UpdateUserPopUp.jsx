@@ -15,7 +15,7 @@ const UpdateUser = ({
     <Dialog open={openPopUp && openEmailPopup} maxWidth={"md"} >
       <DialogTitle style={{ paddingBottom:0 }}>
         <Typography gutterBottom style={{ fontSize:20, fontWeight:'bold', margin:0 }}>
-            {`Update ${openPopUp ? userUpdate.user_type: ""}'s Email`}
+            {`Update ${openPopUp ? userUpdate.user_type: ""}'s Username`}
         </Typography>
       </DialogTitle>
 

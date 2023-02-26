@@ -54,7 +54,7 @@ const Accounts = ({
              borderRadius:5,
         },
         userBox1:{
-            padding:"10px 20px",
+            padding:"10px 10px",
             backgroundColor:'rgb(26, 30, 65)',
             borderRadius:5,
         },
@@ -73,11 +73,6 @@ const Accounts = ({
         },
         h2User:{
             margin:0,
-        },
-        userBox1:{
-            padding:"10px 20px",
-            backgroundColor:'rgb(26, 30, 65)',
-            borderRadius:5,
         },
         userBox2:{
             width:360
@@ -103,7 +98,7 @@ const Accounts = ({
 
                         usersData.data.admin.map((admn)=>(
                             <Box style={ styles.boxUser } key={admn.user_id}>
-                            <Box style={styles.userBox1}><p style={styles.pUser}>Email</p></Box>
+                            <Box style={styles.userBox1}><p style={styles.pUser}>Username</p></Box>
                             <Box style={styles.userBox2}><p style={styles.pUser}>{admn.email}</p></Box>
                             <TiEdit className={'updateIcon'}
                             onClick={()=>{
@@ -126,7 +121,7 @@ const Accounts = ({
 
                         usersData.data.cashier.map((cashr)=>(
                             <Box style={ styles.boxUser } key={cashr.user_id}>
-                            <Box style={styles.userBox1}><p style={styles.pUser}>Email</p></Box>
+                            <Box style={styles.userBox1}><p style={styles.pUser}>Username</p></Box>
                             <Box style={styles.userBox2}><p style={styles.pUser}>{cashr.email}</p></Box>
                             <TiEdit className={'updateIcon'}
                             onClick={()=>{
@@ -148,7 +143,7 @@ const Accounts = ({
 
                         usersData.data.reader.map((rdr)=>(
                             <Box style={ styles.boxUser } key={rdr.user_id}>
-                            <Box style={styles.userBox1}><p style={styles.pUser}>Email</p></Box>
+                            <Box style={styles.userBox1}><p style={styles.pUser}>Username</p></Box>
                             <Box style={styles.userBox2}><p style={styles.pUser}>{rdr.email}</p></Box>
                             <TiEdit  className={'updateIcon'}
                             onClick={()=>{

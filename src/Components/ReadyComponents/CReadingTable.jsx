@@ -10,7 +10,6 @@ import TableRow from '@mui/material/TableRow';
 import { useEffect } from 'react';
 import GetData from '../../Hook/SampleData'
 import { Box, CircularProgress } from '@mui/material';
-
 const columns = [
   { id: 'Year', label: 'Year', minWidth: 60 ,    align: 'center',},
   { id: 'Month', label: 'Month', minWidth: 70 ,     align: 'center',},
@@ -35,6 +34,7 @@ const columns = [
 ];
 
 export default function ReadingTable({month, scale, height, conIsPending, conError, readings, hostLaravel, readingBillingRecords}) {
+
  const newrb = readingBillingRecords.data ? readingBillingRecords.data.billing :{};
  console.log(readingBillingRecords && readingBillingRecords.data)
   return (
