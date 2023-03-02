@@ -388,7 +388,7 @@ const Payment = ({ hostLaravel, month}) => {
                                     />
                                     }
                                     <NumericFormat
-                                        label="Input Payment" 
+                                        label="Input Amount Paid" 
                                         variant="outlined" 
                                         placeholder={`Bill: 34`} 
                                         allowNegative={false}
