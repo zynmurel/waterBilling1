@@ -55,7 +55,7 @@ const UpdateUserChildren = ({
         }
             <TextField 
             id="outlined-basic" 
-            label="Edit Email" 
+            label="Edit Username" 
             variant="outlined" 
             type="text"
             placeholder="ex: user_sample123"

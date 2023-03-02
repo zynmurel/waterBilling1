@@ -38,7 +38,7 @@ const columns = [
   }
 ];
 
-export default function ReadingTable({month, newrb , scale, height, rbIsPending, rbError, readings, setSelectedBilling, selectedYear}) {
+export default function ReadingTable({month, newrb , scale, height, rbIsPending, rbError, readings, setSelectedBilling, selectedYear, setProofImage, proofImage}) {
   newrb = newrb && newrb.filter((n)=> {
     return (  
       n.service_period.split("-")[0] == selectedYear
@@ -100,7 +100,11 @@ export default function ReadingTable({month, newrb , scale, height, rbIsPending,
                 } 
                 (column.id !== "Month") ? align = "left" : align = "center"
                 return (
-                  <TableCell key={column.id} align={align} style={{padding:10 , fontSize:24}} onClick={()=> setSelectedBilling(row)}>
+                  <TableCell key={column.id} align={align} style={{padding:10 , fontSize:24}} 
+                  onClick={()=> {
+                    setSelectedBilling(row)
+                    setProofImage(row.reading.proof_image)
+                    }}>
                      {value}
                   </TableCell>
                 );

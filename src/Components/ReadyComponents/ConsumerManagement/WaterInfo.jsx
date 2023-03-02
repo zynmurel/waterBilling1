@@ -115,9 +115,11 @@ const WaterInfo = ({
                                 onChange={(e) =>{
                                     const val = e.target.value.replace(/[^0-9,\-]/gi, '');
 
-                                    setButtonPending(false);
+                                    if(val.length<=12){
+                                        setButtonPending(false);
                                     setConsumerWaterSerial(val);
-                                    !val || val.length>4? setErrConsumerWaterSerial(true) : setErrConsumerWaterSerial(false)
+                                    }
+                                    !val || consumerWaterSerial.length>12? setErrConsumerWaterSerial(true) : setErrConsumerWaterSerial(false)
                                 }}
                                 style={style.textfield}
                                 value={consumerWaterSerial}
@@ -136,7 +138,7 @@ const WaterInfo = ({
                                 required
                                 isAllowed={(values) => {
                                 const { value } = values;
-                                return value.length<5 && !value.includes(".");
+                                return value.length<5 && value<9000 && !value.includes(".");
                                 }}
                                 onChange={(e) =>{
                                     const val = e.target.value

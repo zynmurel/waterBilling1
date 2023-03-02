@@ -102,6 +102,7 @@ const ConsumerData = ({
             <Box style={styles.subcontainer1}>
                 <h2 style={{margin:"10px 0", color:"rgba(35,43,75,255)"}}><strong>{`${consumerInfo.first_name} ${consumerInfo.middle_name} ${consumerInfo.last_name}`.toLocaleUpperCase()}</strong> </h2>
                 <p style={styles.textStyle}><strong>USERNAME: <span style={styles.strong}>{`${consumerInfo.user_name}`}</span></strong></p>
+                <p style={styles.textStyle}><strong>PASSWORD: <span style={styles.strong}>{`${consumerInfo.first_name.toLowerCase().replace(/ /g, "")}${consumerInfo.last_name.toLowerCase().replace(/ /g, "")}123`}</span></strong></p>
                 <p style={styles.textStyle}><strong>GENDER: <span style={styles.strong}>{`${consumerInfo.gender}`}</span></strong></p>
                 <p style={styles.textStyle}><strong>BIRTHDAY: <span style={styles.strong}>{`${month[birthday.getMonth()]} ${birthday.getDate()}, ${birthday.getFullYear()}`}</span></strong></p>
                 <p style={styles.textStyle}><strong>AGE: <span style={styles.strong}>{calculate_age(new Date(`${birthday.getFullYear()}/${birthday.getMonth()+1}/${birthday.getDate()}`))}</span></strong></p>

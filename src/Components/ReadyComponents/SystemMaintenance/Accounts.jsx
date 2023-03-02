@@ -1,13 +1,14 @@
 import { Box } from "@mui/system";
 import GetData from '../../../Hook/SampleData';
 import { TiEdit } from "react-icons/ti";
+import { MdDeleteForever } from "react-icons/md";
 import UpdateUser from "./UpdateUserPopUp";
 import { useState } from "react";
-import { Button, Skeleton } from "@mui/material";
+import { Button, Skeleton, Modal, TextField } from "@mui/material";
 import UpdateUserChildren from "./UpdateUserChildren";
 import UpdatePassword from "./UpdatePasswordPopup";
 import UpdatePasswordChildren from "./UpdatePasswordChildren";
-
+import axios from "axios";
 const Accounts = ({
     users, isPending, error, reload, setReload, usersData,
     hostLaravel,
@@ -80,10 +81,55 @@ const Accounts = ({
     }
     const [userUpdate, setUserUpdate] = useState({})
     console.log(userUpdate)
-
-  const [openPasswordPopup, setOpenPasswordPopup] = useState(false)
+    const [userId, setUserId] = useState();
+    const [openDelete, setOpenDelete] = useState(false);
+    const [newEmail, setNewEmail] = useState('')
+    const [newPassword, setNewPassword] = useState('')
+    const [newConfirmPass, setNewConfirmPass] = useState('')
+    const [openPasswordPopup, setOpenPasswordPopup] = useState(false)
+    const [openAddReader, setOpenAddReader] = useState(false)
   const [openEmailPopup, setOpenEmailPopup] = useState(false)
-
+  function handleDeleteUser() {
+    axios.delete(`${hostLaravel}/api/user/${userId}`)
+        .then(response => {
+            setOpenDelete(false)
+            setReload(reload? false: true)
+            setAlert(true)
+            setAlertText("Reader Deleted!")
+            setAlertType("success")
+        })
+        .catch(error => {
+            setAlert(true)
+            setAlertText(error.response.data.message.includes("The email has already been taken.")? "The username has already been taken":error.response.data.message)
+            setAlertType("error")
+        });
+}
+    const handleAddReader = () => {
+        const data ={
+            email:newEmail,
+            password:newPassword,
+            password_confirmation:newConfirmPass,
+            user_type:"Reader"
+        }
+        const headers = { 
+            'Content-type' : 'application/json',
+            'Accept' : 'application/json',
+            };
+            axios.post(`${hostLaravel}/api/user`, data, { headers })
+                .then(response => {
+                console.log(response)
+                setOpenAddReader(false)
+                setReload(reload? false: true)
+                setAlert(true)
+                setAlertText("Reader Added!")
+                setAlertType("success")})
+                .catch(error => {
+                console.error('There was an error!', error)
+                setAlert(true)
+                setAlertText(error.response.data.message.includes("The email has already been taken.")? "The username has already been taken":error.response.data.message)
+                setAlertType("error")
+            });
+    }
   console.log(usersData && usersData)
     return ( 
         <Box style={styles.content}>
@@ -144,13 +190,24 @@ const Accounts = ({
                         usersData.data.reader.map((rdr)=>(
                             <Box style={ styles.boxUser } key={rdr.user_id}>
                             <Box style={styles.userBox1}><p style={styles.pUser}>Username</p></Box>
-                            <Box style={styles.userBox2}><p style={styles.pUser}>{rdr.email}</p></Box>
+                            <Box style={{ ...styles.userBox2, width:320 }}><p style={styles.pUser}>{rdr.email}</p></Box>
+                            <div style={{ width:70, display:'flex', justifyContent:'flex-end' }}>
+                            { usersData.data.reader.length>1 &&
+                                <MdDeleteForever  
+                                className={'updateIcon'}
+                                style={{ backgroundColor:'#E80000' }}
+                                onClick={()=>{
+                                    setOpenDelete(true)
+                                    setUserId(rdr.user_id)
+                                }}/>
+                            }
                             <TiEdit  className={'updateIcon'}
                             onClick={()=>{
                                 setOpenPasswordPopup(false)
                                 setOpenEmailPopup(true)
                                 setUserUpdate(rdr)
                             }}/>
+                            </div>
                             </Box>
                         ))
                         }
@@ -162,6 +219,12 @@ const Accounts = ({
                             <Skeleton className="skeleton2" variant="rounded" height={40} width={"100%"} style={{ margin:"10px 0 10px 0" }} />
                             </Box>
                         }
+                        <div style={{ width:'100%', display:'flex', justifyContent:'flex-end' }}>
+                        <Button
+                        onClick={()=>setOpenAddReader(true)}
+                        style={{ padding:10, backgroundColor:'rgb(26, 30, 65)', color:'white' }}
+                        >Add Reader</Button>
+                        </div>
                     </Box>
                     <UpdateUser
                     userUpdate={userUpdate}
@@ -205,6 +268,136 @@ const Accounts = ({
                         userUpdate={userUpdate}
                         setUserUpdate={setUserUpdate}/>
                     </UpdatePassword>
+
+
+
+                    <Modal
+                    open={openAddReader}
+                    onClose={()=>setOpenAddReader(false)}
+                    style={{  }}
+                >
+                    <Box style={{ 
+                      backgroundColor:'white', 
+                      position:'absolute', 
+                      top:'50%', 
+                      left:'50%',
+                      transform: 'translate(-50%, -50%)',
+                      justifyContent:'center', 
+                      alignItems:'center', }}>
+                    <h2 style={{ margin:0 , backgroundColor:'rgb(12,20,52)', padding:"5px 15px"}}>Add New Reader</h2>
+                    <div style={{ padding:10, color:'black', display:"flex", flexDirection:'column', justifyContent:'center' }}>
+                    <TextField 
+                        id="outlined-basic" 
+                        label="Input New Username" 
+                        variant="outlined" 
+                        type="text"
+                        placeholder="ex: user_sample123"
+                        onChange={(e) =>{
+                            const val = e.target.value
+                            setNewEmail(val);
+                        }}
+                        style={{ width:200, margin:"20px 50px 20px 50px"}}
+                        value={newEmail}
+                        //error={newEmail.length<8 }
+                        required
+                        />
+
+                    <TextField 
+                        id="outlined-basic" 
+                        label="Input New Password" 
+                        variant="filled" 
+                        type="text"
+                        placeholder="ex: password123"
+                        onChange={(e) =>{
+                            const val = e.target.value
+                            setNewPassword(val);
+                            //setPasswordErr(false)
+                        }}
+                        style={{ width:200, margin:"20px 50px 20px 50px"}}
+                        value={newPassword}
+                        //error={passwordErr}
+                        required
+                        />
+
+                        <TextField 
+                        id="outlined-basic" 
+                        label="Confirm Password" 
+                        variant="filled" 
+                        type="text"
+                        placeholder="ex: password123"
+                        onChange={(e) =>{
+                            const val = e.target.value
+                            setNewConfirmPass(val);
+                            //setConfirmErr(false)
+                        }}
+                        style={{ width:200, margin:"0px 50px 30px 50px"}}
+                        value={newConfirmPass}
+                        //error={confirmErr}
+                        required
+                        />
+
+                    <div style={{ width:'100%',display:'flex', alignItems:"flex-end", justifyContent:'flex-end', marginTop:0 }}>
+                    <Button style={{ ...styles.generateButton }}
+                        onClick={()=>{
+                          setOpenAddReader(false)
+                        }
+                        }
+                        >
+                            Cancel
+                        </Button>
+                        <Button style={{ ...styles.generateButton }}
+                        onClick={()=>{
+                          handleAddReader()
+                        }
+                        }
+                        >
+                            Add Reader
+                        </Button>
+                    </div>
+                    </div>
+                    </Box>
+                </Modal>
+                <Modal
+                    open={openDelete}
+                    onClose={()=>setOpenDelete(false)}
+                    style={{  }}
+                >
+                    <Box style={{ 
+                      backgroundColor:'white', 
+                      position:'absolute', 
+                      top:'50%', 
+                      left:'50%',
+                      transform: 'translate(-50%, -50%)',
+                      justifyContent:'center', 
+                      alignItems:'center', }}>
+                        <h2 style={{ margin:0 , backgroundColor:'rgb(12,20,52)', padding:"5px 15px"}}>Confirm Delete</h2>
+                        <p style={{ color:'black', padding:10, margin:0 }}>Do you want to Delete this Reader?</p>
+                        <div style={{ padding:10, color:'black', display:"flex", flexDirection:'row', justifyContent:'center' }}>
+                        
+                         <Button style={{ color:'gray' }}
+                        onClick={()=>{
+                          setOpenDelete(false)
+                          setUserId("")
+                        }
+                        }
+                        >
+                            Cancel
+                        </Button>
+                        <Button style={{ color:'red' }}
+                        onClick={()=>{
+                            handleDeleteUser()
+                        }
+                        }
+                        >
+                            Delete
+                        </Button>
+                        </div>
+                    
+                    </Box>
+                </Modal>
+
+
+
             </Box>
         
         </Box>

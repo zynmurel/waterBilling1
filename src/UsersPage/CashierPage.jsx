@@ -8,6 +8,7 @@ import NotFound from '../Components/Pages/NotFound';
 import AuthUser from '../Hook/AuthUser';
 import Reports from '../Components/Pages/Reports';
 import GetData from '../Hook/SampleData'
+import MeterReading from '../Components/Pages/MeterReading';
 
 const Cashier = ({hostJson, hostLaravel, year, month}) => {
   const {token, logout, getUser} = AuthUser();
@@ -36,6 +37,14 @@ const Cashier = ({hostJson, hostLaravel, year, month}) => {
           month={month}
           hostJson={hostJson}
           hostLaravel={hostLaravel}
+          />}></Route> 
+
+          <Route path="/meterReading" element={
+          <MeterReading
+          month={month}
+          year={year}
+          hostLaravel={hostLaravel}
+          brgyPrkData={brgyPrkData}
           />}></Route> 
 
           <Route path="/reports" element={

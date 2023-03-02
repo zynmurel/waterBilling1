@@ -60,6 +60,15 @@ const Navigation = () => {
           >
            <MdPayments style={styles.icon}/>&nbsp;&nbsp;Payment
           </NavLink>
+          
+          <NavLink
+            to="/meterReading"
+            style={({ isActive }) =>
+            isActive ? {...activeStyle, ...styles.navbar}: styles.navbar
+            }
+          >
+            <DashboardOutlined style={styles.icon}/>&nbsp;&nbsp;Meter Readings
+          </NavLink>
 
           <NavLink
             to="/reports"

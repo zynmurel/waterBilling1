@@ -185,13 +185,13 @@ const Reports = ({
                 <div style={{ ...styles.tableRow1, width:65 }}>
                     <p style={{ margin:0, marginTop:4 }}>Date</p>
                 </div>
-                <div style={{ ...styles.tableRow1, width:60 }}>
+                <div style={{ ...styles.tableRow1, width:50 }}>
                     <p style={{ margin:0, marginTop:4 }}>ID</p>
                 </div>
                 <div style={{ ...styles.tableRow1, width:135 }}>
                     <p style={{ margin:0, marginTop:4 }}>Name</p>
                 </div>
-                <div style={{ ...styles.tableRow1, width:95 }}>
+                <div style={{ ...styles.tableRow1, width:105 }}>
                     <p style={{ margin:0, marginTop:4 }}>Barangay</p>
                 </div>
                 <div style={{ ...styles.tableRow1, flex:1 }}>
@@ -232,13 +232,13 @@ const Reports = ({
                             <div style={{ ...styles.tableRow, width:65 }}>
                                 <p style={{ margin:0 }}>{(date.getMonth()+1).toString().padStart(2,"0")+"/"+date.getDate()+"/"+date.getFullYear()}</p>
                             </div>
-                            <div style={{ ...styles.tableRow, width:60 }}>
+                            <div style={{ ...styles.tableRow, width:50 }}>
                                 <p style={{ margin:0 }}>{pr.consumer_id.toString().padStart(6,"0")}</p>
                             </div>
                             <div style={{ ...styles.tableRow, width:135 }}>
                                 <p style={{ margin:0 }}>{pr.consumer_name}</p>
                             </div>
-                            <div style={{ ...styles.tableRow, width:95}}>
+                            <div style={{ ...styles.tableRow, width:105}}>
                                 <p style={{ margin:0 }}>{pr.barangay}</p>
                             </div>
                             <div style={{ ...styles.tableRow, flex:1 }}>

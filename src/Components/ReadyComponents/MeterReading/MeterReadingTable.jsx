@@ -31,7 +31,7 @@ export default function MeterReadingTable({
   console.log(consumers)
   const [openImage, setOpenImage] = useState(false)
   const [proofImage, setProofImage] = useState('')
-  const [imageInfo, setImageInfo] = useState({date:"", reading:"", consumer_name:"", place:"", consumer_id:""})
+  const [imageInfo, setImageInfo] = useState({date:"", reading:"", consumer_name:"", place:"", consumer_id:"", reader_id:''})
   const bCon = consumers && barangay && purok? consumers.filter((c)=> c.barangay === barangay && (c.purok == purok+"" || purok ==7)):consumers
   const newCon = bCon? bCon.filter((c)=> `${c.consumer_name.toLowerCase()}`.includes(name.toLowerCase())||`${c.consumer_id}`.includes(name)) : bCon
   console.log(consumers && bCon)
@@ -112,7 +112,7 @@ console.log(meterReadingsData)
                           onClick={()=>{
                             setOpenImage(true)
                             setProofImage(row.proof_image)
-                            setImageInfo({date:row.created_at, reading:row.present_reading, consumer_name:row.consumer_name, place:`${row.barangay} Purok ${row.purok}`, consumer_id:row.consumer_id})
+                            setImageInfo({date:row.created_at, reading:row.present_reading, consumer_name:row.consumer_name, place:`${row.barangay} Purok ${row.purok}`, consumer_id:row.consumer_id, reader_id: row.reader_id})
                             }}>
                             View Photo
                           </Button>}
@@ -177,10 +177,11 @@ console.log(meterReadingsData)
                       <p style={{ color:'gray', fontSize:10, margin:0, marginBottom:-2 }}>Consumer Name</p>
                       <p style={{  fontSize:18, margin:0, fontWeight:'bold' }}>{imageInfo.consumer_name}</p>
                       <p style={{  fontSize:13, margin:0, }}>{imageInfo.place}</p>
-                      <p style={{  fontSize:13, margin:0, marginTop:10 }}>Reading : {imageInfo.reading.toString().padStart(5,"0")}</p>
+                      <p style={{  fontSize:13, margin:0, marginTop:10 }}>Reader ID : {imageInfo.reader_id}</p>
+                      <p style={{  fontSize:13, margin:0, }}>Reading : {imageInfo.reading.toString().padStart(5,"0")}</p>
                       <p style={{  fontSize:13, margin:0, }}>Reading Date : {`${readingDate.getMonth()+1}/${readingDate.getDate()}/${readingDate.getFullYear()}`}</p>
                       </div>
-                      {proofImage!=="" && <Base64Image src={proofImage} />}
+                      {proofImage!=="" && <Base64Image src={proofImage} width={300} />}
 
                     <div style={{ width:'100%',display:'flex', alignItems:"flex-end", justifyContent:'flex-end', marginTop:0 }}>
                         <Button style={{ ...styles.generateButton }}

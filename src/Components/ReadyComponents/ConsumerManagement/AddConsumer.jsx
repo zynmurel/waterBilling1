@@ -129,7 +129,7 @@ const AddConsumer = ({
             }else if(!consumerBirthday){
                 setErrConsumerBirthday(true)
                 setAlert(true)
-                setAlertText("Please fill up consumer's Age")
+                setAlertText("Please fill up consumer's Birthday")
             }else if(dayjs(consumerBirthday).isAfter(dayjs().subtract(18, 'year'))){
                 setErrConsumerBirthday(true)
                 setAlert(true)
@@ -224,17 +224,16 @@ const AddConsumer = ({
                 usage_type:consumerWaterType,
                 serial_no:consumerWaterSerial,
                 brand:consumerWaterBrand,
-                email:`CON00${consumerWaterSerial}`,
+                email:`CON${consumerWaterSerial}`,
                 status:"Connected",
                 delinquent:0,
                 registered_at:`${registrationDate.getFullYear()}-${registrationDate.getMonth()+1}-${registrationDate.getDate()}`,
                 user_type:"Consumer",
-                password:`${consumerFirstName.toLowerCase()}${consumerLastName.toLowerCase()}123`.replace(" ",""),
+                password:`${consumerFirstName.toLowerCase().replace(/ /g, "")}${consumerLastName.toLowerCase().replace(/ /g, "")}123`.replace(" ",""),
                 barangay: consumerBarangay,
                 purok:consumerPurok
             }
                 if(!dataIsOn){
-                    console.log('access')
                     const headers = { 
                         'Content-type' : 'application/json',
                         'Accept' : 'application/json',

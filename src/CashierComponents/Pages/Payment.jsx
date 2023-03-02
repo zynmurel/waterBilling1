@@ -27,7 +27,7 @@ const Payment = ({ hostLaravel, month}) => {
 
     const [ searchedConsumer, setSearchedConsumer ] = useState({})
 
-    const readingBillingRecords =  GetData(hostLaravel, `/api/inquire/${Object.keys(searchedConsumer).length!==0?searchedConsumer.user_id:2}`);
+    const readingBillingRecords =  GetData(hostLaravel, `/api/inquire/${Object.keys(searchedConsumer).length!==0?searchedConsumer.consumer_id:2}`);
     const { data:bill, isPending:billIsPending, error:billError , reload, setReload } = readingBillingRecords;
     const [popUp, setPopUp] = useState(false)
     const [confirmPopup, setConfirmPopup] = useState(false)
