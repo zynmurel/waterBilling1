@@ -289,6 +289,14 @@ const Reports = ({
                         <p style={{ margin:0, textAlign:'start', margin:'0px 5px' }}>₱ {total.payment}</p>
                     </div>
                 </div>
+                <div style={{ display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'flex-end', margin:'40px 20px' }}>
+                <p style={{ margin:'5px', textAlign:'end', marginTop:-10 }}>Prepared by : </p>
+                <div>
+                <p style={{ margin:0, textAlign:'end' }}>_____________________________</p>
+                <p style={{ margin:0, textAlign:'center', fontStyle:'italic', fontSize:12 }}>Signature over Printed Name</p>
+                </div>
+
+                </div>
                 </>
                 }
             
