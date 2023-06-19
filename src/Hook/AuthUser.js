@@ -6,7 +6,7 @@ export default function AuthUser() {
   //const hostLaravel = 'http://192.168.254.174:8080';
 
   //Selwin Wifi
-  const hostLaravel = "http://127.0.0.1:80001";
+  const hostLaravel = "http://127.0.0.1:8000";
 
   const navigate = useNavigate();
 
