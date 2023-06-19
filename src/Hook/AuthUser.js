@@ -1,67 +1,73 @@
-import axios from "axios"
+import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 export default function AuthUser() {
-    // Dolores Wifi
-    //const hostLaravel = 'http://192.168.254.174:8080';
+  // Dolores Wifi
+  //const hostLaravel = 'http://192.168.254.174:8080';
 
-    //Selwin Wifi
-    const hostLaravel = 'http://192.168.254.175:8080';
-    
-    const navigate = useNavigate()
+  //Selwin Wifi
+  const hostLaravel = "http://127.0.0.1:8000";
 
-    const getToken = () => {
-        const tokenString = sessionStorage.getItem('token');
-        const userToken = JSON.parse(tokenString);
-        return userToken;
+  const navigate = useNavigate();
+
+  const getToken = () => {
+    const tokenString = sessionStorage.getItem("token");
+    const userToken = JSON.parse(tokenString);
+    return userToken;
+  };
+
+  const getUser = () => {
+    const userString = sessionStorage.getItem("user");
+    const user_detail = JSON.parse(userString);
+    return user_detail;
+  };
+
+  const [token, setToken] = useState(getToken());
+  const [user, setUser] = useState(getUser());
+
+  const saveToken = (user, token) => {
+    sessionStorage.setItem("token", JSON.stringify(token));
+    sessionStorage.setItem("user", JSON.stringify(user));
+
+    setToken(token);
+    setUser(user);
+
+    if (user.user_type === "Admin") {
+      navigate("/home");
     }
-
-    const getUser = () => {
-        const userString = sessionStorage.getItem('user');
-        const user_detail = JSON.parse(userString);
-        return user_detail;
+    if (user.user_type === "Cashier") {
+      navigate("/payment");
     }
-
-    const [token, setToken] = useState(getToken()); 
-    const [user, setUser] = useState(getUser());
-
-    const saveToken = (user, token) => {
-        sessionStorage.setItem('token', JSON.stringify(token));
-        sessionStorage.setItem('user', JSON.stringify(user));
-
-        setToken(token);
-        setUser(user);
-
-        if(user.user_type==='Admin'){navigate('/home')}
-        if(user.user_type==='Cashier'){navigate('/payment')}
-        if(user.user_type==='Reader'){navigate('/reading')}
-        if(user.user_type==='Consumer'){navigate('/consumerBilling')}
+    if (user.user_type === "Reader") {
+      navigate("/reading");
     }
-
-    const logout = () => {
-        sessionStorage.clear();
-
-        navigate('/');
+    if (user.user_type === "Consumer") {
+      navigate("/consumerBilling");
     }
+  };
 
-    const http = axios.create({
-        baseURL:`${hostLaravel}/api`,
-        headers:{
-            'Content-type' : 'application/json',
-            'Authorization' : `Bearer ${token}`,
-        }
-    });
+  const logout = () => {
+    sessionStorage.clear();
 
+    navigate("/");
+  };
 
+  const http = axios.create({
+    baseURL: `${hostLaravel}/api`,
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
-    return {
-        setToken:saveToken,
-        token,
-        user,
-        getToken,
-        getUser,
-        http,
-        logout,
-        hostLaravel
-    }
+  return {
+    setToken: saveToken,
+    token,
+    user,
+    getToken,
+    getUser,
+    http,
+    logout,
+    hostLaravel,
+  };
 }

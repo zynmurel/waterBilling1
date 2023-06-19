@@ -11,21 +11,21 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-.updateIcon:hover{
+.updateIcon:hover {
   background-color: rgb(255, 166, 0);
   transform: scale(1.08);
   box-shadow: 0px 0px 4px black;
 }
-.updateIcon{
+.updateIcon {
   background-color: rgb(255, 191, 72);
   font-size: 25px;
   border-radius: 5px;
   margin-right: 10px;
   cursor: pointer;
-  transition: .2s;
+  transition: 0.2s;
   box-shadow: 0px 0px 2px black;
 }
-body{
+body {
   align-items: center;
   justify-content: center;
   color: white;
@@ -43,14 +43,14 @@ body{
     transform: rotate(360deg);
   }
 }
-.consumerManagement{
+.consumerManagement {
   z-index: -1;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   transform: translateY(2%);
 }
-.searchBar{
+.searchBar {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -58,381 +58,380 @@ body{
   margin-bottom: 10px;
   width: 900px;
 }
-.searchAddBar1{
+.searchAddBar1 {
   display: flex;
   flex-direction: row;
   justify-content: center;
   gap: 5px 5px;
-  margin:5px ;
+  margin: 5px;
   width: 350px;
-} 
-.searchAddBar2{
+}
+.searchAddBar2 {
   display: flex;
   flex-direction: row;
   justify-content: center;
   gap: 5px 5px;
-  margin:5px ;
+  margin: 5px;
   width: 280px;
-} 
-.searchAddBar3{
+}
+.searchAddBar3 {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   gap: 5px 5px;
-  margin:5px ;
+  margin: 5px;
   width: 350px;
-} 
-.searchBarMR{
+}
+.searchBarMR {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-.body1{
+.body1 {
   display: flex;
   height: 100%;
 }
-.adminpage{
+.adminpage {
   z-index: 1;
   height: 100%;
 }
-.cashierpage{
+.cashierpage {
   z-index: 1;
   height: 100%;
 }
-.navigation{
+.navigation {
   flex: 1;
-  background-color: rgb(12,20,52);
+  background-color: rgb(12, 20, 52);
   z-index: 0;
   display: flex;
   flex-direction: column;
   padding: 0 10px;
 }
-.routes{
+.routes {
   flex: 4.5;
   position: relative;
   background-color: rgb(244, 248, 255);
 }
-.inquire{
+.inquire {
   overflow: auto;
 }
 
-
 /*Login CSS*/
-.parent{
-  background:linear-gradient(rgb(151, 203, 163) 0%, rgb(255, 255, 255) 80%);
+.parent {
+  background: rgb(12, 20, 52);
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
 }
-.content{
+.content {
   width: 380px;
   height: 500px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  transform: scale(1.0);
+  transform: scale(1);
   background-color: aliceblue;
-  color:rgb(12,20,52);
+  color: rgb(12, 20, 52);
   border-radius: 20px;
 }
-.textFieldBox{
+.textFieldBox {
   width: 300px;
-  padding:5px;
+  padding: 5px;
 }
-.textField{
+.textField {
   width: 100%;
   height: 100%;
 }
-.button{
-  width:300px;
-  height:20px;
-  background-color:rgb(12,20,52);
+.button {
+  width: 300px;
+  height: 20px;
+  background-color: rgb(12, 20, 52);
 }
-.logoutNav{
+.logoutNav {
   visibility: hidden;
 }
-.searchBarMR{
+.searchBarMR {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 /*Consumer Page CSS*/
-.consumerContainer{
-  max-width:750px;
-  min-width:750px;
+.consumerContainer {
+  max-width: 750px;
+  min-width: 750px;
 }
-.consumerpage{
+.consumerpage {
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow:auto;
+  overflow: auto;
 }
-.consumerIdName{
-  margin:10px 10px 0 30px;
-  color:rgb(12,20,52);
+.consumerIdName {
+  margin: 10px 10px 0 30px;
+  color: rgb(12, 20, 52);
 }
-.consumerIdName h1{
+.consumerIdName h1 {
   margin: 0;
   font-size: 80px;
 }
-.consumerIdName p{
+.consumerIdName p {
   margin: 0;
   font-size: 40px;
 }
-.consumerContent{
-  display:flex;
+.consumerContent {
+  display: flex;
   flex-direction: column;
-  justify-content:center;
-  height:100%;
+  justify-content: center;
+  height: 100%;
 }
-.billingContainer{
-  background-color:white;
-  color:rgb(12,20,52);
-  margin:0 30px;
+.billingContainer {
+  background-color: white;
+  color: rgb(12, 20, 52);
+  margin: 0 30px;
 }
-.billingYear{
-  display:flex;
-  flex-direction:row;
-  justify-content:start;
-  align-items:center;
+.billingYear {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
 }
-.billingYear h1{
+.billingYear h1 {
   margin-right: 20px;
 }
-.skeletonConsumer{
+.skeletonConsumer {
   margin-top: 20px;
   height: 60px;
 }
-.skeleton1{
-  margin:22px 10px 10px 20px;
+.skeleton1 {
+  margin: 22px 10px 10px 20px;
 }
-.skeleton2{
-  margin:10px 10px 0 20px;
+.skeleton2 {
+  margin: 10px 10px 0 20px;
 }
 /*Admin Inquire*/
-.inquireBox1{
+.inquireBox1 {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 /*Reader Navigation*/
-.logodiv{
-  display:flex;
-  flex-direction:row;
-  align-items:center;
-  margin:10px 0;
+.logodiv {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 10px 0;
 }
-.logodivicon{
-  font-size:60px;
-  margin-top:5;
+.logodivicon {
+  font-size: 60px;
+  margin-top: 5;
 }
-.logodiv h1, .logodiv h3{
+.logodiv h1,
+.logodiv h3 {
   margin: 0;
 }
-.box1{
-  font-size:60px;
-  color:rgb(12,20,52);
-  margin-bottom:10px;
-  margin-top:-15px;
-  display:flex;
-  justify-content:center;
+.box1 {
+  font-size: 60px;
+  color: rgb(12, 20, 52);
+  margin-bottom: 10px;
+  margin-top: -15px;
+  display: flex;
+  justify-content: center;
 }
-.readingTable{
-  width:80%,
-} 
-.readerPopUpMobile{
+.readingTable {
+  width: 80%;
+}
+.readerPopUpMobile {
   visibility: hidden;
 }
-.readerPopUp{
+.readerPopUp {
   visibility: visible;
 }
 
-
-@media screen and (max-width: 909px){
-  .content{
+@media screen and (max-width: 909px) {
+  .content {
     width: 100%;
     height: 100%;
-    background:linear-gradient(rgb(195, 239, 207) 0%, rgb(255, 255, 255) 20%,white 80%, rgb(212, 236, 216)  100% );
+    background: linear-gradient(
+      rgb(195, 239, 207) 0%,
+      rgb(255, 255, 255) 20%,
+      white 80%,
+      rgb(212, 236, 216) 100%
+    );
     border-radius: 0;
   }
-  .snackbar{
+  .snackbar {
     transform: translateY(-20%);
   }
 
   /*Reader Navigation Mobile View*/
-.logodivicon{
-  font-size:40px;
-  margin-top:5px;
-}
-.logodiv h1{
-  font-size: 24px;
-} 
-.logodiv h3{
-  font-size: 15px;
-}
-.navigation{
-  justify-content: space-between;
-}
-.navbar{
-  padding:0 !important;
-  margin-left: 10px;
-  font-size: 1px;
-  visibility: hidden;
-}
-.navbar .icon{
-  font-size: 1px;
-}
-.readerBurger{
-  font-size: 40px;
-}  
-.readerPopUpMobile{
-  visibility: visible;
-}
-.burgerContent{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 230px;
-}
-.readerPopUp{
-  visibility: hidden;
-}
-
-.box1{
-  font-size:50px;
-  transform: translateY(-15%);
-}
-.container{
-  transform: translateY(-8%);
-}
-.searchBar{
-  flex-direction: column;
-  width: 65%;
-  transform: scale(1.3) translateY(5%);
-  z-index: 1;
-}
-.searchAddBar1{
-  transform: scale(.7) translateY(-15%);
-  z-index: 3;
-} 
-.searchAddBar2{
-  transform: scale(.7) translateY(-60%);
-  z-index:2;
-} 
-.searchAddBar3{
-  transform: scale(.7) translateY(-100%);
-  z-index: 1;
-} 
-.readingTable{
-  transform: scale(.8) translateY(-15%);
-  width: 120%;
-  z-index: 0;
-}
-.readerDialog{
-  transform: scale(1);
-}
-.navbarMobile{
-  padding:5px 10px !important;
-  font-size: 20px;
-  visibility: visible;
-  color: black;
-  display: flex;
-  align-items: center;
-  width: 180px;
-}
-.iconMobile{
-  font-size: 30px;
-}
-.readerLogoutMobile{
-  background-color: rgb(206, 0, 0);
-  color: azure;
-  width: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 20px;
-  font-size: 20px;
-  padding: 5px 10px;
-  margin: 60px 0 10px 0;
-}
-
-  /*Consumer Page Mobile View*/
-  .consumerContainer{
-    max-width:100%;
-    min-width:100%;
+  .logodivicon {
+    font-size: 40px;
+    margin-top: 5px;
   }
-  .consumerIdName{
-    margin:10px 10px 0 10px;
+  .logodiv h1 {
+    font-size: 24px;
   }
-  .consumerIdName h1{
+  .logodiv h3 {
+    font-size: 15px;
+  }
+  .navigation {
+    justify-content: space-between;
+  }
+  .navbar {
+    padding: 0 !important;
+    margin-left: 10px;
+    font-size: 1px;
+    visibility: hidden;
+  }
+  .navbar .icon {
+    font-size: 1px;
+  }
+  .readerBurger {
     font-size: 40px;
   }
-  .consumerIdName p{
+  .readerPopUpMobile {
+    visibility: visible;
+  }
+  .burgerContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 230px;
+  }
+  .readerPopUp {
+    visibility: hidden;
+  }
+
+  .box1 {
+    font-size: 50px;
+    transform: translateY(-15%);
+  }
+  .container {
+    transform: translateY(-8%);
+  }
+  .searchBar {
+    flex-direction: column;
+    width: 65%;
+    transform: scale(1.3) translateY(5%);
+    z-index: 1;
+  }
+  .searchAddBar1 {
+    transform: scale(0.7) translateY(-15%);
+    z-index: 3;
+  }
+  .searchAddBar2 {
+    transform: scale(0.7) translateY(-60%);
+    z-index: 2;
+  }
+  .searchAddBar3 {
+    transform: scale(0.7) translateY(-100%);
+    z-index: 1;
+  }
+  .readingTable {
+    transform: scale(0.8) translateY(-15%);
+    width: 120%;
+    z-index: 0;
+  }
+  .readerDialog {
+    transform: scale(1);
+  }
+  .navbarMobile {
+    padding: 5px 10px !important;
+    font-size: 20px;
+    visibility: visible;
+    color: black;
+    display: flex;
+    align-items: center;
+    width: 180px;
+  }
+  .iconMobile {
+    font-size: 30px;
+  }
+  .readerLogoutMobile {
+    background-color: rgb(206, 0, 0);
+    color: azure;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    font-size: 20px;
+    padding: 5px 10px;
+    margin: 60px 0 10px 0;
+  }
+
+  /*Consumer Page Mobile View*/
+  .consumerContainer {
+    max-width: 100%;
+    min-width: 100%;
+  }
+  .consumerIdName {
+    margin: 10px 10px 0 10px;
+  }
+  .consumerIdName h1 {
+    font-size: 40px;
+  }
+  .consumerIdName p {
     font-size: 20px;
   }
-  .billingYear h1{
+  .billingYear h1 {
     font-size: 20px;
     margin-right: 0px;
   }
-  .billingContainer{
-    margin:0 10px;
+  .billingContainer {
+    margin: 0 10px;
   }
-  .yearBox{
-    transform: scale(.8);
+  .yearBox {
+    transform: scale(0.8);
   }
-  .tablePaper{
-    transform: scale(.65) translateY(-25%);
+  .tablePaper {
+    transform: scale(0.65) translateY(-25%);
   }
-  .skeletonConsumer{
-    transform: scale(.5) translateY(-80%);
+  .skeletonConsumer {
+    transform: scale(0.5) translateY(-80%);
   }
-
 
   /*Navigation Mobile View*/
-  .body1{
+  .body1 {
     flex-direction: column;
   }
-  .navigation{
+  .navigation {
     flex-direction: row;
-    flex: .2;
+    flex: 0.2;
     align-items: center;
     z-index: 3;
   }
-  .header{
+  .header {
     visibility: hidden;
   }
-  .logoutNav{
+  .logoutNav {
     visibility: visible;
   }
 
-
-
-/*Meter Reading Mobile View*/
-.searchBarMR{
-  transform: translateY(20%) scale(1);
-}
-.meterReadingTable{
-  transform: translateY(-15%) scale(.75);
-  z-index: 0;
-  display: flex;
-  justify-content: center;
-} 
-.meterReadingTableContent{
-  width: 70%;
-   overflow:hidden;
-}
-.meterReadingContent{
-  transform: translateY(-10%);
-}
-.routes{
-  overflow: auto;
-}
+  /*Meter Reading Mobile View*/
+  .searchBarMR {
+    transform: translateY(20%) scale(1);
   }
-
-
+  .meterReadingTable {
+    transform: translateY(-15%) scale(0.75);
+    z-index: 0;
+    display: flex;
+    justify-content: center;
+  }
+  .meterReadingTableContent {
+    width: 70%;
+    overflow: hidden;
+  }
+  .meterReadingContent {
+    transform: translateY(-10%);
+  }
+  .routes {
+    overflow: auto;
+  }
+}
